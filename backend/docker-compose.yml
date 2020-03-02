@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+    openvalidation-ide-backend:
+        image: openvalidation-ide-backend:latest
+        build: 
+            context: .
+        ports:
+            - '8080:8080'
