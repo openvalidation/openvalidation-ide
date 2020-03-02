@@ -1,12 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RulesetsOverviewComponent } from './rulesets-overview/rulesets-overview.component';
-import { RulesetEditorComponent } from './ruleset-editor/ruleset-editor.component';
-import { RulesetCreatorComponent } from './ruleset-creator/ruleset-creator.component';
-import { OvideAppComponent } from './ovide-app/ovide-app.component';
+
+import { MaterialDesignModule } from '@ovide/material-design';
+import { OvideAppComponent } from '@ovide/ovide-app';
+import { OvideRoutingModule } from '@ovide/routing';
+
+import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
+import { RulesetEditorComponent } from '@ovide/ruleset-editor';
+import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
+import { SchemaEditorComponent } from '@ovide/schema-editor';
 
 @NgModule({
   declarations: [
@@ -14,12 +17,13 @@ import { OvideAppComponent } from './ovide-app/ovide-app.component';
     RulesetsOverviewComponent,
     RulesetEditorComponent,
     RulesetCreatorComponent,
-    OvideAppComponent
+    SchemaEditorComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    OvideRoutingModule,
+    MaterialDesignModule
   ],
   providers: [],
   bootstrap: [OvideAppComponent]
