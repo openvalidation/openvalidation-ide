@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+    openvalidation-ide-backend:
+        image: openvalidation-ide-backend:latest
+        build: 
+            context: ./backend
+        ports:
+            - '8080:8080'
+
+    openvalidation-ide-frontend:
+        image: openvalidation-ide-frontend:latest
+        build: 
+            context: ./frontend
+        ports:
+            - '80:80'
