@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RuleController {
+public class DefaultController {
 
-  @GetMapping("/rules")
-  public String getRule() {
+  @GetMapping("/")
+  public String getDefaultMessage() {
     return "Backend works!";
   }
 }
