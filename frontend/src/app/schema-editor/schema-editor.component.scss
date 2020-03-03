@@ -1,0 +1,23 @@
+@import "../../styles.scss";
+
+.attribute-chiplist {
+    width: 100%;
+}
+
+.attribute-type {
+    &.string {
+        background-color: $attribute-type-string;
+   } 
+    &.number {
+        background-color: $attribute-type-number;
+    }
+    &.boolean {
+        background-color: $attribute-type-boolean;
+    }
+    &.object {
+        background-color: $attribute-type-object;
+    }
+    &.list {
+        background-color: $attribute-type-list;
+    }
+}

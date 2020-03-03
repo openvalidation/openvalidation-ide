@@ -2,3 +2,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$attribute-type-string: #79dbef;
+$attribute-type-number: #a6d07b;
+$attribute-type-boolean: #cfa58a;
+$attribute-type-object: red;
+$attribute-type-list: red;
