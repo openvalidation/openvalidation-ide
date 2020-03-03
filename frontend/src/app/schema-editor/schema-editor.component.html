@@ -1,6 +1,10 @@
-<mat-chip-list>
-    <mat-chip>name</mat-chip>
-    <mat-chip>age</mat-chip>
-    <mat-chip>job</mat-chip>
-    <mat-chip>city</mat-chip>
+<mat-chip-list class="attribute-chiplist">
+    <mat-chip class="attribute-type" [ngClass]="attribute.type" *ngFor="let attribute of attributes" [removable]="true" (removed)="remove(attribute)">
+        {{attribute.name}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <button mat-mini-fab aria-label="Add attribute" (click)="add()">
+        <mat-icon>add</mat-icon>
+    </button>        
 </mat-chip-list>
+  
