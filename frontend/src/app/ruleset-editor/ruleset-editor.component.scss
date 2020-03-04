@@ -18,8 +18,8 @@
 
 .editor {
     grid-area: editor;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     > textarea {
         box-sizing: border-box;
         width: inherit;
@@ -30,7 +30,6 @@
 
 .schema {
     grid-area: schema;
-    justify-self: stretch;
 }
 
 .variables {

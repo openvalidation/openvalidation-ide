@@ -2,12 +2,6 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
-// https://material.io/archive/guidelines/style/color.html#color-color-palette
-// https://github.com/angular/components/blob/master/src/material/core/theming/_palette.scss
-// https://github.com/angular/components/blob/master/src/material/core/theming/_theming.scss
-// example component
-// https://github.com/angular/components/blob/master/src/material/dialog/_dialog-theme.scss
-
 $ovide-mat-primary: (
     50 :    var(--ovide-mat-primary-50),
     100 :   var(--ovide-mat-primary-100),
@@ -75,58 +69,58 @@ $ovide-mat-accent: (
 );
 
 $ovide-mat-foreground: (
-    base:              white,
-    divider:           $light-dividers,
-    dividers:          $light-dividers,
-    disabled:          $light-disabled-text,
-    disabled-button:   rgba(white, 0.3),
-    disabled-text:     $light-disabled-text,
-    elevation:         black,
-    hint-text:         $light-disabled-text,
-    secondary-text:    $light-secondary-text,
-    icon:              white,
-    icons:             white,
-    text:              white,
-    slider-min:        white,
-    slider-off:        rgba(white, 0.3),
-    slider-off-active: rgba(white, 0.3),
+    base:               var(--ovide-mat-foreground-base),
+    divider:            var(--ovide-mat-foreground-divider),
+    dividers:           var(--ovide-mat-foreground-dividers),
+    disabled:           var(--ovide-mat-foreground-disabled),
+    disabled-button:    var(--ovide-mat-foreground-disabled-button),
+    disabled-text:      var(--ovide-mat-foreground-disabled-text),
+    elevation:          black,
+    hint-text:          var(--ovide-mat-foreground-hint-text),
+    secondary-text:     var(--ovide-mat-foreground-secondary-text),
+    icon:               var(--ovide-mat-foreground-icon),
+    icons:              var(--ovide-mat-foreground-icons),
+    text:               var(--ovide-mat-foreground-text),
+    slider-min:         var(--ovide-mat-foreground-slider-min),
+    slider-off:         var(--ovide-mat-foreground-slider-off),
+    slider-off-active:  var(--ovide-mat-foreground-slider-off-active),
 );
 
 $ovide-mat-background: (
-    status-bar: black,
-    app-bar:    map_get($mat-grey, 900),
-    background: #303030,
-    hover:      rgba(white, 0.04),
-    card:       map_get($mat-grey, 800),
-    dialog:     map_get($mat-grey, 800),
-    disabled-button: rgba(white, 0.12),
-    raised-button: map-get($mat-grey, 800),
-    focused-button: $light-focused,
-    selected-button: map_get($mat-grey, 900),
-    selected-disabled-button: map_get($mat-grey, 800),
-    disabled-button-toggle: black,
-    unselected-chip: map_get($mat-grey, 700),
-    disabled-list-option: black,
-    tooltip: map_get($mat-grey, 700),
+    status-bar:                var(--ovide-mat-background-status-bar),
+    app-bar:                   var(--ovide-mat-background-app-bar),
+    background:                var(--ovide-mat-background-background),
+    hover:                     var(--ovide-mat-background-hover),
+    card:                      var(--ovide-mat-background-card),
+    dialog:                    var(--ovide-mat-background-dialog),
+    disabled-button:           var(--ovide-mat-background-disabled-button),
+    raised-button:             var(--ovide-mat-background-raised-button),
+    focused-button:            var(--ovide-mat-background-focused-button),
+    selected-button:           var(--ovide-mat-background-selected-button),
+    selected-disabled-button:  var(--ovide-mat-background-selected-disabled-button),
+    disabled-button-toggle:    var(--ovide-mat-background-disabled-button-toggle),
+    unselected-chip:           var(--ovide-mat-background-unselected-chip),
+    disabled-list-option:      var(--ovide-mat-background-disabled-list-option),
+    tooltip:                   var(--ovide-mat-background-tooltip),
 );
 
 $ovide-theme: (
     primary: mat-palette($ovide-mat-primary),
     accent: mat-palette($ovide-mat-accent),
     warn: mat-palette($mat-red),
-    is-dark: var(--ovide-mat-is-dark),
+    is-dark: --ovide-mat-is-dark,
     foreground: $ovide-mat-foreground,
     background: $ovide-mat-background,
 );
 
 @include angular-material-theme($ovide-theme);
 
-@mixin background-theme($theme) {
+@mixin ovide-app($theme) {
     $background: map-get($theme, background);
 
-    .ovide-mat-background {
+    .ovide-app {
         background: mat-color($background, background);
     }
 }
 
-@include background-theme($ovide-theme);
+@include ovide-app($ovide-theme);
