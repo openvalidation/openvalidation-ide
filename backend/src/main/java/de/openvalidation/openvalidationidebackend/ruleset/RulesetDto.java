@@ -1,9 +1,13 @@
 package de.openvalidation.openvalidationidebackend.ruleset;
 
 import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaDto;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
 public class RulesetDto {
   private String rulesetId;
   private String name;
