@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="ovide-sidenav-container">
+    <mat-sidenav mode="side" opened>
+        <div class="ovide-sidenav">
+            <div class="navigation-holder">
+                <div class="profile-picture"></div>
+                <a mat-icon-button aria-label="Back to the overview"
+                   class="navigation-icon-button"
+                   routerLink="/rulesets" routerLinkActive="active"
+                   [routerLinkActiveOptions]="{exact: true}">
+                    <mat-icon>home</mat-icon>
+                </a>
+                <a *ngIf="isEditing" mat-icon-button aria-label="Edit ruleset"
+                   class="navigation-icon-button"
+                   routerLink="/rulesets/{{ currentRuleset }}/edit" routerLinkActive="active">
+                    <mat-icon>edit</mat-icon>
+                </a>
+            </div>
+            <button mat-icon-button aria-label="Switch Theme">
+                <mat-icon>lightbulb</mat-icon>
+            </button>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
