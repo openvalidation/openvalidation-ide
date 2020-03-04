@@ -7,14 +7,14 @@ import { RulesetCreatorComponent } from '@ovide/ruleset-creator/ruleset-creator.
 
 const routes: Routes = [
   { path: 'rulesets',
-    children:[
+    children: [
       { path: '', pathMatch: 'full', component: RulesetsOverviewComponent },
       { path: 'new', component: RulesetCreatorComponent },
       { path: ':id/edit', component: RulesetEditorComponent },
     ]
   },
   { path: '', pathMatch: 'full', redirectTo: 'rulesets' } ,
-  { path: '**', redirectTo: 'rulesets' } 
+  { path: '**', redirectTo: 'rulesets' },
 ];
 
 @NgModule({
