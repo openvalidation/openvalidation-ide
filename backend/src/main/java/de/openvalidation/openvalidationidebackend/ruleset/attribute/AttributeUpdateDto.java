@@ -7,10 +7,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class AttributeDto {
-  private String attributeId;
+public class AttributeUpdateDto {
   private String name;
   private AttributeType attributeType;
   private String value;
-  private Set<AttributeDto> children;
+  private Set<AttributeUpdateDto> children;
 }

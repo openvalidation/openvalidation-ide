@@ -1,11 +1,11 @@
 package de.openvalidation.openvalidationidebackend.ruleset.schema;
 
-import de.openvalidation.openvalidationidebackend.ruleset.Ruleset;
 import de.openvalidation.openvalidationidebackend.ruleset.attribute.Attribute;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,14 +15,18 @@ import java.util.UUID;
 public class Schema {
   @Id
   private String schemaId;
-  @OneToOne(cascade = CascadeType.ALL)
-  private Ruleset ruleset;
-  @OneToMany(mappedBy = "schema",
-      cascade = CascadeType.ALL,
+  @OneToMany(cascade = CascadeType.ALL,
+      orphanRemoval = true,
       fetch = FetchType.EAGER)
   private Set<Attribute> attributes;
 
   public Schema() {
     this.schemaId = UUID.randomUUID().toString();
+    this.attributes = new HashSet<>();
+  }
+
+  public Schema updateBySchema(Schema schema) {
+    this.attributes = !schema.attributes.isEmpty() ? schema.attributes : this.attributes;
+    return this;
   }
 }
