@@ -31,7 +31,7 @@ export class SchemaEditorComponent implements OnInit {
 
   add(): void {
     const dialogRef = this.dialog.open(SchemaAttributeDialogComponent, {
-      width: '250px',
+      width: '400px',
       data: { type: SchemaAttributeDialogType.create }
     });
 
