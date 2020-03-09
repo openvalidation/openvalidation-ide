@@ -31,13 +31,16 @@ export class SchemaEditorComponent implements OnInit {
 
   add(): void {
     const dialogRef = this.dialog.open(SchemaAttributeDialogComponent, {
-      width: '400px',
       data: { type: SchemaAttributeDialogType.create }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
+      console.group('attribute-dialog');
+      console.table(result);
+      console.groupEnd();
+      if (result !== undefined) {
+        this.attributes.push(result);
+      }
     });
   }
 
@@ -46,6 +49,22 @@ export class SchemaEditorComponent implements OnInit {
     if (index >= 0) {
       this.attributes.splice(index, 1);
     }
+  }
+
+  edit(attribute: SchemaAttribute) {
+    const dialogRef = this.dialog.open(SchemaAttributeDialogComponent, {
+      data: { type: SchemaAttributeDialogType.edit, attribute }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.group('attribute-dialog');
+      console.table(result);
+      console.groupEnd();
+      if (result !== undefined) {
+        attribute.name = result.name;
+        attribute.type = result.type;
+      }
+    });
   }
 
 }

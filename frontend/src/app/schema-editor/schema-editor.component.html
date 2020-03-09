@@ -1,5 +1,12 @@
 <mat-chip-list class="attribute-chiplist">
-    <mat-chip class="attribute-type" [ngClass]="attribute.type" *ngFor="let attribute of attributes" [removable]="true" (removed)="remove(attribute)">
+    <mat-chip
+        *ngFor="let attribute of attributes" 
+        class="attribute-type"
+        [ngClass]="attribute.type"
+        [removable]="true"
+        (removed)="remove(attribute)"
+        (click)="edit(attribute)"
+    >
         {{attribute.name}}
         <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
