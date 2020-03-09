@@ -1,6 +1,8 @@
 package de.openvalidation.openvalidationidebackend.ruleset;
 
+import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeCreateDto;
 import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeDto;
+import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeUpdateDto;
 import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaDto;
 import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,8 @@ public class RulesetController {
 
   // /rulesets
 
- @GetMapping(value = "/rulesets",
-     produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/rulesets",
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public List<RulesetDto> getAllRulesets() {
     return rulesetService.getAllRulesets();
   }
@@ -69,7 +71,7 @@ public class RulesetController {
 
   // /rulesets/{rulesetId}/schema
 
-  @GetMapping("/rulesets/{rulesetId}/schema")
+  @GetMapping(value = "/rulesets/{rulesetId}/schema")
   public SchemaDto getSchemaFromRuleset(@PathVariable String rulesetId) {
     return rulesetService.getSchemaFromRuleset(rulesetId);
   }
@@ -88,16 +90,41 @@ public class RulesetController {
 
   // /rulesets/{rulesetId}/schema/attributes
 
-  @GetMapping("/rulesets/{rulesetId}/schema/attributes")
+  @GetMapping(value = "/rulesets/{rulesetId}/schema/attributes")
   public Set<AttributeDto> getAllAttributesFromRuleset(@PathVariable String rulesetId) {
     return rulesetService.getAllAttributesFromRuleset(rulesetId);
   }
 
+  @PostMapping(value = "/rulesets/{rulesetId}/schema/attributes",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.CREATED)
+  public AttributeDto createAttributeFromRuleset(@PathVariable String rulesetId,
+                                                 @Valid @RequestBody AttributeCreateDto attributeCreateDto) {
+    return rulesetService.createAttributeFromRuleset(rulesetId, attributeCreateDto);
+  }
+
   // /rulesets/{rulesetId}/schema/attributes/{attributeId}
 
-  @GetMapping("/rulesets/{rulesetId}/schema/attributes/{attributeId}")
+  @GetMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}")
   public AttributeDto getAllAttributesFromRuleset(@PathVariable String rulesetId,
                                                   @PathVariable String attributeId) {
     return rulesetService.getAttributeFromRuleset(rulesetId, attributeId);
+  }
+
+  @PutMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public AttributeDto updateAttributeFromRuleset(@PathVariable String rulesetId,
+                                                 @PathVariable String attributeId,
+                                                 @Valid @RequestBody AttributeUpdateDto attributeUpdateDto) {
+    return rulesetService.updateAttributeFromRuleset(rulesetId, attributeId, attributeUpdateDto);
+  }
+
+  @DeleteMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteAttributeFromRuleset(@PathVariable String rulesetId,
+                                         @PathVariable String attributeId) {
+    rulesetService.deleteAttributeFromRuleset(rulesetId, attributeId);
   }
 }
