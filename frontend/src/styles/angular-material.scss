@@ -1,0 +1,126 @@
+@import 'variables';
+@import '~@angular/material/theming';
+@include mat-core();
+
+$ovide-mat-primary: (
+    50 :    var(--ovide-mat-primary-50),
+    100 :   var(--ovide-mat-primary-100),
+    200 :   var(--ovide-mat-primary-200),
+    300 :   var(--ovide-mat-primary-300),
+    400 :   var(--ovide-mat-primary-400),
+    500 :   var(--ovide-mat-primary-500),
+    600 :   var(--ovide-mat-primary-600),
+    700 :   var(--ovide-mat-primary-700),
+    800 :   var(--ovide-mat-primary-800),
+    900 :   var(--ovide-mat-primary-900),
+    A100 :  var(--ovide-mat-primary-A100),
+    A200 :  var(--ovide-mat-primary-A200),
+    A400 :  var(--ovide-mat-primary-A400),
+    A700 :  var(--ovide-mat-primary-A700),
+    contrast: (
+        50 :    var(--ovide-mat-primary-contrast-50),     
+        100 :   var(--ovide-mat-primary-contrast-100),
+        200 :   var(--ovide-mat-primary-contrast-200),
+        300 :   var(--ovide-mat-primary-contrast-300),
+        400 :   var(--ovide-mat-primary-contrast-400),
+        500 :   var(--ovide-mat-primary-contrast-500),
+        600 :   var(--ovide-mat-primary-contrast-600),
+        700 :   var(--ovide-mat-primary-contrast-700),
+        800 :   var(--ovide-mat-primary-contrast-800),
+        900 :   var(--ovide-mat-primary-contrast-900),
+        A100 :  var(--ovide-mat-primary-contrast-A100),
+        A200 :  var(--ovide-mat-primary-contrast-A200),
+        A400 :  var(--ovide-mat-primary-contrast-A400),
+        A700 :  var(--ovide-mat-primary-contrast-A700),
+    )
+);
+
+$ovide-mat-accent: (
+    50 :    var(--ovide-mat-accent-50),
+    100 :   var(--ovide-mat-accent-100),
+    200 :   var(--ovide-mat-accent-200),
+    300 :   var(--ovide-mat-accent-300),
+    400 :   var(--ovide-mat-accent-400),
+    500 :   var(--ovide-mat-accent-500),
+    600 :   var(--ovide-mat-accent-600),
+    700 :   var(--ovide-mat-accent-700),
+    800 :   var(--ovide-mat-accent-800),
+    900 :   var(--ovide-mat-accent-900),
+    A100 :  var(--ovide-mat-accent-A100),
+    A200 :  var(--ovide-mat-accent-A200),
+    A400 :  var(--ovide-mat-accent-A400),
+    A700 :  var(--ovide-mat-accent-A700),
+    contrast: (
+        50 :    var(--ovide-mat-accent-contrast-50),     
+        100 :   var(--ovide-mat-accent-contrast-100),
+        200 :   var(--ovide-mat-accent-contrast-200),
+        300 :   var(--ovide-mat-accent-contrast-300),
+        400 :   var(--ovide-mat-accent-contrast-400),
+        500 :   var(--ovide-mat-accent-contrast-500),
+        600 :   var(--ovide-mat-accent-contrast-600),
+        700 :   var(--ovide-mat-accent-contrast-700),
+        800 :   var(--ovide-mat-accent-contrast-800),
+        900 :   var(--ovide-mat-accent-contrast-900),
+        A100 :  var(--ovide-mat-accent-contrast-A100),
+        A200 :  var(--ovide-mat-accent-contrast-A200),
+        A400 :  var(--ovide-mat-accent-contrast-A400),
+        A700 :  var(--ovide-mat-accent-contrast-A700),
+    )
+);
+
+$ovide-mat-foreground: (
+    base:               var(--ovide-mat-foreground-base),
+    divider:            var(--ovide-mat-foreground-divider),
+    dividers:           var(--ovide-mat-foreground-dividers),
+    disabled:           var(--ovide-mat-foreground-disabled),
+    disabled-button:    var(--ovide-mat-foreground-disabled-button),
+    disabled-text:      var(--ovide-mat-foreground-disabled-text),
+    elevation:          black,
+    hint-text:          var(--ovide-mat-foreground-hint-text),
+    secondary-text:     var(--ovide-mat-foreground-secondary-text),
+    icon:               var(--ovide-mat-foreground-icon),
+    icons:              var(--ovide-mat-foreground-icons),
+    text:               var(--ovide-mat-foreground-text),
+    slider-min:         var(--ovide-mat-foreground-slider-min),
+    slider-off:         var(--ovide-mat-foreground-slider-off),
+    slider-off-active:  var(--ovide-mat-foreground-slider-off-active),
+);
+
+$ovide-mat-background: (
+    status-bar:                var(--ovide-mat-background-status-bar),
+    app-bar:                   var(--ovide-mat-background-app-bar),
+    background:                var(--ovide-mat-background-background),
+    hover:                     var(--ovide-mat-background-hover),
+    card:                      var(--ovide-mat-background-card),
+    dialog:                    var(--ovide-mat-background-dialog),
+    disabled-button:           var(--ovide-mat-background-disabled-button),
+    raised-button:             var(--ovide-mat-background-raised-button),
+    focused-button:            var(--ovide-mat-background-focused-button),
+    selected-button:           var(--ovide-mat-background-selected-button),
+    selected-disabled-button:  var(--ovide-mat-background-selected-disabled-button),
+    disabled-button-toggle:    var(--ovide-mat-background-disabled-button-toggle),
+    unselected-chip:           var(--ovide-mat-background-unselected-chip),
+    disabled-list-option:      var(--ovide-mat-background-disabled-list-option),
+    tooltip:                   var(--ovide-mat-background-tooltip),
+);
+
+$ovide-theme: (
+    primary: mat-palette($ovide-mat-primary),
+    accent: mat-palette($ovide-mat-accent),
+    warn: mat-palette($mat-red),
+    is-dark: --ovide-mat-is-dark,
+    foreground: $ovide-mat-foreground,
+    background: $ovide-mat-background,
+);
+
+@include angular-material-theme($ovide-theme);
+
+@mixin ovide-app($theme) {
+    $background: map-get($theme, background);
+
+    .ovide-app {
+        background: mat-color($background, background);
+    }
+}
+
+@include ovide-app($ovide-theme);

@@ -10,6 +10,8 @@ import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
 import { RulesetEditorComponent } from '@ovide/ruleset-editor';
 import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { SchemaEditorComponent } from '@ovide/schema-editor';
+import { SchemaAttributeDialogComponent } from './schema-attribute-dialog/schema-attribute-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,10 +20,12 @@ import { SchemaEditorComponent } from '@ovide/schema-editor';
     RulesetEditorComponent,
     RulesetCreatorComponent,
     SchemaEditorComponent,
+    SchemaAttributeDialogComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     OvideRoutingModule,
     MaterialDesignModule
   ],

@@ -1,0 +1,23 @@
+@import 'themes';
+
+.attribute-chiplist {
+    width: 100%;
+}
+
+.attribute-type {
+    &.string {
+        background-color: theme-var($--attribute-type-string);
+   } 
+    &.number {
+        background-color: theme-var($--attribute-type-number);
+    }
+    &.boolean {
+        background-color: theme-var($--attribute-type-boolean);
+    }
+    &.list {
+        background-color: theme-var($--attribute-type-collection);
+    }
+    &.object {
+        background-color: theme-var($--attribute-type-object);
+    }
+}

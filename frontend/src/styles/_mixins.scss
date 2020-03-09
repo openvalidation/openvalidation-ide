@@ -1,0 +1,12 @@
+@mixin spread-map($map: ()) {
+    @each $key, $value in $map {
+        #{$key}: $value;
+    }
+}
+
+@function theme-var($key, $map: $default-theme) {
+    @if not map-has-key($map, $key) {
+        @error "key '#{$key}', is not a key in map: #{$map}";
+    }
+    @return var($key);
+}

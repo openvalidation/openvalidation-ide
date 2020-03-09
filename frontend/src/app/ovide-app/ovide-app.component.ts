@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { AvailableThemes, ThemeService } from '@ovide/services/theme.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'ovide-app',
@@ -8,13 +10,12 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 })
 export class OvideAppComponent implements OnInit {
   isEditing: boolean;
-  router: Router;
-  route: ActivatedRoute;
   currentRuleset: number;
 
-  constructor(router: Router, route: ActivatedRoute) {
-    this.router = router;
-    this.route = route;
+  constructor(
+    private router: Router,
+    private themeService: ThemeService
+  ) {
   }
 
   public ngOnInit() {
@@ -29,11 +30,20 @@ export class OvideAppComponent implements OnInit {
       if (currentUrlSegments.length > 2 && currentUrlSegments[1] === 'rulesets' && !isNaN(Number(currentUrlSegments[2]))) {
         this.isEditing = true;
         this.currentRuleset = Number(currentUrlSegments[2]);
-        console.log(this.currentRuleset);
       } else {
         this.isEditing = false;
         this.currentRuleset = null;
       }
     }
+  }
+
+  public toggleTheme() {
+    this.themeService.darkThemeActive$.pipe(take(1)).subscribe(isDark => {
+      if (isDark) {
+        this.themeService.enableTheme(AvailableThemes.light);
+      } else {
+        this.themeService.enableTheme(AvailableThemes.dark);
+      }
+    });
   }
 }

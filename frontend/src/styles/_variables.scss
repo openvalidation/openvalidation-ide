@@ -1,0 +1,118 @@
+
+// theme variable declaration (assign css var to scss var)
+// ############################################################################
+
+// openvalidation ide
+$--attribute-type-string: --attribute-type-string;
+$--attribute-type-number: --attribute-type-number;
+$--attribute-type-boolean: --attribute-type-boolean;
+$--attribute-type-collection: --attribute-type-collection;
+$--attribute-type-object: --attribute-type-object;
+
+// material design primay palette
+$--ovide-mat-primary-50: --ovide-mat-primary-50;
+$--ovide-mat-primary-100: --ovide-mat-primary-100;
+$--ovide-mat-primary-200: --ovide-mat-primary-200;
+$--ovide-mat-primary-300: --ovide-mat-primary-300;
+$--ovide-mat-primary-400: --ovide-mat-primary-400;
+$--ovide-mat-primary-500: --ovide-mat-primary-500;
+$--ovide-mat-primary-600: --ovide-mat-primary-600;
+$--ovide-mat-primary-700: --ovide-mat-primary-700;
+$--ovide-mat-primary-800: --ovide-mat-primary-800;
+$--ovide-mat-primary-900: --ovide-mat-primary-900;
+$--ovide-mat-primary-A100: --ovide-mat-primary-A100;
+$--ovide-mat-primary-A200: --ovide-mat-primary-A200;
+$--ovide-mat-primary-A400: --ovide-mat-primary-A400;
+$--ovide-mat-primary-A700: --ovide-mat-primary-A700;
+
+$--ovide-mat-primary-contrast-50: --ovide-mat-primary-contrast-50;
+$--ovide-mat-primary-contrast-100: --ovide-mat-primary-contrast-100;
+$--ovide-mat-primary-contrast-200: --ovide-mat-primary-contrast-200;
+$--ovide-mat-primary-contrast-300: --ovide-mat-primary-contrast-300;
+$--ovide-mat-primary-contrast-400: --ovide-mat-primary-contrast-400;
+$--ovide-mat-primary-contrast-500: --ovide-mat-primary-contrast-500;
+$--ovide-mat-primary-contrast-600: --ovide-mat-primary-contrast-600;
+$--ovide-mat-primary-contrast-700: --ovide-mat-primary-contrast-700;
+$--ovide-mat-primary-contrast-800: --ovide-mat-primary-contrast-800;
+$--ovide-mat-primary-contrast-900: --ovide-mat-primary-contrast-900;
+$--ovide-mat-primary-contrast-A100: --ovide-mat-primary-contrast-A100;
+$--ovide-mat-primary-contrast-A200: --ovide-mat-primary-contrast-A200;
+$--ovide-mat-primary-contrast-A400: --ovide-mat-primary-contrast-A400;
+$--ovide-mat-primary-contrast-A700: --ovide-mat-primary-contrast-A700;
+
+// material design accent palette
+$--ovide-mat-accent-50: --ovide-mat-accent-50;
+$--ovide-mat-accent-100: --ovide-mat-accent-100;
+$--ovide-mat-accent-200: --ovide-mat-accent-200;
+$--ovide-mat-accent-300: --ovide-mat-accent-300;
+$--ovide-mat-accent-400: --ovide-mat-accent-400;
+$--ovide-mat-accent-500: --ovide-mat-accent-500;
+$--ovide-mat-accent-600: --ovide-mat-accent-600;
+$--ovide-mat-accent-700: --ovide-mat-accent-700;
+$--ovide-mat-accent-800: --ovide-mat-accent-800;
+$--ovide-mat-accent-900: --ovide-mat-accent-900;
+$--ovide-mat-accent-A100: --ovide-mat-accent-A100;
+$--ovide-mat-accent-A200: --ovide-mat-accent-A200;
+$--ovide-mat-accent-A400: --ovide-mat-accent-A400;
+$--ovide-mat-accent-A700: --ovide-mat-accent-A700;
+
+$--ovide-mat-accent-contrast-50: --ovide-mat-accent-contrast-50;
+$--ovide-mat-accent-contrast-100: --ovide-mat-accent-contrast-100;
+$--ovide-mat-accent-contrast-200: --ovide-mat-accent-contrast-200;
+$--ovide-mat-accent-contrast-300: --ovide-mat-accent-contrast-300;
+$--ovide-mat-accent-contrast-400: --ovide-mat-accent-contrast-400;
+$--ovide-mat-accent-contrast-500: --ovide-mat-accent-contrast-500;
+$--ovide-mat-accent-contrast-600: --ovide-mat-accent-contrast-600;
+$--ovide-mat-accent-contrast-700: --ovide-mat-accent-contrast-700;
+$--ovide-mat-accent-contrast-800: --ovide-mat-accent-contrast-800;
+$--ovide-mat-accent-contrast-900: --ovide-mat-accent-contrast-900;
+$--ovide-mat-accent-contrast-A100: --ovide-mat-accent-contrast-A100;
+$--ovide-mat-accent-contrast-A200: --ovide-mat-accent-contrast-A200;
+$--ovide-mat-accent-contrast-A400: --ovide-mat-accent-contrast-A400;
+$--ovide-mat-accent-contrast-A700: --ovide-mat-accent-contrast-A700;
+
+// material design etc.
+$--ovide-mat-is-dark:               --ovide-mat-is-dark;
+$--ovide-mat-light-primary-text:    --ovide-mat-light-primary-text;
+$--ovide-mat-light-secondary-text:  --ovide-mat-light-secondary-text;
+$--ovide-mat-light-disabled-text:   --ovide-mat-light-disabled-text;
+$--ovide-mat-light-dividers:        --ovide-mat-light-dividers;
+$--ovide-mat-light-focused:         --ovide-mat-light-focused;
+$--ovide-mat-dark-primary-text:     --ovide-mat-dark-primary-text;
+$--ovide-mat-dark-secondary-text:   --ovide-mat-dark-secondary-text;
+$--ovide-mat-dark-disabled-text:    --ovide-mat-dark-disabled-text;
+$--ovide-mat-dark-dividers:         --ovide-mat-dark-dividers;
+$--ovide-mat-dark-focused:          --ovide-mat-dark-focused;
+
+// material design foreground palette
+$--ovide-mat-foreground-base:              --ovide-mat-foreground-base;
+$--ovide-mat-foreground-divider:           --ovide-mat-foreground-divider;
+$--ovide-mat-foreground-dividers:          --ovide-mat-foreground-dividers;
+$--ovide-mat-foreground-disabled:          --ovide-mat-foreground-disabled;
+$--ovide-mat-foreground-disabled-button:   --ovide-mat-foreground-disabled-button;
+$--ovide-mat-foreground-disabled-text:     --ovide-mat-foreground-disabled-text;
+$--ovide-mat-foreground-hint-text:         --ovide-mat-foreground-hint-text;
+$--ovide-mat-foreground-secondary-text:    --ovide-mat-foreground-secondary-text;
+$--ovide-mat-foreground-icon:              --ovide-mat-foreground-icon;
+$--ovide-mat-foreground-icons:             --ovide-mat-foreground-icons;
+$--ovide-mat-foreground-text:              --ovide-mat-foreground-text;
+$--ovide-mat-foreground-slider-min:        --ovide-mat-foreground-slider-min;
+$--ovide-mat-foreground-slider-off:        --ovide-mat-foreground-slider-off;
+$--ovide-mat-foreground-slider-off-active: --ovide-mat-foreground-slider-off-active;
+
+// material design background palette
+$--ovide-mat-background-status-bar:                 --ovide-mat-background-status-bar;
+$--ovide-mat-background-app-bar:                    --ovide-mat-background-app-bar;
+$--ovide-mat-background-background:                 --ovide-mat-background-background;
+$--ovide-mat-background-hover:                      --ovide-mat-background-hover;
+$--ovide-mat-background-card:                       --ovide-mat-background-card;
+$--ovide-mat-background-dialog:                     --ovide-mat-background-dialog;
+$--ovide-mat-background-disabled-button:            --ovide-mat-background-disabled-button;
+$--ovide-mat-background-raised-button:              --ovide-mat-background-raised-button;
+$--ovide-mat-background-focused-button:             --ovide-mat-background-focused-button;
+$--ovide-mat-background-selected-button:            --ovide-mat-background-selected-button;
+$--ovide-mat-background-selected-disabled-button:   --ovide-mat-background-selected-disabled-button;
+$--ovide-mat-background-disabled-button-toggle:     --ovide-mat-background-disabled-button-toggle;
+$--ovide-mat-background-unselected-chip:            --ovide-mat-background-unselected-chip;
+$--ovide-mat-background-disabled-list-option:       --ovide-mat-background-disabled-list-option;
+$--ovide-mat-background-tooltip:                    --ovide-mat-background-tooltip;
