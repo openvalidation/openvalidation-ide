@@ -1,8 +1,7 @@
 package de.openvalidation.openvalidationidebackend.ruleset;
 
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.Attribute;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeDto;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeNotFoundException;
+import de.openvalidation.openvalidationidebackend.ruleset.attribute.*;
+import de.openvalidation.openvalidationidebackend.ruleset.schema.Schema;
 import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaDto;
 import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaUpdateDto;
 import org.mapstruct.factory.Mappers;
@@ -78,6 +77,21 @@ public class RulesetService {
         .orElseThrow(RulesetNotFoundException::new));
   }
 
+  public AttributeDto createAttributeFromRuleset(String rulesetId, AttributeCreateDto attributeCreateDto) {
+    Attribute createdAttribute = rulesetDtoMapper.toAttributeEntity(attributeCreateDto);
+    return rulesetDtoMapper.toAttributeDto(
+        rulesetRepository.save(rulesetRepository.findById(rulesetId).map(ruleset -> {
+          Schema schema = ruleset.getSchema();
+          Set<Attribute> attributes = schema.getAttributes();
+          attributes.add(createdAttribute);
+          schema.setAttributes(attributes);
+          ruleset.setSchema(schema);
+          return ruleset;
+        }).orElseThrow(RulesetNotFoundException::new))
+            .getSchema().getAttributes().parallelStream().filter(attribute -> attribute.getAttributeId().equals(createdAttribute.getAttributeId()))
+            .findFirst().orElseThrow(AttributeNotFoundException::new));
+  }
+
   public AttributeDto getAttributeFromRuleset(String rulesetId, String attributeId) {
     return rulesetDtoMapper.toAttributeDto(rulesetRepository.findById(rulesetId)
         .map(ruleset -> {
@@ -87,7 +101,34 @@ public class RulesetService {
             }
           }
           throw new AttributeNotFoundException();
-        })
-        .orElseThrow(RulesetNotFoundException::new));
+        }).orElseThrow(RulesetNotFoundException::new));
+  }
+
+  public AttributeDto updateAttributeFromRuleset(String rulesetId, String attributeId, AttributeUpdateDto attributeUpdateDto) {
+    return rulesetDtoMapper.toAttributeDto(
+        rulesetRepository.save(rulesetRepository.findById(rulesetId).map(ruleset -> {
+          Schema schema = ruleset.getSchema();
+          Set<Attribute> attributes = schema.getAttributes();
+          Attribute updatedAttribute = attributes.parallelStream().filter(attribute -> attribute.getAttributeId().equals(attributeId))
+              .findFirst().orElseThrow(AttributeNotFoundException::new);
+          attributes.removeIf(attribute -> attribute.getAttributeId().equals(attributeId));
+          attributes.add(updatedAttribute.updateByAttribute(rulesetDtoMapper.toAttributeEntity(attributeUpdateDto)));
+          schema.setAttributes(attributes);
+          ruleset.setSchema(schema);
+          return ruleset;
+        }).orElseThrow(RulesetNotFoundException::new))
+            .getSchema().getAttributes().parallelStream().filter(attribute -> attribute.getAttributeId().equals(attributeId))
+            .findFirst().orElseThrow(AttributeNotFoundException::new));
+  }
+
+  public void deleteAttributeFromRuleset(String rulesetId, String attributeId) {
+    rulesetRepository.save(rulesetRepository.findById(rulesetId).map(ruleset -> {
+      Schema schema = ruleset.getSchema();
+      Set<Attribute> attributes = schema.getAttributes();
+      attributes.removeIf(attribute -> attribute.getAttributeId().equals(attributeId));
+      schema.setAttributes(attributes);
+      ruleset.setSchema(schema);
+      return ruleset;
+    }).orElseThrow(RulesetNotFoundException::new));
   }
 }
