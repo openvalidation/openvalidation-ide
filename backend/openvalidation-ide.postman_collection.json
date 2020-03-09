@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "a33508ca-3249-49c1-9120-4ab781dd5b02",
+		"name": "openvalidation-ide",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/rulesets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-path}}/rulesets",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rulesets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad1c4be1-646d-493a-9f1d-dfb7b8505f96",
+						"exec": [
+							"pm.environment.set(\"rulesetId\", (JSON.parse(responseBody)).rulesetId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Test Ruleset\",\n\t\"description\" : \"Test Description\",\n\t\"createdBy\" : \"User\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-path}}/rulesets",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rulesets/{rulesetId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-path}}/rulesets/{{rulesetId}}",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets",
+						"{{rulesetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rulesets/{rulesetId}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rulesetId\": \"8f5eec75-90bc-4f90-ae78-6fd09ghjgjhgj0\",\n    \"name\": \"Test Ruleset\",\n    \"description\": \"Test Description\",\n    \"createdAt\": \"2020-03-04T12:50:47.072+0000\",\n    \"createdBy\": \"User\",\n    \"rules\": null,\n    \"schema\": {\n        \"attributes\": [\n        \t{\n        \t\t\"name\": \"def\",\n        \t\t\"attributeType\": \"BOOLEAN\",\n        \t\t\"value\": true\n        \t}]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-path}}/rulesets/{{rulesetId}}",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets",
+						"{{rulesetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rulesets/{rulesetId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base-path}}/rulesets/{{rulesetId}}",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets",
+						"{{rulesetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rulesets/{rulesetId}/schema",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema",
+					"host": [
+						"{{base-path}}"
+					],
+					"path": [
+						"rulesets",
+						"{{rulesetId}}",
+						"schema"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
