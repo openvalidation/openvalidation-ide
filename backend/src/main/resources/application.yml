@@ -1,0 +1,9 @@
+springdoc:
+  version: '@org.springdoc.version@'
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+    displayRequestDuration: true
+    tagsSorter: alpha
