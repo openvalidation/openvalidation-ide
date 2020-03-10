@@ -1,6 +1,6 @@
 
 <div class="ruleset-editor">
-    <div class="editor"><textarea></textarea></div>
+    <div class="editor mat-elevation-z8"><textarea></textarea></div>
     <ovide-schema-editor class="schema"></ovide-schema-editor>
     <div class="variables">
         <mat-chip-list>
@@ -9,6 +9,6 @@
     </div>
     <div class="actions">
         <button mat-flat-button color="primary">Save</button>
-        <button mat-flat-button color="primary">Test</button>
+        <button mat-flat-button color="primary" [routerLink]="['../test']" >Test</button>
     </div>
 </div>

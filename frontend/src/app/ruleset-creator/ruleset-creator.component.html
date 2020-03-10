@@ -1,1 +1,16 @@
-<p>ruleset-creator works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="ruleset-creator" novalidate>
+    <h1>New Ruleset</h1>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" cdkFocusInitial>
+        <mat-error *ngIf="form.controls.name.hasError('required')">
+            Name is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="A brief description ..."></textarea>
+    </mat-form-field>
+    <button mat-flat-button color="accent">Create</button>
+    <button mat-flat-button>Cancel</button>
+</form>

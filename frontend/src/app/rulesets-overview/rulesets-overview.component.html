@@ -1,1 +1,18 @@
-<p>rulesets-overview works!</p>
+<mat-card class="ruleset-card new" [routerLink]="['new']">
+    <mat-card-header>
+        <mat-card-title> New Ruleset</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p class="description">Create a new Ruleset by clicking on this tile</p>
+        <div class="meta-data">You, just now</div>
+    </mat-card-content>
+</mat-card>
+<mat-card *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.id, 'edit']">
+    <mat-card-header>
+        <mat-card-title>{{ ruleset.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p class="description">{{ ruleset.description }}</p>
+        <div class="meta-data">{{ ruleset.createdBy }}, {{ ruleset.createdAt | date }}</div>
+    </mat-card-content>
+</mat-card>

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RulesetsOverviewComponent } from '@ovide/rulesets-overview/rulesets-overview.component';
+import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { RulesetEditorComponent } from '@ovide/ruleset-editor';
-import { RulesetCreatorComponent } from '@ovide/ruleset-creator/ruleset-creator.component';
+import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
+import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 
 
 const routes: Routes = [
@@ -10,10 +11,15 @@ const routes: Routes = [
     children: [
       { path: '', pathMatch: 'full', component: RulesetsOverviewComponent },
       { path: 'new', component: RulesetCreatorComponent },
-      { path: ':id/edit', component: RulesetEditorComponent },
+      { path: ':id',
+        children: [
+          { path: 'edit', component: RulesetEditorComponent },
+          { path: 'test', component: RulesetTestsuiteComponent }
+        ]
+      }
     ]
   },
-  { path: '', pathMatch: 'full', redirectTo: 'rulesets' } ,
+  { path: '', pathMatch: 'full', redirectTo: 'rulesets' },
   { path: '**', redirectTo: 'rulesets' },
 ];
 

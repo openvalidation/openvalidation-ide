@@ -35,9 +35,6 @@ export class SchemaEditorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.group('attribute-dialog');
-      console.table(result);
-      console.groupEnd();
       if (result !== undefined) {
         this.attributes.push(result);
       }
@@ -57,9 +54,6 @@ export class SchemaEditorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.group('attribute-dialog');
-      console.table(result);
-      console.groupEnd();
       if (result !== undefined) {
         attribute.name = result.name;
         attribute.type = result.type;
