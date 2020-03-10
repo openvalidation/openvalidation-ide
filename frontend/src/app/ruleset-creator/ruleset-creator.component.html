@@ -7,9 +7,9 @@
             Name is <strong>required</strong>
         </mat-error>
     </mat-form-field>
-    <mat-form-field formControlName="description">
+    <mat-form-field>
         <mat-label>Description</mat-label>
-        <textarea matInput placeholder="A brief description ..."></textarea>
+        <textarea matInput formControlName="description" placeholder="A brief description ..."></textarea>
     </mat-form-field>
     <button mat-flat-button color="accent">Create</button>
     <button mat-flat-button>Cancel</button>
