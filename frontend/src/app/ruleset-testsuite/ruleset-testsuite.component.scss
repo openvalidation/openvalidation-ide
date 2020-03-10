@@ -1,0 +1,40 @@
+.ruleset-testsuite {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "editor graphs"
+        "data data"
+    ;
+    gap: 20px;
+}
+
+.editor {
+    grid-area: editor;
+    width: 100%;
+    height: 100%;
+    > textarea {
+        box-sizing: border-box;
+        width: inherit;
+        height: inherit;
+        resize: none;
+    }
+}
+
+.graphs {
+    grid-area: graphs;
+    width: 100%;
+    height: 100%;
+}
+
+.data {
+    grid-area: data;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    table {
+        width: 100%;
+    }
+}

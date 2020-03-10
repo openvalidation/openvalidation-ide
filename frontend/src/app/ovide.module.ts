@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { MaterialDesignModule } from '@ovide/material-design';
 import { OvideAppComponent } from '@ovide/ovide-app';
@@ -12,6 +13,7 @@ import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { SchemaEditorComponent } from '@ovide/schema-editor';
 import { SchemaAttributeDialogComponent } from './schema-attribute-dialog/schema-attribute-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RulesetTestsuiteComponent } from './ruleset-testsuite/ruleset-testsuite.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     RulesetCreatorComponent,
     SchemaEditorComponent,
     SchemaAttributeDialogComponent,
+    RulesetTestsuiteComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     OvideRoutingModule,
-    MaterialDesignModule
+    MaterialDesignModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [OvideAppComponent]
