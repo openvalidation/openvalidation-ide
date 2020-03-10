@@ -1,3 +1,5 @@
+@import 'themes';
+
 :host {
     width: 100%;
     display: grid;
@@ -8,6 +10,11 @@
 }
 
 .ruleset-card {
+
+    &.new {
+        opacity: .5;
+        border: 2px dashed theme-var($--ovide-mat-foreground-divider);
+    }
 
     > mat-card-title {
         text-align: center;
