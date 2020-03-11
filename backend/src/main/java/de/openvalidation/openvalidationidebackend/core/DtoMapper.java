@@ -1,12 +1,16 @@
-package de.openvalidation.openvalidationidebackend.ruleset;
+package de.openvalidation.openvalidationidebackend.core;
 
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.Attribute;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeCreateDto;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeDto;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeUpdateDto;
-import de.openvalidation.openvalidationidebackend.ruleset.schema.Schema;
-import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaDto;
-import de.openvalidation.openvalidationidebackend.ruleset.schema.SchemaUpdateDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeCreateDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeUpdateDto;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.Ruleset;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetCreateDto;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetDto;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetUpdateDto;
+import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
+import de.openvalidation.openvalidationidebackend.entities.schema.SchemaDto;
+import de.openvalidation.openvalidationidebackend.entities.schema.SchemaUpdateDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;

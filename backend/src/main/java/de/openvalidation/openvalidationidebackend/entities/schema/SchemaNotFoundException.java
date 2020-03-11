@@ -1,4 +1,4 @@
-package de.openvalidation.openvalidationidebackend.ruleset.schema;
+package de.openvalidation.openvalidationidebackend.entities.schema;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

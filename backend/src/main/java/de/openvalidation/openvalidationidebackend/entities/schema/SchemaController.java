@@ -1,8 +1,8 @@
-package de.openvalidation.openvalidationidebackend.ruleset.schema;
+package de.openvalidation.openvalidationidebackend.entities.schema;
 
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeCreateDto;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeDto;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeUpdateDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeCreateDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeUpdateDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

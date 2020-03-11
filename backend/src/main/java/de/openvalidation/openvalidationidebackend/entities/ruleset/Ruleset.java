@@ -1,6 +1,6 @@
-package de.openvalidation.openvalidationidebackend.ruleset;
+package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
-import de.openvalidation.openvalidationidebackend.ruleset.schema.Schema;
+import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
