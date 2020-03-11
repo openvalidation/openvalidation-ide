@@ -6,6 +6,11 @@
     right: 0;
 }
 
+mat-sidenav {
+    box-shadow: -35px 0px 20px 40px rgba(189,189,189,0.2);
+    border: none;
+}
+
 .ovide-sidenav {
     box-sizing: border-box;
     padding: 10px 0;
@@ -41,7 +46,7 @@
 
 .main-content {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 60px;
     width: inherit;
     height: inherit;
 }
