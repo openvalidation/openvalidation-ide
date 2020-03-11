@@ -234,7 +234,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"BOOLEAN\",\n\t\"value\": true\n}"
+							"raw": "[\n\t{\n\t\t\"name\": \"TestAttr1\",\n\t\t\"attributeType\": \"BOOLEAN\",\n\t\t\"value\": true\n\t},\n\t{\n\t\t\"name\": \"TestAttr2\",\n\t\t\"attributeType\": \"NUMBER\",\n\t\t\"value\": 10\n\t},\n\t{\n\t\t\"name\": \"TestAttr3\",\n\t\t\"attributeType\": \"TEXT\",\n\t\t\"value\": \"Your Ad Here!\"\n\t}\n]"
 						},
 						"url": {
 							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes",
@@ -419,18 +419,6 @@
 				},
 				{
 					"name": "/schemas/{{schemaId}}/attributes",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "80f435a5-42e5-40e5-9352-deca3655e4fb",
-								"exec": [
-									"pm.environment.set(\"attributeId\", (JSON.parse(responseBody)).attributeId);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -442,7 +430,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"TestAttr\",\n    \"attributeType\": \"BOOLEAN\",\n    \"value\": true\n}"
+							"raw": "[\n\t{\n\t    \"name\": \"TestAttr1\",\n\t    \"attributeType\": \"BOOLEAN\",\n\t    \"value\": true\n\t},\n\t{\n\t    \"name\": \"TestAttr2\",\n\t    \"attributeType\": \"NUMBER\",\n\t    \"value\": 10\n\t},\n\t{\n\t    \"name\": \"TestAttr3\",\n\t    \"attributeType\": \"TEXT\",\n\t    \"value\": \"Your Ad Here!\"\n\t}\n]"
 						},
 						"url": {
 							"raw": "{{base-path}}/schemas/{{schemaId}}/attributes",

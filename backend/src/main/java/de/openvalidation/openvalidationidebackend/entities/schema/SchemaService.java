@@ -6,9 +6,11 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class SchemaService {
@@ -41,18 +43,24 @@ public class SchemaService {
         .orElseThrow(SchemaNotFoundException::new).getAttributes());
   }
 
-  public AttributeDto createAttributeFromSchema(UUID schemaId, AttributeCreateDto attributeCreateDto) {
-    Attribute createdAttribute = dtoMapper.toAttributeEntity(attributeCreateDto);
-    return dtoMapper.toAttributeDto(
-        schemaRepository.save(schemaRepository.findById(schemaId).map(schema -> {
-          Set<Attribute> attributes = schema.getAttributes();
-          attributes.add(createdAttribute);
-          schema.setAttributes(attributes);
-          return schema;
-        }).orElseThrow(SchemaNotFoundException::new)).getAttributes().parallelStream()
-            .filter(attribute -> attribute.getAttributeId().equals(createdAttribute.getAttributeId())).findFirst()
-            .orElseThrow(AttributeNotFoundException::new)
-    );
+  public Set<AttributeDto> createAttributesFromSchema(UUID schemaId, Set<AttributeCreateDto> attributeCreateDtos) {
+    Set<Attribute> attributesCreated = new HashSet<>();
+    attributeCreateDtos.forEach(attributeCreateDto ->
+        attributesCreated.add(dtoMapper.toAttributeEntity(attributeCreateDto)));
+    return dtoMapper.toAttributeDtoSet(schemaRepository.save(schemaRepository.findById(schemaId).map(schema -> {
+      Set<Attribute> attributes = schema.getAttributes();
+      attributes.addAll(attributesCreated);
+      schema.setAttributes(attributes);
+      return schema;
+    }).orElseThrow(SchemaNotFoundException::new)).getAttributes().parallelStream()
+        .filter(attribute -> {
+          for (Attribute attributeCreated : attributesCreated) {
+            if (attributeCreated.getAttributeId().equals(attribute.getAttributeId())) {
+              return true;
+            }
+          }
+          return false;
+        }).collect(Collectors.toSet()));
   }
 
   public AttributeDto getAttributeFromSchema(UUID schemaId, UUID attributeId) {
@@ -73,8 +81,8 @@ public class SchemaService {
           schema.setAttributes(attributes);
           return schema;
         }).orElseThrow(SchemaNotFoundException::new)).getAttributes().parallelStream()
-        .filter(attribute -> attribute.getAttributeId().equals(attributeId)).findFirst()
-        .orElseThrow(AttributeNotFoundException::new));
+            .filter(attribute -> attribute.getAttributeId().equals(attributeId)).findFirst()
+            .orElseThrow(AttributeNotFoundException::new));
   }
 
   public void deleteAttributeFromSchema(UUID schemaId, UUID attributeId) {
