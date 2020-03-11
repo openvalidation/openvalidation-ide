@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 public class Attribute {
   @Id
-  private String attributeId;
+  private UUID attributeId;
   private String name;
   private AttributeType attributeType;
   private String value;
@@ -23,7 +23,7 @@ public class Attribute {
   private Set<Attribute> children;
 
   public Attribute() {
-    this.attributeId = UUID.randomUUID().toString();
+    this.attributeId = UUID.randomUUID();
     this.children = new HashSet<>();
   }
 

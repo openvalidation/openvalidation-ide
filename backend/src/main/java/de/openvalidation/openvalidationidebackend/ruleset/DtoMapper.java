@@ -13,17 +13,30 @@ import java.util.List;
 import java.util.Set;
 
 @Mapper
-public interface RulesetDtoMapper {
+public interface DtoMapper {
   Ruleset toRulesetEntity(RulesetDto rulesetDto);
   Ruleset toRulesetEntity(RulesetCreateDto rulesetCreateDto);
   Ruleset toRulesetEntity(RulesetUpdateDto rulesetUpdateDto);
-  RulesetDto toRulesetDto(Ruleset ruleset);
-  List<Ruleset> toRulesetEntityList(List<RulesetDto> rulesetDtos);
+  default RulesetDto toRulesetDto(Ruleset ruleset) {
+    if (ruleset == null) {
+      return null;
+    } else {
+      RulesetDto rulesetDto = new RulesetDto();
+      rulesetDto.setRulesetId(ruleset.getRulesetId());
+      rulesetDto.setName(ruleset.getName());
+      rulesetDto.setDescription(ruleset.getDescription());
+      rulesetDto.setCreatedAt(ruleset.getCreatedAt());
+      rulesetDto.setCreatedBy(ruleset.getCreatedBy());
+      rulesetDto.setRules(ruleset.getRules());
+      rulesetDto.setSchemaId(ruleset.getSchema().getSchemaId());
+      return rulesetDto;
+    }
+  }
   List<RulesetDto> toRulesetDtoList(List<Ruleset> rulesets);
 
-  Schema toSchemaEntity(SchemaDto schemaDto);
   Schema toSchemaEntity(SchemaUpdateDto schemaUpdateDto);
   SchemaDto toSchemaDto(Schema schema);
+  List<SchemaDto> toSchemaDtoList(List<Schema> schemas);
 
   Attribute toAttributeEntity(AttributeDto attributeDto);
   Attribute toAttributeEntity(AttributeCreateDto attributeCreateDto);

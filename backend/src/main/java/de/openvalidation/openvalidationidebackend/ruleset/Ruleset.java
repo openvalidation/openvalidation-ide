@@ -4,10 +4,9 @@ import de.openvalidation.openvalidationidebackend.ruleset.schema.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,18 +15,17 @@ import java.util.UUID;
 @Setter
 public class Ruleset {
   @Id
-  private String rulesetId;
+  private UUID rulesetId;
   private String name;
   private String description;
   private Date createdAt;
   private String createdBy;
   private String rules;
-  @OneToOne(cascade = CascadeType.ALL,
-      orphanRemoval = true)
+  @ManyToOne
   private Schema schema;
 
   public Ruleset() {
-    this.rulesetId = UUID.randomUUID().toString();
+    this.rulesetId = UUID.randomUUID();
     this.createdAt = new Date();
     this.schema = new Schema();
   }
