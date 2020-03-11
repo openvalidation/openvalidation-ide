@@ -3,7 +3,34 @@ version: '3.7'
 services:
     openvalidation-ide-backend:
         image: openvalidation-ide-backend:latest
-        build: 
+        environment:
+            - SPRING_PROFILES_ACTIVE=dev
+            - OPENVALIDATION_IDE_DB=postgres
+            - OPENVALIDATION_IDE_DB_NAME=openvalidation_ide
+            - OPENVALIDATION_IDE_DB_USER=openvalidation_ide
+            - OPENVALIDATION_IDE_DB_PW=_OPeN_VALiDAtION_IdE
+        build:
             context: .
+        depends_on:
+            - postgres
         ports:
             - '8080:8080'
+        networks:
+            - openvalidation_ide_backend
+
+    postgres:
+        image: postgres:10.1
+        volumes:
+            - openvalidation_ide_db:/var/lib/postgresql/data
+        environment:
+            - PGDATA=/var/lib/postgresql/data/pgdata
+            - POSTGRES_DB=openvalidation_ide
+            - POSTGRES_USER=openvalidation_ide
+            - POSTGRES_PASSWORD=_OPeN_VALiDAtION_IdE
+        networks:
+            - openvalidation_ide_backend
+volumes:
+    openvalidation_ide_db: {}
+
+networks:
+    openvalidation_ide_backend:
