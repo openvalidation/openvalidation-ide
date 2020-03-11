@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 public class RulesetController {
   private RulesetService rulesetService;

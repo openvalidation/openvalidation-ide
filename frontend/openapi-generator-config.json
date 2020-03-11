@@ -1,0 +1,5 @@
+{
+    "ngVersion": "9.0.0",
+    "providedInRoot": true,
+    "apiModulePrefix": "OvideBackend"
+}

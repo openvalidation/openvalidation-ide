@@ -1,19 +1,21 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 import { MaterialDesignModule } from '@ovide/material-design';
 import { OvideAppComponent } from '@ovide/ovide-app';
 import { OvideRoutingModule } from '@ovide/routing';
-
 import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
 import { RulesetEditorComponent } from '@ovide/ruleset-editor';
 import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { SchemaEditorComponent } from '@ovide/schema-editor';
-import { SchemaAttributeDialogComponent } from './schema-attribute-dialog/schema-attribute-dialog.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RulesetTestsuiteComponent } from './ruleset-testsuite/ruleset-testsuite.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
+import { OvideBackendApiModule, BASE_PATH } from '@ovide/backend';
+import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
+import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
+import { environment } from 'environments/environment';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import { RulesetTestsuiteComponent } from './ruleset-testsuite/ruleset-testsuite
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     OvideRoutingModule,
+    OvideBackendApiModule,
     MaterialDesignModule,
     NgxChartsModule
   ],
-  providers: [],
+  providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH}],
   bootstrap: [OvideAppComponent]
 })
 export class OvideModule { }
