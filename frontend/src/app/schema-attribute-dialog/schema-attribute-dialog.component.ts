@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SchemaAttribute } from '@ovide/schema-editor';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AttributeDto } from '@ovide/backend';
 
 @Component({
   selector: 'ovide-schema-attribute-dialog',
@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class SchemaAttributeDialogComponent implements OnInit {
 
   title: string;
-  attribute: SchemaAttribute;
+  attribute: AttributeDto;
 
   form: FormGroup;
 
@@ -20,18 +20,18 @@ export class SchemaAttributeDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<SchemaAttributeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SchemaAttributeDialogData
   ) {
-    if (data.type === SchemaAttributeDialogType.edit && (this.data.attribute === null || this.data.attribute === undefined)) {
-      throw TypeError("When SchemaAttributeDialogType is === edit, SchemaAttributeDialogData.attribut cannot be undefined or null");
+    if (data.mode === SchemaAttributeDialogMode.edit && (this.data.attribute === null || this.data.attribute === undefined)) {
+      throw TypeError("When SchemaAttributeDialogMode is === edit, SchemaAttributeDialogData.attribut cannot be undefined or null");
     }
   }
 
   ngOnInit(): void {
-    switch(this.data.type) {
-      case SchemaAttributeDialogType.create:
+    switch(this.data.mode) {
+      case SchemaAttributeDialogMode.create:
         this.title = 'Add new attribute';
-        this.attribute = { name: '', type: 'string' };
+        this.attribute = { name: '', attributeType: 'TEXT' };
         break;
-      case SchemaAttributeDialogType.edit:
+      case SchemaAttributeDialogMode.edit:
         this.title = 'Edit attribute';
         this.attribute = this.data.attribute;
         break;
@@ -39,23 +39,22 @@ export class SchemaAttributeDialogComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       name: [this.attribute.name, [Validators.required]],
-      type: [this.attribute.type, [Validators.required]]
+      attributeType: [this.attribute.attributeType, [Validators.required]]
     });
   }
 
   submit() {
-    // TODO: map to model
     this.dialogRef.close(this.form.value);
   }
 
 }
 
 export interface SchemaAttributeDialogData {
-  type: SchemaAttributeDialogType,
-  attribute?: SchemaAttribute
+  mode: SchemaAttributeDialogMode,
+  attribute?: AttributeDto
 }
 
-export enum SchemaAttributeDialogType {
+export enum SchemaAttributeDialogMode {
   create,
   edit
 }

@@ -1,12 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SchemaAttributeDialogComponent, SchemaAttributeDialogType } from '@ovide/schema-attribute-dialog';
-
-// ToDo replace with model
-export interface SchemaAttribute {
-  name: string;
-  type: string;
-}
+import { SchemaAttributeDialogComponent, SchemaAttributeDialogMode } from '@ovide/schema-attribute-dialog';
+import { AttributeDto, AttributesService } from '@ovide/backend';
 
 @Component({
   selector: 'ovide-schema-editor',
@@ -15,48 +10,62 @@ export interface SchemaAttribute {
 })
 export class SchemaEditorComponent implements OnInit {
 
-  public attributes: SchemaAttribute[];
+  private _schemaId: string;
+  @Input() set schemaId(value: string) {
+    this._schemaId = value;
+    this.initialize();
+  }
+
+  public attributes: AttributeDto[];
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private attributesService: AttributesService
   ) { }
 
   ngOnInit(): void {
     this.attributes = [
-      { name: 'name', type: 'string' },
-      { name: 'age', type: 'number' },
-      { name: 'city', type: 'boolean' }
+      { name: 'name', attributeType: 'TEXT' },
+      { name: 'age', attributeType: 'NUMBER' },
+      { name: 'city', attributeType: 'BOOLEAN' }
     ];
+  }
+
+  private initialize() {
+    // TODO get attributes from schema
   }
 
   add(): void {
     const dialogRef = this.dialog.open(SchemaAttributeDialogComponent, {
-      data: { type: SchemaAttributeDialogType.create }
+      data: { mode: SchemaAttributeDialogMode.create }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         this.attributes.push(result);
+        // TODO add attributes to schema
       }
     });
   }
 
-  remove(attribute: SchemaAttribute): void {
+  remove(attribute: AttributeDto): void {
     const index = this.attributes.indexOf(attribute);
     if (index >= 0) {
       this.attributes.splice(index, 1);
+      // TODO remove attributes to schema
     }
   }
 
-  edit(attribute: SchemaAttribute) {
+  edit(attribute: AttributeDto) {
     const dialogRef = this.dialog.open(SchemaAttributeDialogComponent, {
-      data: { type: SchemaAttributeDialogType.edit, attribute }
+      data: { mode: SchemaAttributeDialogMode.edit, attribute }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         attribute.name = result.name;
-        attribute.type = result.type;
+        attribute.attributeType = result.attributeType;
+        // TODO update attributes in schema
       }
     });
   }
