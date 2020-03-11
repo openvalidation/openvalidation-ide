@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 public class RulesetController {
   private RulesetService rulesetService;
