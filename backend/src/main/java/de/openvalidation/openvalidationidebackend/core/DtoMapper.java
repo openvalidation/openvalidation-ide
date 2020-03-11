@@ -18,7 +18,6 @@ import java.util.Set;
 
 @Mapper
 public interface DtoMapper {
-  Ruleset toRulesetEntity(RulesetDto rulesetDto);
   Ruleset toRulesetEntity(RulesetCreateDto rulesetCreateDto);
   Ruleset toRulesetEntity(RulesetUpdateDto rulesetUpdateDto);
   default RulesetDto toRulesetDto(Ruleset ruleset) {

@@ -111,9 +111,9 @@ public class RulesetController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public AttributeDto createAttributeFromRuleset(@PathVariable UUID rulesetId,
-                                                 @Valid @RequestBody AttributeCreateDto attributeCreateDto) {
-    return rulesetService.createAttributeFromRuleset(rulesetId, attributeCreateDto);
+  public Set<AttributeDto> createAttributesFromRuleset(@PathVariable UUID rulesetId,
+                                                 @Valid @RequestBody Set<AttributeCreateDto> attributeCreateDtos) {
+    return rulesetService.createAttributesFromRuleset(rulesetId, attributeCreateDtos);
   }
 
   // /rulesets/{rulesetId}/schema/attributes/{attributeId}

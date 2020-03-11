@@ -85,9 +85,9 @@ public class RulesetService {
         .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId());
   }
 
-  public AttributeDto createAttributeFromRuleset(UUID rulesetId, AttributeCreateDto attributeCreateDto) {
-    return this.schemaService.createAttributeFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeCreateDto);
+  public Set<AttributeDto> createAttributesFromRuleset(UUID rulesetId, Set<AttributeCreateDto> attributeCreateDtos) {
+    return this.schemaService.createAttributesFromSchema(rulesetRepository.findById(rulesetId)
+        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeCreateDtos);
   }
 
   public AttributeDto getAttributeFromRuleset(UUID rulesetId, UUID attributeId) {
