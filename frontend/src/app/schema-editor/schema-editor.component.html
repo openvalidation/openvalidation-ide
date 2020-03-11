@@ -2,7 +2,7 @@
     <mat-chip
         *ngFor="let attribute of attributes" 
         class="attribute-type"
-        [ngClass]="attribute.type"
+        [ngClass]="attribute.attributeType"
         [removable]="true"
         (removed)="remove(attribute)"
         (click)="edit(attribute)"
@@ -14,4 +14,3 @@
         <mat-icon>add</mat-icon>
     </button>        
 </mat-chip-list>
-  
