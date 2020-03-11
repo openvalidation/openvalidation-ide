@@ -1,4 +1,4 @@
-package de.openvalidation.openvalidationidebackend.ruleset;
+package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

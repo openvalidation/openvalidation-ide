@@ -1,7 +1,7 @@
-package de.openvalidation.openvalidationidebackend.ruleset.schema;
+package de.openvalidation.openvalidationidebackend.entities.schema;
 
-import de.openvalidation.openvalidationidebackend.ruleset.DtoMapper;
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.*;
+import de.openvalidation.openvalidationidebackend.core.DtoMapper;
+import de.openvalidation.openvalidationidebackend.entities.attribute.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

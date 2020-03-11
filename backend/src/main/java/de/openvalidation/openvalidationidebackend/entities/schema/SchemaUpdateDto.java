@@ -1,6 +1,6 @@
-package de.openvalidation.openvalidationidebackend.ruleset.schema;
+package de.openvalidation.openvalidationidebackend.entities.schema;
 
-import de.openvalidation.openvalidationidebackend.ruleset.attribute.AttributeUpdateDto;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeUpdateDto;
 import lombok.Getter;
 import lombok.Setter;
 
