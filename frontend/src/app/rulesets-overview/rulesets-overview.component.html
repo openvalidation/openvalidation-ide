@@ -7,7 +7,7 @@
         <div class="meta-data">You, just now</div>
     </mat-card-content>
 </mat-card>
-<mat-card *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.id, 'edit']">
+<mat-card *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.rulesetId, 'edit']">
     <mat-card-header>
         <mat-card-title>{{ ruleset.name }}</mat-card-title>
     </mat-card-header>
