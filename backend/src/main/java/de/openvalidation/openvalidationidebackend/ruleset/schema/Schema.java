@@ -14,14 +14,13 @@ import java.util.UUID;
 @Setter
 public class Schema {
   @Id
-  private String schemaId;
+  private UUID schemaId;
   @OneToMany(cascade = CascadeType.ALL,
-      orphanRemoval = true,
       fetch = FetchType.EAGER)
   private Set<Attribute> attributes;
 
   public Schema() {
-    this.schemaId = UUID.randomUUID().toString();
+    this.schemaId = UUID.randomUUID();
     this.attributes = new HashSet<>();
   }
 

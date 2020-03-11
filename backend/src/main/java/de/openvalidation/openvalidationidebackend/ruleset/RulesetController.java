@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -52,7 +53,7 @@ public class RulesetController {
   @Tag(name = "rulesets")
   @GetMapping(value = "/rulesets/{rulesetId}",
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public RulesetDto getRuleset(@PathVariable String rulesetId) {
+  public RulesetDto getRuleset(@PathVariable UUID rulesetId) {
     return rulesetService.getRuleset(rulesetId);
   }
 
@@ -60,7 +61,7 @@ public class RulesetController {
   @PutMapping(value = "/rulesets/{rulesetId}",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public RulesetDto updateRuleset(@PathVariable String rulesetId,
+  public RulesetDto updateRuleset(@PathVariable UUID rulesetId,
                                   @Valid @RequestBody RulesetUpdateDto rulesetUpdateDto) {
     return rulesetService.updateRuleset(rulesetId, rulesetUpdateDto);
   }
@@ -68,7 +69,7 @@ public class RulesetController {
   @Tag(name = "rulesets")
   @DeleteMapping(value = "/rulesets/{rulesetId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteRuleset(@PathVariable String rulesetId) {
+  public void deleteRuleset(@PathVariable UUID rulesetId) {
     rulesetService.deleteRuleset(rulesetId);
   }
 
@@ -80,7 +81,7 @@ public class RulesetController {
 
   @Tag(name = "schema")
   @GetMapping(value = "/rulesets/{rulesetId}/schema")
-  public SchemaDto getSchemaFromRuleset(@PathVariable String rulesetId) {
+  public SchemaDto getSchemaFromRuleset(@PathVariable UUID rulesetId) {
     return rulesetService.getSchemaFromRuleset(rulesetId);
   }
 
@@ -88,7 +89,7 @@ public class RulesetController {
   @PutMapping(value = "/rulesets/{rulesetId}/schema",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public SchemaDto updateSchema(@PathVariable String rulesetId,
+  public SchemaDto updateSchema(@PathVariable UUID rulesetId,
                                 @Valid @RequestBody SchemaUpdateDto schemaUpdateDto) {
     return rulesetService.updateSchemaFromRuleset(rulesetId, schemaUpdateDto);
   }
@@ -101,7 +102,7 @@ public class RulesetController {
 
   @Tag(name = "attributes")
   @GetMapping(value = "/rulesets/{rulesetId}/schema/attributes")
-  public Set<AttributeDto> getAllAttributesFromRuleset(@PathVariable String rulesetId) {
+  public Set<AttributeDto> getAllAttributesFromRuleset(@PathVariable UUID rulesetId) {
     return rulesetService.getAllAttributesFromRuleset(rulesetId);
   }
 
@@ -110,7 +111,7 @@ public class RulesetController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public AttributeDto createAttributeFromRuleset(@PathVariable String rulesetId,
+  public AttributeDto createAttributeFromRuleset(@PathVariable UUID rulesetId,
                                                  @Valid @RequestBody AttributeCreateDto attributeCreateDto) {
     return rulesetService.createAttributeFromRuleset(rulesetId, attributeCreateDto);
   }
@@ -119,8 +120,8 @@ public class RulesetController {
 
   @Tag(name = "attributes")
   @GetMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}")
-  public AttributeDto getAllAttributesFromRuleset(@PathVariable String rulesetId,
-                                                  @PathVariable String attributeId) {
+  public AttributeDto getAllAttributesFromRuleset(@PathVariable UUID rulesetId,
+                                                  @PathVariable UUID attributeId) {
     return rulesetService.getAttributeFromRuleset(rulesetId, attributeId);
   }
 
@@ -128,8 +129,8 @@ public class RulesetController {
   @PutMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public AttributeDto updateAttributeFromRuleset(@PathVariable String rulesetId,
-                                                 @PathVariable String attributeId,
+  public AttributeDto updateAttributeFromRuleset(@PathVariable UUID rulesetId,
+                                                 @PathVariable UUID attributeId,
                                                  @Valid @RequestBody AttributeUpdateDto attributeUpdateDto) {
     return rulesetService.updateAttributeFromRuleset(rulesetId, attributeId, attributeUpdateDto);
   }
@@ -137,8 +138,8 @@ public class RulesetController {
   @Tag(name = "attributes")
   @DeleteMapping(value = "/rulesets/{rulesetId}/schema/attributes/{attributeId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteAttributeFromRuleset(@PathVariable String rulesetId,
-                                         @PathVariable String attributeId) {
+  public void deleteAttributeFromRuleset(@PathVariable UUID rulesetId,
+                                         @PathVariable UUID attributeId) {
     rulesetService.deleteAttributeFromRuleset(rulesetId, attributeId);
   }
 }
