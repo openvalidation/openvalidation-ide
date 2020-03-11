@@ -1,3 +1,17 @@
+spring:
+  application:
+    name: openvalidation-ide-backend
+  profiles:
+    active: local
+  # Hibernate ddl auto
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
 springdoc:
   version: '@org.springdoc.version@'
   api-docs:
