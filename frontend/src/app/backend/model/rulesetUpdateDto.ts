@@ -9,13 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SchemaUpdateDto } from './schemaUpdateDto';
 
 
 export interface RulesetUpdateDto { 
     name?: string;
     description?: string;
     rules?: string;
-    schema?: SchemaUpdateDto;
 }
 

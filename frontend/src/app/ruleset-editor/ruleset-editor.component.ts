@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
+import { RulesetsService, RulesetDto } from '@ovide/backend';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ovide-ruleset-editor',
@@ -7,9 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RulesetEditorComponent implements OnInit {
 
-  constructor() { }
+  ruleset$: Observable<RulesetDto>;
+
+  constructor(
+    private route: ActivatedRoute,
+    private rulesetsService: RulesetsService
+  ) { }
 
   ngOnInit(): void {
+    this.ruleset$ = this.route.paramMap
+    .pipe(
+      map(params => params.get('id')),
+      switchMap(id => this.rulesetsService.getRuleset(id)),
+    );
   }
 
 }

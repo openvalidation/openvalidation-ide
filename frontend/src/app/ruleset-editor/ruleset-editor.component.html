@@ -1,7 +1,7 @@
 
 <div class="ruleset-editor">
     <div class="editor mat-elevation-z8"><textarea></textarea></div>
-    <ovide-schema-editor class="schema"></ovide-schema-editor>
+    <ovide-schema-editor [schemaId]="(ruleset$ | async)?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
         <mat-chip-list>
             <mat-chip>underaged</mat-chip>
