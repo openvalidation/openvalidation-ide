@@ -89,12 +89,12 @@ export class AttributesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAttributeFromRuleset(rulesetId: string, attributeCreateDto?: AttributeCreateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AttributeDto>;
-    public createAttributeFromRuleset(rulesetId: string, attributeCreateDto?: AttributeCreateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AttributeDto>>;
-    public createAttributeFromRuleset(rulesetId: string, attributeCreateDto?: AttributeCreateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AttributeDto>>;
-    public createAttributeFromRuleset(rulesetId: string, attributeCreateDto?: AttributeCreateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public createAttributesFromRuleset(rulesetId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<AttributeDto>>;
+    public createAttributesFromRuleset(rulesetId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<AttributeDto>>>;
+    public createAttributesFromRuleset(rulesetId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<AttributeDto>>>;
+    public createAttributesFromRuleset(rulesetId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (rulesetId === null || rulesetId === undefined) {
-            throw new Error('Required parameter rulesetId was null or undefined when calling createAttributeFromRuleset.');
+            throw new Error('Required parameter rulesetId was null or undefined when calling createAttributesFromRuleset.');
         }
 
         let headers = this.defaultHeaders;
@@ -126,7 +126,62 @@ export class AttributesService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AttributeDto>(`${this.configuration.basePath}/rulesets/${encodeURIComponent(String(rulesetId))}/schema/attributes`,
+        return this.httpClient.post<Array<AttributeDto>>(`${this.configuration.basePath}/rulesets/${encodeURIComponent(String(rulesetId))}/schema/attributes`,
+            attributeCreateDto,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param schemaId 
+     * @param attributeCreateDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<AttributeDto>>;
+    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<AttributeDto>>>;
+    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<AttributeDto>>>;
+    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (schemaId === null || schemaId === undefined) {
+            throw new Error('Required parameter schemaId was null or undefined when calling createAttributesFromSchema.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<Array<AttributeDto>>(`${this.configuration.basePath}/schemas/${encodeURIComponent(String(schemaId))}/attributes`,
             attributeCreateDto,
             {
                 responseType: <any>responseType,
@@ -186,20 +241,111 @@ export class AttributesService {
     }
 
     /**
+     * @param schemaId 
+     * @param attributeId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deleteAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deleteAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deleteAttributeFromSchema(schemaId: string, attributeId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (schemaId === null || schemaId === undefined) {
+            throw new Error('Required parameter schemaId was null or undefined when calling deleteAttributeFromSchema.');
+        }
+        if (attributeId === null || attributeId === undefined) {
+            throw new Error('Required parameter attributeId was null or undefined when calling deleteAttributeFromSchema.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/schemas/${encodeURIComponent(String(schemaId))}/attributes/${encodeURIComponent(String(attributeId))}`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param rulesetId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllAttributesFromRuleset(rulesetId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<Array<AttributeDto>>;
+    public getAllAttributesFromRuleset(rulesetId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<Array<AttributeDto>>>;
+    public getAllAttributesFromRuleset(rulesetId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<Array<AttributeDto>>>;
+    public getAllAttributesFromRuleset(rulesetId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
+        if (rulesetId === null || rulesetId === undefined) {
+            throw new Error('Required parameter rulesetId was null or undefined when calling getAllAttributesFromRuleset.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<Array<AttributeDto>>(`${this.configuration.basePath}/rulesets/${encodeURIComponent(String(rulesetId))}/schema/attributes`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * @param rulesetId 
      * @param attributeId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllAttributesFromRuleset(rulesetId: string, attributeId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<AttributeDto>;
-    public getAllAttributesFromRuleset(rulesetId: string, attributeId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<AttributeDto>>;
-    public getAllAttributesFromRuleset(rulesetId: string, attributeId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<AttributeDto>>;
-    public getAllAttributesFromRuleset(rulesetId: string, attributeId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
+    public getAllAttributesFromRuleset1(rulesetId: string, attributeId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<AttributeDto>;
+    public getAllAttributesFromRuleset1(rulesetId: string, attributeId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<AttributeDto>>;
+    public getAllAttributesFromRuleset1(rulesetId: string, attributeId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<AttributeDto>>;
+    public getAllAttributesFromRuleset1(rulesetId: string, attributeId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
         if (rulesetId === null || rulesetId === undefined) {
-            throw new Error('Required parameter rulesetId was null or undefined when calling getAllAttributesFromRuleset.');
+            throw new Error('Required parameter rulesetId was null or undefined when calling getAllAttributesFromRuleset1.');
         }
         if (attributeId === null || attributeId === undefined) {
-            throw new Error('Required parameter attributeId was null or undefined when calling getAllAttributesFromRuleset.');
+            throw new Error('Required parameter attributeId was null or undefined when calling getAllAttributesFromRuleset1.');
         }
 
         let headers = this.defaultHeaders;
@@ -234,16 +380,16 @@ export class AttributesService {
     }
 
     /**
-     * @param rulesetId 
+     * @param schemaId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllAttributesFromRuleset1(rulesetId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<Array<AttributeDto>>;
-    public getAllAttributesFromRuleset1(rulesetId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<Array<AttributeDto>>>;
-    public getAllAttributesFromRuleset1(rulesetId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<Array<AttributeDto>>>;
-    public getAllAttributesFromRuleset1(rulesetId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
-        if (rulesetId === null || rulesetId === undefined) {
-            throw new Error('Required parameter rulesetId was null or undefined when calling getAllAttributesFromRuleset1.');
+    public getAllAttributesFromSchema(schemaId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<Array<AttributeDto>>;
+    public getAllAttributesFromSchema(schemaId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<Array<AttributeDto>>>;
+    public getAllAttributesFromSchema(schemaId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<Array<AttributeDto>>>;
+    public getAllAttributesFromSchema(schemaId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
+        if (schemaId === null || schemaId === undefined) {
+            throw new Error('Required parameter schemaId was null or undefined when calling getAllAttributesFromSchema.');
         }
 
         let headers = this.defaultHeaders;
@@ -266,7 +412,55 @@ export class AttributesService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<AttributeDto>>(`${this.configuration.basePath}/rulesets/${encodeURIComponent(String(rulesetId))}/schema/attributes`,
+        return this.httpClient.get<Array<AttributeDto>>(`${this.configuration.basePath}/schemas/${encodeURIComponent(String(schemaId))}/attributes`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param schemaId 
+     * @param attributeId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<AttributeDto>;
+    public getAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<AttributeDto>>;
+    public getAttributeFromSchema(schemaId: string, attributeId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<AttributeDto>>;
+    public getAttributeFromSchema(schemaId: string, attributeId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
+        if (schemaId === null || schemaId === undefined) {
+            throw new Error('Required parameter schemaId was null or undefined when calling getAttributeFromSchema.');
+        }
+        if (attributeId === null || attributeId === undefined) {
+            throw new Error('Required parameter attributeId was null or undefined when calling getAttributeFromSchema.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<AttributeDto>(`${this.configuration.basePath}/schemas/${encodeURIComponent(String(schemaId))}/attributes/${encodeURIComponent(String(attributeId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -325,6 +519,65 @@ export class AttributesService {
         }
 
         return this.httpClient.put<AttributeDto>(`${this.configuration.basePath}/rulesets/${encodeURIComponent(String(rulesetId))}/schema/attributes/${encodeURIComponent(String(attributeId))}`,
+            attributeUpdateDto,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param schemaId 
+     * @param attributeId 
+     * @param attributeUpdateDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateAttributeFromSchema(schemaId: string, attributeId: string, attributeUpdateDto?: AttributeUpdateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AttributeDto>;
+    public updateAttributeFromSchema(schemaId: string, attributeId: string, attributeUpdateDto?: AttributeUpdateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AttributeDto>>;
+    public updateAttributeFromSchema(schemaId: string, attributeId: string, attributeUpdateDto?: AttributeUpdateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AttributeDto>>;
+    public updateAttributeFromSchema(schemaId: string, attributeId: string, attributeUpdateDto?: AttributeUpdateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (schemaId === null || schemaId === undefined) {
+            throw new Error('Required parameter schemaId was null or undefined when calling updateAttributeFromSchema.');
+        }
+        if (attributeId === null || attributeId === undefined) {
+            throw new Error('Required parameter attributeId was null or undefined when calling updateAttributeFromSchema.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.put<AttributeDto>(`${this.configuration.basePath}/schemas/${encodeURIComponent(String(schemaId))}/attributes/${encodeURIComponent(String(attributeId))}`,
             attributeUpdateDto,
             {
                 responseType: <any>responseType,

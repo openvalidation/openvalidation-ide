@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SchemaAttributeDialogComponent, SchemaAttributeDialogMode } from '@ovide/schema-attribute-dialog';
-import { AttributeDto, AttributesService } from '@ovide/backend';
+import { AttributeDto, AttributesService, AttributeUpdateDto, AttributeCreateDto } from '@ovide/backend';
 
 @Component({
   selector: 'ovide-schema-editor',
@@ -13,26 +13,26 @@ export class SchemaEditorComponent implements OnInit {
   private _schemaId: string;
   @Input() set schemaId(value: string) {
     this._schemaId = value;
-    this.initialize();
+    if (value !== null && value !== undefined) {
+      this.initialize();
+    }
   }
 
   public attributes: AttributeDto[];
 
   constructor(
     public dialog: MatDialog,
-    private attributesService: AttributesService
+    private attributeService: AttributesService
   ) { }
 
-  ngOnInit(): void {
-    this.attributes = [
-      { name: 'name', attributeType: 'TEXT' },
-      { name: 'age', attributeType: 'NUMBER' },
-      { name: 'city', attributeType: 'BOOLEAN' }
-    ];
-  }
+  ngOnInit(): void {}
 
   private initialize() {
-    // TODO get attributes from schema
+    this.attributeService.getAllAttributesFromSchema(this._schemaId)
+    .subscribe(
+      success => this.attributes = success,
+      error => console.error(error)
+    );
   }
 
   add(): void {
@@ -42,8 +42,15 @@ export class SchemaEditorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        this.attributes.push(result);
-        // TODO add attributes to schema
+        const createDto: AttributeCreateDto = {
+          attributeType: result.attributeType,
+          name: result.name
+        }
+        this.attributeService.createAttributesFromSchema(this._schemaId, [createDto])
+        .subscribe(
+          success => this.attributes.push(success[0]),
+          error => console.error(error)
+        );
       }
     });
   }
@@ -51,8 +58,11 @@ export class SchemaEditorComponent implements OnInit {
   remove(attribute: AttributeDto): void {
     const index = this.attributes.indexOf(attribute);
     if (index >= 0) {
-      this.attributes.splice(index, 1);
-      // TODO remove attributes to schema
+      this.attributeService.deleteAttributeFromSchema(this._schemaId, attribute.attributeId)
+      .subscribe(
+        success => this.attributes.splice(index, 1),
+        error => console.error(error)
+      );
     }
   }
 
@@ -63,9 +73,20 @@ export class SchemaEditorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        attribute.name = result.name;
-        attribute.attributeType = result.attributeType;
-        // TODO update attributes in schema
+        const updateDto: AttributeUpdateDto = {
+          attributeType: result.attributeType,
+          name: result.name
+        }
+        this.attributeService.updateAttributeFromSchema(this._schemaId, attribute.attributeId, updateDto)
+        .subscribe(
+          success => {
+            const index = this.attributes.findIndex(element => element.attributeId === attribute.attributeId);
+            if (index >= 0) {
+              this.attributes[index] = success;
+            }
+          },
+          error => console.error(error)
+        );
       }
     });
   }
