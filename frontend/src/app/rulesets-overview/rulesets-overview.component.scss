@@ -1,37 +1,76 @@
 @import 'themes';
 
 :host {
-    width: 100%;
+    box-sizing: border-box;
+    margin: 50px;
+    width: calc(100% - 100px);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr) );
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
     justify-content: space-evenly;
     grid-template-rows: auto;
 }
 
 .ruleset-card {
+    margin: 2px;
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: 0 4px 2px -1px rgba(0, 0, 0, 0.2);
+    background-color: #404040; // TODO: Theme Variable
+    transition: box-shadow 0.2s,
+    margin 0.2s;
 
     &.new {
-        opacity: .5;
-        border: 2px dashed theme-var($--ovide-mat-foreground-divider);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        mat-icon {
+            --add-size: 100px;
+            width: var(--add-size);
+            height: var(--add-size);
+            font-size: var(--add-size);
+        }
     }
 
-    > mat-card-title {
+    .title {
+        font-weight: lighter;
+        border-radius: 15px 15px 0 0;
+        padding: 0.7em 3em 0.5em;
+        margin: 0;
+        background-color: #595959; // TODO: Theme Variable
+
+        white-space: nowrap;
+        overflow: hidden;
         text-align: center;
+        text-overflow: ellipsis;
+
+
+        transition: color 0.5s, text-shadow 0.5s;
     }
 
-    > mat-card-content {
-        display: grid;
-        grid-auto-flow: row;
-        justify-content: space-between;
+    .content {
 
-        > .description {
-            
+        .description {
+            margin: 3em 3em 1em;
+            text-align: center;
         }
-    
-        > .meta-data {
-            font-size: 0.8em;
-            align-self: end;
+
+        .meta-data {
+            font-size: .85em;
+            margin: 2em 3em 1.5em;
+            text-align: center;
         }
+    }
+}
+
+.ruleset-card:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 13px 7px rgba(0, 0, 0, 0.2);
+    margin: 0 4px 4px 0;
+
+    .title {
+        color: #4bd6f4;
+        text-shadow: 0 0 2px #4bd6f4;
     }
 }
