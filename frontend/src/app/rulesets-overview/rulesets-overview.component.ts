@@ -15,7 +15,7 @@ export class RulesetsOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
     this.rulesetService.getAllRulesets().subscribe(
       rulesets => this.rulesets = rulesets
     );
