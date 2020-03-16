@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "90a7ffbf-0345-4218-aa9c-cac92026fa87",
+		"_postman_id": "c0723777-6c56-466f-b152-ea153a73d4e2",
 		"name": "openvalidation-ide",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -308,7 +308,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"NUMBER\",\n\t\"value\": 10.3\n}",
+							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"OBJECT\",\n\t\"value\": 10.3,\n\t\"children\": [\n\t\t{\n\t\t\t\"name\": \"TestChild\",\n\t\t\t\"attributeType\": \"TEXT\",\n\t\t\t\"value\": \"SuperText\"\n\t\t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
