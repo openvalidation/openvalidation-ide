@@ -43,7 +43,7 @@ public class SchemaService {
         .orElseThrow(SchemaNotFoundException::new).getAttributes());
   }
 
-  public Set<AttributeDto> createAttributesFromSchema(UUID schemaId, Set<AttributeCreateDto> attributeCreateDtos) {
+  public Set<AttributeDto> addAttributesToSchema(UUID schemaId, Set<AttributeCreateDto> attributeCreateDtos) {
     Set<Attribute> attributesCreated = new HashSet<>();
     attributeCreateDtos.forEach(attributeCreateDto ->
         attributesCreated.add(dtoMapper.toAttributeEntity(attributeCreateDto)));

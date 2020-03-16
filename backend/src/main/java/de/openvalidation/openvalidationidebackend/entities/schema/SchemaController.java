@@ -70,9 +70,9 @@ public class SchemaController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public Set<AttributeDto> createAttributesFromSchema(@PathVariable UUID schemaId,
-                                                      @Valid @RequestBody Set<AttributeCreateDto> attributeCreateDtos) {
-    return this.schemaService.createAttributesFromSchema(schemaId, attributeCreateDtos);
+  public Set<AttributeDto> addAttributesToSchema(@PathVariable UUID schemaId,
+                                                 @Valid @RequestBody Set<AttributeCreateDto> attributeCreateDtos) {
+    return this.schemaService.addAttributesToSchema(schemaId, attributeCreateDtos);
   }
 
   // /schema/{schemaId}/attributes/{attributeId}
