@@ -1,18 +1,10 @@
-<mat-card class="ruleset-card new" [routerLink]="['new']">
-    <mat-card-header>
-        <mat-card-title> New Ruleset</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <p class="description">Create a new Ruleset by clicking on this tile</p>
-        <div class="meta-data">You, just now</div>
-    </mat-card-content>
-</mat-card>
-<mat-card *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.rulesetId, 'edit']">
-    <mat-card-header>
-        <mat-card-title>{{ ruleset.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <p class="description">{{ ruleset.description }}</p>
-        <div class="meta-data">{{ ruleset.createdBy }}, {{ ruleset.createdAt | date }}</div>
-    </mat-card-content>
-</mat-card>
+<div class="ruleset-card new" [routerLink]="['new']">
+    <mat-icon>add</mat-icon>
+</div>
+<div *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.rulesetId, 'edit']">
+    <h2 class="title">{{ ruleset.name }}</h2>
+    <div class="content">
+        <p class="description" style="height: 40px;" ovideEllipsis>{{ ruleset.description }}</p>
+        <div class="meta-data">{{ ruleset.createdAt | date }}, {{ ruleset.createdBy }}</div>
+    </div>
+</div>

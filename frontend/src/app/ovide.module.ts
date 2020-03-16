@@ -16,6 +16,7 @@ import { OvideBackendApiModule, BASE_PATH } from '@ovide/backend';
 import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
+import { EllipsisDirective } from './directives/ellipsis.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { environment } from 'environments/environment';
     SchemaEditorComponent,
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
+    EllipsisDirective,
   ],
   imports: [
     BrowserModule,
