@@ -15,5 +15,6 @@ export interface RulesetCreateDto {
     name: string;
     description?: string;
     createdBy: string;
+    schemaId?: string;
 }
 

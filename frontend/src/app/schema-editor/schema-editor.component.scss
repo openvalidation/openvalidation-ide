@@ -5,19 +5,19 @@
 }
 
 .attribute-type {
-    &.string {
+    &.TEXT {
         background-color: theme-var($--attribute-type-string);
    } 
-    &.number {
+    &.NUMBER {
         background-color: theme-var($--attribute-type-number);
     }
-    &.boolean {
+    &.BOOLEAN {
         background-color: theme-var($--attribute-type-boolean);
     }
-    &.list {
+    &.LIST {
         background-color: theme-var($--attribute-type-collection);
     }
-    &.object {
+    &.OBJECT {
         background-color: theme-var($--attribute-type-object);
     }
 }

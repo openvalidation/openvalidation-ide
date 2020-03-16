@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SchemaDto } from './schemaDto';
 
 
 export interface RulesetDto { 
@@ -19,6 +18,6 @@ export interface RulesetDto {
     createdAt?: Date;
     createdBy?: string;
     rules?: string;
-    schema?: SchemaDto;
+    schemaId?: string;
 }
 

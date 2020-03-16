@@ -9,15 +9,15 @@
     </mat-error>
   </mat-form-field>
   <div>
-    <mat-button-toggle-group formControlName="type" name="type" aria-label="attribute type">
-      <mat-button-toggle value="string">Text</mat-button-toggle>
-      <mat-button-toggle value="number">Number</mat-button-toggle>
-      <mat-button-toggle value="boolean">Yes/No</mat-button-toggle>
+    <mat-button-toggle-group formControlName="attributeType" name="attributeType" aria-label="attribute type">
+      <mat-button-toggle value="TEXT">Text</mat-button-toggle>
+      <mat-button-toggle value="NUMBER">Number</mat-button-toggle>
+      <mat-button-toggle value="BOOLEAN">Yes/No</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-button type="button"[mat-dialog-close]>Cancel</button>
   <button mat-button type="submit" [disabled]="form.invalid">Save</button>
 </div>
 </form>

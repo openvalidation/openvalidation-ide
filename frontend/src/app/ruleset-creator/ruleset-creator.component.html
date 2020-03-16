@@ -11,6 +11,14 @@
         <mat-label>Description</mat-label>
         <textarea matInput formControlName="description" placeholder="A brief description ..."></textarea>
     </mat-form-field>
-    <button mat-flat-button color="accent">Create</button>
-    <button mat-flat-button>Cancel</button>
+    <mat-form-field>
+        <mat-label>Creator</mat-label>
+        <input matInput formControlName="creator">
+        <mat-error *ngIf="form.controls.creator.hasError('required')">
+            Creator is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <button mat-flat-button type="submit" [disabled]="form.invalid" color="accent">Create</button>
+    <button mat-flat-button type="button">Cancel</button>
+    <button mat-flat-button type="button" (click)="createRandom()" color="warn">Create Random</button>
 </form>
