@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "37f57122-951a-412d-8bcf-ad9db0e8cc35",
+		"_postman_id": "90a7ffbf-0345-4218-aa9c-cac92026fa87",
 		"name": "openvalidation-ide",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -140,189 +140,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "/rulesets/{rulesetId}/schema",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"attributes\": [\n    \t{\n    \t\t\"name\": \"def\",\n    \t\t\"attributeType\": \"BOOLEAN\",\n    \t\t\"value\": true\n    \t}\n\t]\n}"
-						},
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema/attributes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema",
-								"attributes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema/attributes",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9a10f9d2-3899-47ea-9cab-e2d67ca3f9b1",
-								"exec": [
-									"pm.environment.set(\"attributeId\", (JSON.parse(responseBody)).attributeId);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n\t{\n\t\t\"name\": \"TestAttr1\",\n\t\t\"attributeType\": \"BOOLEAN\",\n\t\t\"value\": true\n\t},\n\t{\n\t\t\"name\": \"TestAttr2\",\n\t\t\"attributeType\": \"NUMBER\",\n\t\t\"value\": 10\n\t},\n\t{\n\t\t\"name\": \"TestAttr3\",\n\t\t\"attributeType\": \"TEXT\",\n\t\t\"value\": \"Your Ad Here!\"\n\t}\n]"
-						},
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema",
-								"attributes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema",
-								"attributes",
-								"{{attributeId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"NUMBER\",\n\t\"value\": 10.3\n}"
-						},
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema",
-								"attributes",
-								"{{attributeId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base-path}}/rulesets/{{rulesetId}}/schema/attributes/{{attributeId}}",
-							"host": [
-								"{{base-path}}"
-							],
-							"path": [
-								"rulesets",
-								"{{rulesetId}}",
-								"schema",
-								"attributes",
-								"{{attributeId}}"
-							]
-						}
-					},
-					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -419,6 +236,18 @@
 				},
 				{
 					"name": "/schemas/{{schemaId}}/attributes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c74edc65-dfe9-4704-9f90-ff6aa529e599",
+								"exec": [
+									"pm.environment.set(\"attributeId\", (JSON.parse(responseBody))[0].attributeId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [

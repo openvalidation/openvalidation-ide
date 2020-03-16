@@ -1,16 +1,14 @@
 package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
 import de.openvalidation.openvalidationidebackend.core.DtoMapper;
-import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeCreateDto;
-import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeDto;
-import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeUpdateDto;
-import de.openvalidation.openvalidationidebackend.entities.schema.*;
+import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
+import de.openvalidation.openvalidationidebackend.entities.schema.SchemaNotFoundException;
+import de.openvalidation.openvalidationidebackend.entities.schema.SchemaRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -18,20 +16,13 @@ public class RulesetService {
   private final DtoMapper dtoMapper = Mappers.getMapper(DtoMapper.class);
   private RulesetRepository rulesetRepository;
   private SchemaRepository schemaRepository;
-  private SchemaService schemaService;
 
   @Autowired
   public RulesetService(RulesetRepository rulesetRepository,
-                        SchemaRepository schemaRepository,
-                        SchemaService schemaService) {
+                        SchemaRepository schemaRepository) {
     this.rulesetRepository = rulesetRepository;
     this.schemaRepository = schemaRepository;
-    this.schemaService = schemaService;
   }
-
-  /* ###########
-     # Ruleset #
-     ########### */
 
   public List<RulesetDto> getAllRulesets() {
     return dtoMapper.toRulesetDtoList(rulesetRepository.findAll());
@@ -62,46 +53,4 @@ public class RulesetService {
     rulesetRepository.deleteById(rulesetId);
   }
 
-  /* ##########
-     # Schema #
-     ########## */
-
-  public SchemaDto getSchemaFromRuleset(UUID rulesetId) {
-    return dtoMapper.toSchemaDto(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema());
-  }
-
-  public SchemaDto updateSchemaFromRuleset(UUID rulesetId, SchemaUpdateDto schemaUpdateDto) {
-    return this.schemaService.updateSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), schemaUpdateDto);
-  }
-
-  /* #############
-     # Attribute #
-     ############# */
-
-  public Set<AttributeDto> getAllAttributesFromRuleset(UUID rulesetId) {
-    return this.schemaService.getAllAttributesFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId());
-  }
-
-  public Set<AttributeDto> createAttributesFromRuleset(UUID rulesetId, Set<AttributeCreateDto> attributeCreateDtos) {
-    return this.schemaService.createAttributesFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeCreateDtos);
-  }
-
-  public AttributeDto getAttributeFromRuleset(UUID rulesetId, UUID attributeId) {
-    return this.schemaService.getAttributeFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeId);
-  }
-
-  public AttributeDto updateAttributeFromRuleset(UUID rulesetId, UUID attributeId, AttributeUpdateDto attributeUpdateDto) {
-    return this.schemaService.updateAttributeFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeId, attributeUpdateDto);
-  }
-
-  public void deleteAttributeFromRuleset(UUID rulesetId, UUID attributeId) {
-    this.schemaService.deleteAttributeFromSchema(rulesetRepository.findById(rulesetId)
-        .orElseThrow(RulesetNotFoundException::new).getSchema().getSchemaId(), attributeId);
-  }
 }
