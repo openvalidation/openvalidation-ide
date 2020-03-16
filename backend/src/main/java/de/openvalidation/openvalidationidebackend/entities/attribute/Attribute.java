@@ -33,9 +33,21 @@ public class Attribute {
     }
   }
 
-  public void setValue(String value) {
-    if (attributeType != AttributeType.OBJECT && attributeType != AttributeType.LIST) {
-      this.value = value;
+  public void setValue(String value) throws AttributeValueNotValidException {
+    try {
+      switch (this.attributeType) {
+        case BOOLEAN:
+          this.value = "" + Boolean.parseBoolean(value);
+          break;
+        case NUMBER:
+          this.value = "" + Double.parseDouble(value);
+          break;
+        case TEXT:
+          this.value = value;
+          break;
+      }
+    } catch (NullPointerException | NumberFormatException e) {
+      throw new AttributeValueNotValidException();
     }
   }
 
