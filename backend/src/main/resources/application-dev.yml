@@ -3,3 +3,4 @@ spring:
     url: jdbc:postgresql://${OPENVALIDATION_IDE_DB}:5432/${OPENVALIDATION_IDE_DB_NAME}
     username: ${OPENVALIDATION_IDE_DB_USER}
     password: ${OPENVALIDATION_IDE_DB_PW}
+    platform: postgresql

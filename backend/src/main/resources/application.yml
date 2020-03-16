@@ -3,6 +3,10 @@ spring:
     name: openvalidation-ide-backend
   profiles:
     active: local
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:openvalidation_ide;MODE=MYSQL
+    initialization-mode: always
   # Hibernate ddl auto
   jpa:
     hibernate:
