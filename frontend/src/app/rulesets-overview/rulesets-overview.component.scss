@@ -26,10 +26,10 @@
         align-items: center;
 
         mat-icon {
-            --add-size: 100px;
-            width: var(--add-size);
-            height: var(--add-size);
-            font-size: var(--add-size);
+            $add-size: 100px;
+            width: $add-size;
+            height: $add-size;
+            font-size: $add-size;
         }
     }
 
@@ -52,6 +52,7 @@
     .content {
 
         .description {
+            height: 40px;
             margin: 3em 3em 1em;
             text-align: center;
         }
@@ -70,7 +71,7 @@
     margin: 0 4px 4px 0;
 
     .title {
-        color: #4bd6f4;
-        text-shadow: 0 0 2px #4bd6f4;
+        color: #4bd6f4; // TODO: Theme Variable
+        text-shadow: 0 0 2px #4bd6f4; // TODO: Theme Variable
     }
 }
