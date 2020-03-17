@@ -36,7 +36,7 @@ export class EllipsisDirective implements AfterViewInit {
       this.innerText = this.el.innerText.trim();
     }
 
-    this.el.innerText = this.innerText;
+    this.renderer.setProperty(this.el, 'innerText', this.innerText);
 
     const text = this.innerText.split(' ');
     while (text.length > 0 && this.el.scrollHeight > this.el.clientHeight) {
