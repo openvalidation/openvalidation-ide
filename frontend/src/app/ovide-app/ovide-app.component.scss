@@ -1,11 +1,29 @@
+@use '~@angular/material/theming';
+
+@mixin sidenav-component-theme($theme) {
+
+    $primary: map-get($theme, primary);
+
+    $foreground: map-get($theme, foreground);
+    $background: map-get($theme, background);
+  
+    .mat-sidenav{
+      background-color: theming.mat-color($background, app-bar);
+      color: theming.mat-color($foreground, text);
+  
+      box-shadow: -35px 0px 20px 40px rgba(white, 0.2);
+      border: none;
+    }
+
+    .navigation-icon-button.active .mat-icon {
+        color:  theming.mat-color($primary);
+    }
+}
+
+
 .ovide-sidenav-container {
     height: 100%;
     width: 100%;
-}
-
-mat-sidenav {
-    box-shadow: -35px 0px 20px 40px rgba(189,189,189,0.2);
-    border: none;
 }
 
 .ovide-sidenav {
@@ -17,10 +35,6 @@ mat-sidenav {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-}
-
-.navigation-icon-button.active .mat-icon {
-    color: aqua;
 }
 
 .profile-picture {
