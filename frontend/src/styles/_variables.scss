@@ -9,6 +9,9 @@ $--attribute-type-boolean: --attribute-type-boolean;
 $--attribute-type-collection: --attribute-type-collection;
 $--attribute-type-object: --attribute-type-object;
 
+// material design dark theme toggle
+$--ovide-mat-is-dark: --ovide-mat-is-dark;
+
 // material design primay palette
 $--ovide-mat-primary-50: --ovide-mat-primary-50;
 $--ovide-mat-primary-100: --ovide-mat-primary-100;
@@ -70,19 +73,6 @@ $--ovide-mat-accent-contrast-A100: --ovide-mat-accent-contrast-A100;
 $--ovide-mat-accent-contrast-A200: --ovide-mat-accent-contrast-A200;
 $--ovide-mat-accent-contrast-A400: --ovide-mat-accent-contrast-A400;
 $--ovide-mat-accent-contrast-A700: --ovide-mat-accent-contrast-A700;
-
-// material design etc.
-$--ovide-mat-is-dark:               --ovide-mat-is-dark;
-$--ovide-mat-light-primary-text:    --ovide-mat-light-primary-text;
-$--ovide-mat-light-secondary-text:  --ovide-mat-light-secondary-text;
-$--ovide-mat-light-disabled-text:   --ovide-mat-light-disabled-text;
-$--ovide-mat-light-dividers:        --ovide-mat-light-dividers;
-$--ovide-mat-light-focused:         --ovide-mat-light-focused;
-$--ovide-mat-dark-primary-text:     --ovide-mat-dark-primary-text;
-$--ovide-mat-dark-secondary-text:   --ovide-mat-dark-secondary-text;
-$--ovide-mat-dark-disabled-text:    --ovide-mat-dark-disabled-text;
-$--ovide-mat-dark-dividers:         --ovide-mat-dark-dividers;
-$--ovide-mat-dark-focused:          --ovide-mat-dark-focused;
 
 // material design foreground palette
 $--ovide-mat-foreground-base:              --ovide-mat-foreground-base;
