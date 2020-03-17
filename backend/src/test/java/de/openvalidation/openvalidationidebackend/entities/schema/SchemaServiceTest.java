@@ -82,7 +82,7 @@ public class SchemaServiceTest {
   }
 
   @Test
-  public void whenInvalidId_onGetAllAttributes_thenAllAttributesShouldBeFound() {
+  public void whenInvalidId_onGetAllAttributes_thenExceptionShouldBeThrown() {
     assertThrows(SchemaNotFoundException.class, () -> schemaService.getAllAttributesFromSchema(invalidSchemaId));
   }
 
@@ -155,7 +155,7 @@ public class SchemaServiceTest {
   }
 
   @Test
-  public void whenInvalidSchemaId_onDeleteAttributee_thenExceptionShouldBeThrown() {
+  public void whenInvalidSchemaId_onDeleteAttribute_thenExceptionShouldBeThrown() {
     UUID attributeId = new SchemaBuilder().build().getAttributes().iterator().next().getAttributeId();
 
     assertThrows(SchemaNotFoundException.class, () -> schemaService.deleteAttributeFromSchema(invalidSchemaId, attributeId));
