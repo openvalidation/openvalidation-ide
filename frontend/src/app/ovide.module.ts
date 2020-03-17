@@ -16,6 +16,7 @@ import { OvideBackendApiModule, BASE_PATH } from '@ovide/backend';
 import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
+import { DesignTestComponent } from './design-test/design-test.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { environment } from 'environments/environment';
     SchemaEditorComponent,
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
+    DesignTestComponent,
   ],
   imports: [
     BrowserModule,

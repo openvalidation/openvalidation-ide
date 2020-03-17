@@ -38,17 +38,17 @@ export class RulesetTestsuiteComponent implements OnInit {
   ngOnInit(): void {
     this.tableDisplayedColumns = ['name', 'age', 'street', 'city', 'expected', 'passed'];
 
-    const fakeData = function(): TableDataRow {
+    const fakeData = (): TableDataRow => {
       return {
         name: faker.name.findName(),
-        age: faker.random.number({min:10, max:80}),
+        age: faker.random.number({min: 10, max: 80}),
         street: faker.address.streetName(),
         city: faker.address.city(),
         expected: faker.random.boolean(),
         passed: faker.random.boolean(),
-      }
+      };
     };
-    this.tableDataSource = Array.from({length: 30}, fakeData)
+    this.tableDataSource = Array.from({length: 30}, fakeData);
   }
 
 }
