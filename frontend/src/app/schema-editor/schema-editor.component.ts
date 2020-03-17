@@ -45,8 +45,8 @@ export class SchemaEditorComponent implements OnInit {
         const createDto: AttributeCreateDto = {
           attributeType: result.attributeType,
           name: result.name
-        }
-        this.attributeService.createAttributesFromSchema(this._schemaId, [createDto])
+        };
+        this.attributeService.addAttributesToSchema(this._schemaId, [createDto])
         .subscribe(
           success => this.attributes.push(success[0]),
           error => console.error(error)
@@ -76,7 +76,7 @@ export class SchemaEditorComponent implements OnInit {
         const updateDto: AttributeUpdateDto = {
           attributeType: result.attributeType,
           name: result.name
-        }
+        };
         this.attributeService.updateAttributeFromSchema(this._schemaId, attribute.attributeId, updateDto)
         .subscribe(
           success => {

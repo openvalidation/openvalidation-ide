@@ -89,12 +89,12 @@ export class AttributesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<AttributeDto>>;
-    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<AttributeDto>>>;
-    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<AttributeDto>>>;
-    public createAttributesFromSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public addAttributesToSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<AttributeDto>>;
+    public addAttributesToSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<AttributeDto>>>;
+    public addAttributesToSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<AttributeDto>>>;
+    public addAttributesToSchema(schemaId: string, attributeCreateDto?: Array<AttributeCreateDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (schemaId === null || schemaId === undefined) {
-            throw new Error('Required parameter schemaId was null or undefined when calling createAttributesFromSchema.');
+            throw new Error('Required parameter schemaId was null or undefined when calling addAttributesToSchema.');
         }
 
         let headers = this.defaultHeaders;

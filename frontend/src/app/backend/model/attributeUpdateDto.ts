@@ -13,9 +13,8 @@
 
 export interface AttributeUpdateDto { 
     name?: string;
-    attributeType?: AttributeUpdateDto.AttributeTypeEnum;
+    attributeType: AttributeUpdateDto.AttributeTypeEnum;
     value?: string;
-    children?: Array<AttributeUpdateDto>;
 }
 export namespace AttributeUpdateDto {
     export type AttributeTypeEnum = 'BOOLEAN' | 'NUMBER' | 'TEXT' | 'LIST' | 'OBJECT';
