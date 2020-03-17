@@ -10,12 +10,10 @@
  * Do not edit the class manually.
  */
 import { AttributeDto } from './attributeDto';
-import { RulesetDto } from './rulesetDto';
 
 
 export interface SchemaDto { 
     schemaId?: string;
-    rulesets?: Array<RulesetDto>;
     attributes?: Array<AttributeDto>;
 }
 

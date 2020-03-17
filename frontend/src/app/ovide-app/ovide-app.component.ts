@@ -10,7 +10,7 @@ import { take } from 'rxjs/operators';
 })
 export class OvideAppComponent implements OnInit {
   isEditing: boolean;
-  currentRuleset: number;
+  currentRuleset: string;
 
   constructor(
     private router: Router,
@@ -27,9 +27,10 @@ export class OvideAppComponent implements OnInit {
   private checkIfEditingRoute(event) {
     if (event instanceof NavigationEnd) {
       const currentUrlSegments = event.urlAfterRedirects.split('/');
-      if (currentUrlSegments.length > 2 && currentUrlSegments[1] === 'rulesets' && !isNaN(Number(currentUrlSegments[2]))) {
+      if (currentUrlSegments.length > 2 && currentUrlSegments[1] === 'rulesets'
+        && currentUrlSegments[2].match(/[0-9A-F]{8}\-[0-9A-F]{4}\-[0-9A-F]{4}\-[0-9A-F]{4}\-[0-9A-F]{12}/i) !== null) {
         this.isEditing = true;
-        this.currentRuleset = Number(currentUrlSegments[2]);
+        this.currentRuleset = currentUrlSegments[2];
       } else {
         this.isEditing = false;
         this.currentRuleset = null;
