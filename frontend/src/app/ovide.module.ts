@@ -18,6 +18,8 @@ import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
 import { EllipsisDirective } from './directives/ellipsis.directive';
 
+import { DesignTestComponent } from './design-test/design-test.component';
+
 @NgModule({
   declarations: [
     OvideAppComponent,
@@ -28,6 +30,7 @@ import { EllipsisDirective } from './directives/ellipsis.directive';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
+    DesignTestComponent,
   ],
   imports: [
     BrowserModule,
