@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
@@ -13,6 +13,7 @@ export class EllipsisDirective implements AfterViewInit {
   private innerText: string;
 
   constructor(
+    private renderer: Renderer2,
     private readonly elementRef: ElementRef,
     @Inject(PLATFORM_ID) private readonly platformId
   ) { }
@@ -40,7 +41,7 @@ export class EllipsisDirective implements AfterViewInit {
     const text = this.innerText.split(' ');
     while (text.length > 0 && this.el.scrollHeight > this.el.clientHeight) {
       text.pop();
-      this.el.innerText = `${text.join(' ')}…`;
+      this.renderer.setProperty(this.el, 'innerText', `${text.join(' ')}…`);
     }
   }
 }

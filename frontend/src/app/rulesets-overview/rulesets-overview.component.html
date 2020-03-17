@@ -4,7 +4,7 @@
 <div *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.rulesetId, 'edit']">
     <h2 class="title">{{ ruleset.name }}</h2>
     <div class="content">
-        <p class="description" style="height: 40px;" ovideEllipsis>{{ ruleset.description }}</p>
+        <p class="description" ovideEllipsis>{{ ruleset.description }}</p>
         <div class="meta-data">{{ ruleset.createdAt | date }}, {{ ruleset.createdBy }}</div>
     </div>
 </div>
