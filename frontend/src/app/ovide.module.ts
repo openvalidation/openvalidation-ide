@@ -30,7 +30,7 @@ import { DesignTestComponent } from './design-test/design-test.component';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
-    DesignTestComponent,
+    DesignTestComponent
   ],
   imports: [
     BrowserModule,
