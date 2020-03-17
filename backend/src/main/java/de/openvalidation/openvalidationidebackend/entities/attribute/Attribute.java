@@ -1,5 +1,6 @@
 package de.openvalidation.openvalidationidebackend.entities.attribute;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Attribute {
   @Id
   private UUID attributeId;

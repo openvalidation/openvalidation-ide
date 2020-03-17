@@ -1,6 +1,7 @@
 package de.openvalidation.openvalidationidebackend.entities.schema;
 
 import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Schema {
   @Id
   private UUID schemaId;
