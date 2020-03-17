@@ -14,7 +14,7 @@ public class RulesetBuilder {
   private Date createdAt = Calendar.getInstance().getTime();
   private String createdBy = "Validaria";
   private String rules = "your name HAS to be Validaria";
-  private Schema schema = new SchemaBuilder().addAttribute(new AttributeBuilder().build()).build();
+  private Schema schema = new SchemaBuilder().build();
 
   public RulesetBuilder setRulesetId(UUID rulesetId) {
     this.rulesetId = rulesetId;
