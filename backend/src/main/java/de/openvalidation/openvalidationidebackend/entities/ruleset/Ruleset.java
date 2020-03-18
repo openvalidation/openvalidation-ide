@@ -1,6 +1,7 @@
 package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
 import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Ruleset {
   @Id
   private UUID rulesetId;
