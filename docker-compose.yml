@@ -37,6 +37,11 @@ services:
         networks:
             - openvalidation_ide_backend
 
+    openvalidation-languageserver:
+        image: openvalidation/openvalidation-languageserver:development
+        ports: 
+            - "3010:3010"
+
 volumes:
     openvalidation_ide_db: {}
 
