@@ -17,21 +17,9 @@ import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
 import { EllipsisDirective } from './directives/ellipsis.directive';
-import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-const monacoConfig: NgxMonacoEditorConfig = {
-  defaultOptions: {
-    scrollBeyondLastLine: false
-  },
-  onMonacoLoad: () => {
-    monaco.languages.register({
-      id: 'ov',
-      extensions: ['.ov'],
-      aliases: ['OV', 'ov', 'openVALIDATION']
-    });
-    console.log((window as any).monaco);
-  }
-};
+import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
 
 import { DesignTestComponent } from './design-test/design-test.component';
 
@@ -56,7 +44,7 @@ import { DesignTestComponent } from './design-test/design-test.component';
     OvideBackendApiModule,
     MaterialDesignModule,
     NgxChartsModule,
-    MonacoEditorModule.forRoot(monacoConfig),
+    MonacoEditorModule.forRoot(MonacoConfig),
     FormsModule
   ],
   providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH}],
