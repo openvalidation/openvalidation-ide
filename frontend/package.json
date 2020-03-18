@@ -24,6 +24,8 @@
     "@angular/router": "^9.0.7",
     "@swimlane/ngx-charts": "^13.0.2",
     "faker": "^4.1.0",
+    "monaco-languageclient": "^0.11.0",
+    "ngx-monaco-editor": "^8.1.1",
     "normalize.css": "^8.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.11.1",

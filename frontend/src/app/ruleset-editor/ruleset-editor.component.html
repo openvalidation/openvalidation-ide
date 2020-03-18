@@ -1,6 +1,8 @@
 
 <div class="ruleset-editor">
-    <div class="editor mat-elevation-z8"><textarea></textarea></div>
+    <div class="editor mat-elevation-z8">
+        <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+    </div>
     <ovide-schema-editor [schemaId]="(ruleset$ | async)?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
         <mat-chip-list>
