@@ -50,7 +50,7 @@ public class RulesetService {
   }
 
   public void deleteRuleset(UUID rulesetId) {
-    rulesetRepository.deleteById(rulesetId);
+    rulesetRepository.delete(rulesetRepository.findById(rulesetId).orElseThrow(RulesetNotFoundException::new));
   }
 
 }

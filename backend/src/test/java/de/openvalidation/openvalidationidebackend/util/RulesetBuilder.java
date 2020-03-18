@@ -1,6 +1,8 @@
 package de.openvalidation.openvalidationidebackend.util;
 
 import de.openvalidation.openvalidationidebackend.entities.ruleset.Ruleset;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetCreateDto;
+import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetUpdateDto;
 import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 
 import java.util.Calendar;
@@ -53,6 +55,14 @@ public class RulesetBuilder {
 
   public Ruleset build() {
     return new Ruleset(rulesetId, name, description, createdAt, createdBy, rules, schema);
+  }
+
+  public RulesetCreateDto buildCreateDto() {
+    return new RulesetCreateDto(name, description, createdBy, schema != null ? schema.getSchemaId() : null);
+  }
+
+  public RulesetUpdateDto buildUpdateDto() {
+    return new RulesetUpdateDto("Updated name", "Updated description", "Updated rules");
   }
 
 }
