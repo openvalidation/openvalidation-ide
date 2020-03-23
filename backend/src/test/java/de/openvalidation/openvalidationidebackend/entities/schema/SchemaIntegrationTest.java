@@ -152,6 +152,19 @@ public class SchemaIntegrationTest {
   }
 
   @Test
+  public void whenDuplicateAttributeName_onCreateAttributes_thenStatusClientError() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+    Set<Attribute> createAttributes = new HashSet<>();
+    createAttributes.add(new AttributeBuilder().setName("dup").build());
+    createAttributes.add(new AttributeBuilder().setName("dup").build());
+
+    mockMvc.perform(post("/schemas/" + schemaId + "/attributes")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(toJson(createAttributes)))
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
   public void whenValidIds_onGetAttribute_thenStatusSuccessful() throws Exception {
     String schemaId = new SchemaBuilder().build().getSchemaId().toString();
     String attributeId = new SchemaBuilder().build().getAttributes().iterator().next().getAttributeId().toString();
