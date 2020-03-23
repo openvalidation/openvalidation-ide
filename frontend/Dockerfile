@@ -7,7 +7,7 @@ WORKDIR /build
 RUN npm ci
 RUN npm install -g @angular/cli@9.0.7
 
-COPY angular.json browserslist tsconfig* /build/
+COPY angular.json browserslist tsconfig* extra-webpack.config.js /build/
 COPY src /build/src
 RUN ng build --prod
 
