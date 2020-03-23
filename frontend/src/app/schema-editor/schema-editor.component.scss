@@ -4,20 +4,28 @@
     width: 100%;
 }
 
-.attribute-type {
-    &.TEXT {
-        background-color: theme-var($--attribute-type-string);
-   } 
-    &.NUMBER {
-        background-color: theme-var($--attribute-type-number);
-    }
-    &.BOOLEAN {
-        background-color: theme-var($--attribute-type-boolean);
-    }
-    &.LIST {
-        background-color: theme-var($--attribute-type-collection);
-    }
-    &.OBJECT {
-        background-color: theme-var($--attribute-type-object);
+$attribute-types: (
+    TEXT: theme-var($--attribute-type-string),
+    NUMBER: theme-var($--attribute-type-number),
+    BOOLEAN: theme-var($--attribute-type-boolean),
+    LIST: theme-var($--attribute-type-collection),
+    OBJECT: theme-var($--attribute-type-object)
+);
+
+@mixin attribute-type-chips {
+    .attribute-type {
+        @each $name, $color in $attribute-types {
+            &.#{$name} {
+                background-color: $color;
+                &.outline {
+                    border: 1px solid $color;
+                    background-color: transparent;
+                    color: $color;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }
+
+@include attribute-type-chips();

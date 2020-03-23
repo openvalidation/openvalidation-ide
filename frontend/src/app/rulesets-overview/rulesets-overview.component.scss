@@ -9,21 +9,32 @@
     gap: 50px;
     justify-content: space-evenly;
     grid-template-rows: auto;
-}
+} 
 
 .ruleset-card {
     margin: 2px;
     border-radius: 15px;
     padding: 0;
-    box-shadow: 0 4px 2px -1px rgba(0, 0, 0, 0.2);
-    background-color: #404040; // TODO: Theme Variable
-    transition: box-shadow 0.2s,
-    margin 0.2s;
+    box-shadow: 0 4px 2px -1px theme-var($--ruleset-card-shadow);
+    background-color: theme-var($--ruleset-card-background-body);
+    color: theme-var($--ruleset-card-foreground-body);
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 3px 13px 7px theme-var($--ruleset-card-hover-shadow);
+        transform: translate(-4px, -4px);
+        .title {
+            color: theme-var($--ruleset-card-hover-title);
+            text-shadow: 0 0 2px theme-var($--ruleset-card-hover-title);
+        }
+    }
 
     &.new {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: theme-var($--ruleset-card-foreground-body);
 
         mat-icon {
             $add-size: 100px;
@@ -38,15 +49,14 @@
         border-radius: 15px 15px 0 0;
         padding: 0.7em 3em 0.5em;
         margin: 0;
-        background-color: #595959; // TODO: Theme Variable
-
+        background-color: theme-var($--ruleset-card-background-header);
+        color: theme-var($--ruleset-card-foreground-header);
         white-space: nowrap;
         overflow: hidden;
         text-align: center;
         text-overflow: ellipsis;
 
-
-        transition: color 0.5s, text-shadow 0.5s;
+        transition: color 0.3s, text-shadow 0.3s;
     }
 
     .content {
@@ -62,16 +72,5 @@
             margin: 2em 3em 1.5em;
             text-align: center;
         }
-    }
-}
-
-.ruleset-card:hover {
-    cursor: pointer;
-    box-shadow: 0 3px 13px 7px rgba(0, 0, 0, 0.2);
-    margin: 0 4px 4px 0;
-
-    .title {
-        color: #4bd6f4; // TODO: Theme Variable
-        text-shadow: 0 0 2px #4bd6f4; // TODO: Theme Variable
     }
 }

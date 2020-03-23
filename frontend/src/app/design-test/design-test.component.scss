@@ -1,0 +1,38 @@
+.form-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr) );
+    grid-template-rows: auto;
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+}
+
+.grid-2 {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 3fr;
+    gap: 50px;
+    justify-items: center;
+    align-items: center;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+.spacer {
+    height: 20px;
+    margin-right: 40px;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}

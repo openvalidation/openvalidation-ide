@@ -11,9 +11,16 @@
                 </a>
                 <a *ngIf="isEditing" mat-icon-button aria-label="Edit ruleset"
                    class="navigation-icon-button"
-                   routerLink="/rulesets/{{ currentRuleset }}/edit" routerLinkActive="active">
+                   [routerLink]="['rulesets', currentRuleset, 'edit']"
+                   routerLinkActive="active">
                     <mat-icon>edit</mat-icon>
                 </a>
+                <a *ngIf="isEditing" mat-icon-button aria-label="Test ruleset"
+                class="navigation-icon-button"
+                [routerLink]="['rulesets', currentRuleset, 'test']"
+                routerLinkActive="active">
+                 <mat-icon>square_foot</mat-icon>
+             </a>
             </div>
             <button mat-icon-button aria-label="Switch Theme" (click)="toggleTheme()">
                 <mat-icon>lightbulb</mat-icon>
