@@ -2,9 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// tslint:disable: no-string-literal
+
 export const environment = {
   production: false,
-  API_BASE_PATH: 'http://127.0.0.1:8080'
+  API_BASE_PATH: window['env']['API_BASE_PATH'] || 'http://127.0.0.1:8080'
 };
 
 /*
