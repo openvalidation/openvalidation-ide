@@ -1,6 +1,3 @@
-@use './app/ovide-app/ovide-app.component' as ovide-app;
-@use './app/rulesets-overview/rulesets-overview.component' as rulesets-overview;
-
 @import 'variables';
 @import '~@angular/material/theming';
 @include mat-core(); 
@@ -127,5 +124,3 @@ $ovide-theme: (
 }
 
 @include ovide-app-container($ovide-theme);
-@include ovide-app.sidenav-component-theme($ovide-theme);
-@include rulesets-overview.rulesets-overview-theme($ovide-theme);

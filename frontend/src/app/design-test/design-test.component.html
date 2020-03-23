@@ -148,7 +148,7 @@
     
           <ng-container matColumnDef="expected">
             <th mat-header-cell *matHeaderCellDef> Message expected? </th>
-            <td mat-cell *matCellDef="let element"> <mat-slide-toggle [checked]="element.expected"></mat-slide-toggle></td>
+            <td mat-cell *matCellDef="let element"> <mat-slide-toggle [color]="'primary'" [checked]="element.expected"></mat-slide-toggle></td>
           </ng-container>
     
           <ng-container matColumnDef="passed">
