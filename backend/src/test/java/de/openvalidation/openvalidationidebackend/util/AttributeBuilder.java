@@ -2,6 +2,7 @@ package de.openvalidation.openvalidationidebackend.util;
 
 import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
 import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeType;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public class AttributeBuilder {
   private UUID attributeId = UUID.fromString("3e98ccbe-678b-11ea-bc55-0242ac130003");
-  private String name = "name";
+  private String name = RandomStringUtils.randomAlphabetic(10);
   private AttributeType attributeType = AttributeType.TEXT;
   private String value = "Satoshi";
   private Set<Attribute> children = new HashSet<>();

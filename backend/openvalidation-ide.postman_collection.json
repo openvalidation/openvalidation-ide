@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c0723777-6c56-466f-b152-ea153a73d4e2",
+		"_postman_id": "d281c0fc-6cbf-480d-a235-c3e84e39f49f",
 		"name": "openvalidation-ide",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -149,6 +149,18 @@
 			"item": [
 				{
 					"name": "/schemas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c0bb7437-cf2c-4a66-8fc2-70c5e8d62525",
+								"exec": [
+									"pm.environment.set(\"schemaId\", (JSON.parse(responseBody))[0].schemaId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -195,7 +207,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"attributes\": [\n    \t{\n    \t\t\"name\": \"def\",\n    \t\t\"attributeType\": \"BOOLEAN\",\n    \t\t\"value\": true\n    \t}\n\t]\n}",
+							"raw": "{\n    \"attributes\": [\n    \t{\n    \t\t\"name\": \"def\",\n    \t\t\"attributeType\": \"NUMBER\",\n    \t\t\"value\": 10\n    \t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
