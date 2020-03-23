@@ -13,7 +13,7 @@ import {
   IConnection
 } from 'monaco-languageclient';
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
-import { NotificationEnum } from 'ov-language-server-types';
+import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
 import { Range } from 'monaco-languageclient';
 
@@ -34,7 +34,13 @@ export class RulesetEditorComponent implements OnInit {
     },
     lineNumbers: false
   };
-  code = 'The Text Must BE EQUAL TO Validaria';
+  code = 'IF text IS NOT humbug\n' +
+    'THEN Das ist kein humbug\n' +
+    '\n' +
+    'age LOWER THAN 18 as underage\n' +
+    '\n' +
+    'IF underage\n' +
+    'THEN too young';
   ruleset$: Observable<RulesetDto>;
   private editor;
   private currentConnection: IConnection;
@@ -54,8 +60,11 @@ export class RulesetEditorComponent implements OnInit {
       );
 
     this.themeService.darkThemeActive$.subscribe((isDark) => {
+      const nextTheme = isDark ? 'vs-dark' : 'vs';
       if (this.editor !== undefined) {
-        this.editor.setTheme(isDark ? 'vs-dark' : 'vs');
+        monaco.editor.setTheme(nextTheme);
+      } else {
+        this.editorOptions.theme = nextTheme;
       }
     });
   }
@@ -63,7 +72,11 @@ export class RulesetEditorComponent implements OnInit {
   monacoInit(editor) {
     this.editor = editor;
     // install Monaco language client services
-    MonacoServices.install(editor);
+    try {
+      MonacoServices.get();
+    } catch (e) {
+      MonacoServices.install(editor);
+    }
     // create the web socket
     const url = this.createUrl();
     const webSocket = this.createWebSocket(url);
@@ -103,12 +116,10 @@ export class RulesetEditorComponent implements OnInit {
           // Informs the server about the initialized schema
           this.sendSchemaChangedNotification();
           this.sendCultureConfiguration();
+          this.sendLanguageConfiguration();
 
           this.addSemanticHighlightingNotificationListener();
-          // this.addGeneratedCodeNotificationListener();
-          // this.addDidChangeTextDocumentListener();
           this.addAliasesChangesListener();
-          // this.setClickHandler();
           return Promise.resolve(this.currentConnection);
         }
       }
@@ -130,7 +141,7 @@ export class RulesetEditorComponent implements OnInit {
   private sendSchemaChangedNotification() {
     // Get current schema as yml or json
     const schemaValue = {
-      Text: 'Validaria',
+      Text: 'text',
       location: 'Humbug',
       age: 25,
     };
@@ -190,5 +201,14 @@ export class RulesetEditorComponent implements OnInit {
         });
       }
     );
+  }
+
+  private sendLanguageConfiguration() {
+    const textdocumentUri = this.editor.getModel().uri.toString();
+
+    this.currentConnection.sendNotification(NotificationEnum.LanguageChanged, {
+      language: LanguageEnum.JavaScript,
+      uri: textdocumentUri
+    });
   }
 }

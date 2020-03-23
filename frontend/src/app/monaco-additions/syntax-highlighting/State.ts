@@ -16,9 +16,6 @@ export class State implements monaco.languages.IState {
     if (!other || !(other instanceof State)) {
       return false;
     }
-    if (this.lineIndex !== (<State>other).lineIndex) {
-      return false;
-    }
-    return true;
+    return this.lineIndex === (other as State).lineIndex;
   }
 }
