@@ -2,6 +2,7 @@
     <mat-chip
         *ngFor="let attribute of attributes" 
         class="attribute-type"
+        [class.outline]="themeService.darkThemeActive$ | async"
         [ngClass]="attribute.attributeType"
         [removable]="true"
         (removed)="remove(attribute)"

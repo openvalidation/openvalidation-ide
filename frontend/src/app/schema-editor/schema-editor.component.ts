@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SchemaAttributeDialogComponent, SchemaAttributeDialogMode } from '@ovide/schema-attribute-dialog';
 import { AttributeDto, AttributesService, AttributeUpdateDto, AttributeCreateDto } from '@ovide/backend';
+import { ThemeService } from '@ovide/services/theme.service';
 
 @Component({
   selector: 'ovide-schema-editor',
@@ -22,7 +23,8 @@ export class SchemaEditorComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private attributeService: AttributesService
+    private attributeService: AttributesService,
+    public themeService: ThemeService
   ) { }
 
   ngOnInit(): void {}
