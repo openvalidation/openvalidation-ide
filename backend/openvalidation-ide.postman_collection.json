@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d281c0fc-6cbf-480d-a235-c3e84e39f49f",
+		"_postman_id": "c2040c3f-7b98-4f2a-9882-7ac0b3217219",
 		"name": "openvalidation-ide",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -320,7 +320,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"OBJECT\",\n\t\"value\": 10.3,\n\t\"children\": [\n\t\t{\n\t\t\t\"name\": \"TestChild\",\n\t\t\t\"attributeType\": \"TEXT\",\n\t\t\t\"value\": \"SuperText\"\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"OBJECT\",\n\t\"value\": 10.3,\n\t\"children\": [\n\t\t{\n\t\t\t\"name\": \"TestChild\",\n\t\t\t\"attributeType\": \"BOOLEAN\",\n\t\t\t\"value\": true\n\t\t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -357,6 +357,31 @@
 								"{{schemaId}}",
 								"attributes",
 								"{{attributeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/schemas/{{schemaId}}/export",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/x-yaml",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-path}}/schemas/{{schemaId}}/export",
+							"host": [
+								"{{base-path}}"
+							],
+							"path": [
+								"schemas",
+								"{{schemaId}}",
+								"export"
 							]
 						}
 					},

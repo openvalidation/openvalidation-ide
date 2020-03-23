@@ -1,15 +1,16 @@
 package de.openvalidation.openvalidationidebackend.entities.schema;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import de.openvalidation.openvalidationidebackend.core.DtoMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,5 +93,41 @@ public class SchemaService {
       schema.setAttributes(attributes);
       return schema;
     }).orElseThrow(SchemaNotFoundException::new));
+  }
+
+  public String exportSchema(UUID schemaId, String mediaType) throws JsonProcessingException {
+    Schema schema = schemaRepository.findById(schemaId).orElseThrow(SchemaNotFoundException::new);
+    ObjectMapper objectMapper = getSpecificObjectMapper(mediaType);
+
+    return objectMapper.writeValueAsString(convertAttributesToMap(schema.getAttributes()));
+  }
+
+  private ObjectMapper getSpecificObjectMapper(String mediaType) {
+    if (mediaType.equalsIgnoreCase("application/x-yaml")) {
+      return new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+    }
+    return new ObjectMapper();
+  }
+
+  private Map<String, Object> convertAttributesToMap(Set<Attribute> attributes) {
+    Map<String, Object> map = new HashMap<>();
+    attributes.forEach(attribute -> {
+      switch (attribute.getAttributeType()) {
+        case TEXT:
+          map.put(attribute.getName(), attribute.getValue());
+          break;
+        case NUMBER:
+          map.put(attribute.getName(), Double.parseDouble(attribute.getValue()));
+          break;
+        case BOOLEAN:
+          map.put(attribute.getName(), Boolean.parseBoolean(attribute.getValue()));
+          break;
+        case LIST:
+        case OBJECT:
+          map.put(attribute.getName(), convertAttributesToMap(attribute.getChildren()));
+          break;
+      }
+    });
+    return map;
   }
 }

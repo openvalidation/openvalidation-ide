@@ -1,16 +1,19 @@
 package de.openvalidation.openvalidationidebackend.entities.schema;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeCreateDto;
 import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeDto;
 import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeUpdateDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -100,5 +103,14 @@ public class SchemaController {
   public void deleteAttributeFromSchema(@PathVariable UUID schemaId,
                                         @PathVariable UUID attributeId) {
     this.schemaService.deleteAttributeFromSchema(schemaId, attributeId);
+  }
+
+  // /schema/{schemaId}/export
+
+  @Tag(name = "schema")
+  @GetMapping(value = "/schemas/{schemaId}/export")
+  public String exportSchema(@RequestHeader Map<String, String> headers, @PathVariable UUID schemaId) throws JsonProcessingException {
+    return this.schemaService.exportSchema(schemaId,
+        headers.getOrDefault(HttpHeaders.ACCEPT.toLowerCase(), MediaType.APPLICATION_JSON_VALUE));
   }
 }
