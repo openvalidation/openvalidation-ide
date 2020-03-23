@@ -16,6 +16,7 @@ import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
 import { Range } from 'monaco-languageclient';
+import { environment } from 'environments/environment';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -93,7 +94,7 @@ export class RulesetEditorComponent implements OnInit {
   }
 
   public createUrl(): string {
-    return 'ws://localhost:3010/ovLanguage';
+    return `${environment.LANGUAGE_SERVER_URL}/ovLanguage`;
   }
 
   public createLanguageClient(connection: MessageConnection): MonacoLanguageClient {
