@@ -1,11 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
-import { RulesetsService, RulesetDto } from '@ovide/backend';
+import { map, switchMap, take } from 'rxjs/operators';
+import { RulesetsService, RulesetDto, SchemaService } from '@ovide/backend';
 import { Observable } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
-import { MonacoLanguageClient, CloseAction, ErrorAction, MonacoServices, createConnection } from 'monaco-languageclient';
+import {
+  MonacoLanguageClient,
+  CloseAction,
+  ErrorAction,
+  MonacoServices,
+  createConnection,
+  IConnection
+} from 'monaco-languageclient';
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
+import { NotificationEnum } from 'ov-language-server-types';
+import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
+import { Range } from 'monaco-languageclient';
+
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
 @Component({
@@ -23,9 +34,10 @@ export class RulesetEditorComponent implements OnInit {
     },
     lineNumbers: false
   };
-  code = 'Der Text muss Validaria sein';
+  code = 'The Text Must BE EQUAL TO Validaria';
   ruleset$: Observable<RulesetDto>;
   private editor;
+  private currentConnection: IConnection;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +61,7 @@ export class RulesetEditorComponent implements OnInit {
   }
 
   monacoInit(editor) {
+    this.editor = editor;
     // install Monaco language client services
     MonacoServices.install(editor);
     // create the web socket
@@ -85,7 +98,18 @@ export class RulesetEditorComponent implements OnInit {
       // create a language client connection from the JSON RPC connection on demand
       connectionProvider: {
         get: (errorHandler, closeHandler) => {
-          return Promise.resolve(createConnection(connection as any, errorHandler, closeHandler));
+          this.currentConnection = createConnection(connection as any, errorHandler, closeHandler);
+
+          // Informs the server about the initialized schema
+          this.sendSchemaChangedNotification();
+          this.sendCultureConfiguration();
+
+          this.addSemanticHighlightingNotificationListener();
+          // this.addGeneratedCodeNotificationListener();
+          // this.addDidChangeTextDocumentListener();
+          this.addAliasesChangesListener();
+          // this.setClickHandler();
+          return Promise.resolve(this.currentConnection);
         }
       }
     });
@@ -101,5 +125,70 @@ export class RulesetEditorComponent implements OnInit {
       debug: false
     };
     return new ReconnectingWebSocket.default(socketUrl, [], socketOptions);
+  }
+
+  private sendSchemaChangedNotification() {
+    // Get current schema as yml or json
+    const schemaValue = {
+      Text: 'Validaria',
+      location: 'Humbug',
+      age: 25,
+    };
+    const textdocumentUri = this.editor.getModel().uri.toString();
+    this.currentConnection.sendNotification(NotificationEnum.SchemaChanged, {
+      schema: JSON.stringify(schemaValue),
+      uri: textdocumentUri,
+    });
+  }
+
+  /**
+   * Adds listener to the notification ``textDocument/semanticHighlighting`` to set a new
+   * tokenizer for syntax-highlighting
+   */
+  private addSemanticHighlightingNotificationListener() {
+    // Handler for semantic-highlighting
+    this.currentConnection.onNotification(
+      NotificationEnum.SemanticHighlighting,
+      (params: any) => {
+        const jsonParameter = JSON.parse(params) as {
+          range: Range;
+          pattern: string;
+        }[];
+        monaco.languages.setTokensProvider(
+          'ov',
+          createTokenizationSupport(jsonParameter)
+        );
+      }
+    );
+  }
+
+  /**
+   * Sends the client the culture and language to the server
+   */
+  private sendCultureConfiguration() {
+    const textdocumentUri = this.editor.getModel().uri.toString();
+
+    this.currentConnection.sendNotification(NotificationEnum.CultureChanged, {
+      culture: 'en',
+      uri: textdocumentUri
+    });
+  }
+
+  /**
+   * Adds listener to the notification ``textDocument/aliasesChanges`` to set a few
+   * language-configurations for the ov-language
+   */
+  private addAliasesChangesListener() {
+    // Handler for semantic-highlighting
+    this.currentConnection.onNotification(
+      NotificationEnum.CommentKeywordChanged,
+      (params: string) => {
+        monaco.languages.setLanguageConfiguration('ov', {
+          comments: {
+            lineComment: params as string
+          }
+        });
+      }
+    );
   }
 }
