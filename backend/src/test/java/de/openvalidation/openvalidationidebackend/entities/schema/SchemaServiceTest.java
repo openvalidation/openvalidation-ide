@@ -105,6 +105,15 @@ public class SchemaServiceTest {
   }
 
   @Test
+  public void whenDuplicateAttributeName_onCreateAttributes_thenExceptionShouldBeThrown() {
+    Set<AttributeCreateDto> attributeCreateDtos = new HashSet<>();
+    attributeCreateDtos.add(createAttributeCreateDtoFromAttributeEntity(new AttributeBuilder().setName("dup").build()));
+    attributeCreateDtos.add(createAttributeCreateDtoFromAttributeEntity(new AttributeBuilder().setName("dup").build()));
+
+    assertThrows(AttributeNameDuplicateException.class, () -> schemaService.addAttributesToSchema(validSchemaId, attributeCreateDtos));
+  }
+
+  @Test
   public void whenValidIds_onGetAttribute_thenAttributeShouldBeFound() {
     UUID attributeId = new SchemaBuilder().build().getAttributes().iterator().next().getAttributeId();
     AttributeDto foundAttribute = schemaService.getAttributeFromSchema(validSchemaId, attributeId);

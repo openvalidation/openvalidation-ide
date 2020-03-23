@@ -1,6 +1,7 @@
 package de.openvalidation.openvalidationidebackend.entities.schema;
 
 import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeNameDuplicateException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +27,19 @@ public class Schema {
     this.attributes = new HashSet<>();
   }
 
+  public void setAttributes(Set<Attribute> attributes) {
+    Set<String> names = new HashSet<>();
+    for (Attribute attribute : attributes) {
+      if (names.contains(attribute.getName())) {
+        throw new AttributeNameDuplicateException();
+      }
+      names.add(attribute.getName());
+    }
+    this.attributes = attributes;
+  }
+
   public Schema updateBySchema(Schema schema) {
-    this.attributes = !schema.attributes.isEmpty() ? schema.attributes : this.attributes;
+    this.setAttributes(schema.attributes != null && !schema.attributes.isEmpty() ? schema.attributes : this.attributes);
     return this;
   }
 }
