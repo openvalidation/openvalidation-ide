@@ -320,7 +320,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"OBJECT\",\n\t\"value\": 10.3,\n\t\"children\": [\n\t\t{\n\t\t\t\"name\": \"TestChild\",\n\t\t\t\"attributeType\": \"TEXT\",\n\t\t\t\"value\": \"SuperText\"\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"name\": \"TestAttr\",\n\t\"attributeType\": \"OBJECT\",\n\t\"value\": 10.3,\n\t\"children\": [\n\t\t{\n\t\t\t\"name\": \"TestChild\",\n\t\t\t\"attributeType\": \"BOOLEAN\",\n\t\t\t\"value\": true\n\t\t}\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -371,12 +371,6 @@
 								"key": "Accept",
 								"value": "application/x-yaml",
 								"type": "text"
-							},
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"url": {
