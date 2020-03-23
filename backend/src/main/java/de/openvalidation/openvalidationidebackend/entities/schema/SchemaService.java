@@ -95,18 +95,18 @@ public class SchemaService {
     }).orElseThrow(SchemaNotFoundException::new));
   }
 
-  public String exportSchemaInJson(UUID schemaId) throws JsonProcessingException {
+  public String exportSchema(UUID schemaId, String mediaType) throws JsonProcessingException {
     Schema schema = schemaRepository.findById(schemaId).orElseThrow(SchemaNotFoundException::new);
+    ObjectMapper objectMapper = getSpecificObjectMapper(mediaType);
 
-    ObjectMapper objectMapper = new ObjectMapper();
     return objectMapper.writeValueAsString(convertAttributesToMap(schema.getAttributes()));
   }
 
-  public String exportSchemaInYaml(UUID schemaId) throws JsonProcessingException {
-    Schema schema = schemaRepository.findById(schemaId).orElseThrow(SchemaNotFoundException::new);
-
-    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
-    return objectMapper.writeValueAsString(convertAttributesToMap(schema.getAttributes()));
+  private ObjectMapper getSpecificObjectMapper(String mediaType) {
+    if (mediaType.equalsIgnoreCase("application/x-yaml")) {
+      return new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+    }
+    return new ObjectMapper();
   }
 
   private Map<String, Object> convertAttributesToMap(Set<Attribute> attributes) {

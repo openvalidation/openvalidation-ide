@@ -105,20 +105,12 @@ public class SchemaController {
     this.schemaService.deleteAttributeFromSchema(schemaId, attributeId);
   }
 
-  // EXPORT
+  // /schema/{schemaId}/export
+
   @Tag(name = "schema")
   @GetMapping(value = "/schemas/{schemaId}/export")
-  public String exportSchemaInYaml(@RequestHeader Map<String, String> headers, @PathVariable UUID schemaId) throws JsonProcessingException {
-    for (Map.Entry<String, String> entry : headers.entrySet()) {
-      if (entry.getKey().equalsIgnoreCase(HttpHeaders.ACCEPT)) {
-        if (entry.getValue().equalsIgnoreCase(MediaType.APPLICATION_JSON_VALUE)) {
-          return this.schemaService.exportSchemaInJson(schemaId);
-        } else if (entry.getValue().equalsIgnoreCase("application/x-yaml")) {
-          return this.schemaService.exportSchemaInYaml(schemaId);
-        }
-      }
-    }
-
-    return this.schemaService.exportSchemaInJson(schemaId);
+  public String exportSchema(@RequestHeader Map<String, String> headers, @PathVariable UUID schemaId) throws JsonProcessingException {
+    return this.schemaService.exportSchema(schemaId,
+        headers.getOrDefault(HttpHeaders.ACCEPT.toLowerCase(), MediaType.APPLICATION_JSON_VALUE));
   }
 }
