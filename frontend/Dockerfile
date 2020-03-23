@@ -5,7 +5,7 @@ ENV PATH build/node_modules/.bin:$PATH
 COPY package.json package-lock.json /build/
 WORKDIR /build
 RUN npm ci
-RUN npm install -g @angular/cli@9.0.6
+RUN npm install -g @angular/cli@9.0.7
 
 COPY angular.json browserslist tsconfig* /build/
 COPY src /build/src
