@@ -3,6 +3,7 @@ package de.openvalidation.openvalidationidebackend.entities.schema;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeType;
 import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetRepository;
 import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
@@ -157,6 +158,18 @@ public class SchemaIntegrationTest {
     Set<Attribute> createAttributes = new HashSet<>();
     createAttributes.add(new AttributeBuilder().setName("dup").build());
     createAttributes.add(new AttributeBuilder().setName("dup").build());
+
+    mockMvc.perform(post("/schemas/" + schemaId + "/attributes")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(toJson(createAttributes)))
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void whenInvalidValue_onCreateAttributes_thenStatusClientError() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+    Set<Attribute> createAttributes = new HashSet<>();
+    createAttributes.add(new AttributeBuilder().setAttributeType(AttributeType.NUMBER).setValue("Test_NaN").build());
 
     mockMvc.perform(post("/schemas/" + schemaId + "/attributes")
         .contentType(MediaType.APPLICATION_JSON)

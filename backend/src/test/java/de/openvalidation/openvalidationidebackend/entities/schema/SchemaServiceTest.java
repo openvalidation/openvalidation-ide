@@ -120,6 +120,15 @@ public class SchemaServiceTest {
   }
 
   @Test
+  public void whenInvalidValue_onCreateAttributes_thenExceptionShouldBeThrown() {
+    Set<AttributeCreateDto> attributeCreateDtos = new HashSet<>();
+    attributeCreateDtos.add(createAttributeCreateDtoFromAttributeEntity(
+        new AttributeBuilder().setAttributeType(AttributeType.NUMBER).setValue("Test_NaN").build()));
+
+    assertThrows(AttributeValueNotValidException.class, () -> schemaService.addAttributesToSchema(validSchemaId, attributeCreateDtos));
+  }
+
+  @Test
   public void whenValidIds_onGetAttribute_thenAttributeShouldBeFound() {
     UUID attributeId = new SchemaBuilder().build().getAttributes().iterator().next().getAttributeId();
     AttributeDto foundAttribute = schemaService.getAttributeFromSchema(validSchemaId, attributeId);
@@ -185,7 +194,8 @@ public class SchemaServiceTest {
   public void whenValidSchemaId_onExportSchemaJson_thenJsonShouldBeReturned() throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     String exported = schemaService.exportSchema(validSchemaId, MediaType.APPLICATION_JSON_VALUE);
-    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {});
+    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {
+    });
     for (AttributeDto attributeDto : schemaService.getSchema(validSchemaId).getAttributes()) {
       assertThat(map.get(attributeDto.getName()).toString().equals(attributeDto.getValue()));
     }
@@ -195,7 +205,8 @@ public class SchemaServiceTest {
   public void whenValidSchemaId_onExportSchemaYaml_thenYamlShouldBeReturned() throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
     String exported = schemaService.exportSchema(validSchemaId, "application/x-yaml");
-    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {});
+    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {
+    });
     for (AttributeDto attributeDto : schemaService.getSchema(validSchemaId).getAttributes()) {
       assertThat(map.get(attributeDto.getName()).toString().equals(attributeDto.getValue()));
     }
