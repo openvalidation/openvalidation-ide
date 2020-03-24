@@ -11,13 +11,13 @@
  */
 
 
-export interface AttributeDto { 
-    attributeId?: string;
+export interface AttributeUpdateDto { 
     name?: string;
-    attributeType?: AttributeDto.AttributeTypeEnum;
+    attributeType: AttributeUpdateDto.AttributeTypeEnum;
     value?: string;
+    children?: Array<AttributeUpdateDto>;
 }
-export namespace AttributeDto {
+export namespace AttributeUpdateDto {
     export type AttributeTypeEnum = 'BOOLEAN' | 'NUMBER' | 'TEXT' | 'LIST' | 'OBJECT';
     export const AttributeTypeEnum = {
         BOOLEAN: 'BOOLEAN' as AttributeTypeEnum,

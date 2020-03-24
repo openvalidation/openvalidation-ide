@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { RulesetDto, RulesetsService } from '@ovide/backend';
 import { Observable } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
@@ -17,6 +16,7 @@ import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
 import { environment } from 'environments/environment';
+import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -49,7 +49,7 @@ export class RulesetEditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private rulesetsService: RulesetsService,
+    private rulesetsBackendService: RulesetsBackendService,
     private themeService: ThemeService,
   ) {
   }
@@ -58,7 +58,7 @@ export class RulesetEditorComponent implements OnInit {
     this.ruleset$ = this.route.paramMap
       .pipe(
         map(params => params.get('id')),
-        switchMap(id => this.rulesetsService.getRuleset(id)),
+        switchMap(id => this.rulesetsBackendService.getRuleset(id)),
       );
 
     this.themeService.darkThemeActive$.subscribe((isDark) => {
