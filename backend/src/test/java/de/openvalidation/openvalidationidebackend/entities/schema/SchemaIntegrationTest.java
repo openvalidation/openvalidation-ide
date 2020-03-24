@@ -263,6 +263,36 @@ public class SchemaIntegrationTest {
     assertThat(foundAttributes).hasSameSizeAs(new SchemaBuilder().build().getAttributes());
   }
 
+  @Test
+  public void whenValidSchemaId_onExportSchemaJson_thenStatusSuccessful() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+
+    mockMvc.perform(get("/schemas/" + schemaId + "/export")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().is2xxSuccessful())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  public void whenValidSchemaId_onExportSchemaYaml_thenStatusSuccessful() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+
+    mockMvc.perform(get("/schemas/" + schemaId + "/export")
+        .contentType("application/x-yaml")
+        .accept("application/x-yaml"))
+        .andExpect(status().is2xxSuccessful())
+        .andExpect(content().contentTypeCompatibleWith("application/x-yaml"));
+  }
+
+  @Test
+  public void whenInvalidSchemaId_onExportSchema_thenStatusClientError() throws Exception {
+    mockMvc.perform(get("/schemas/" + UUID.randomUUID().toString())
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().is4xxClientError());
+  }
+
   private String toJson(Object object) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

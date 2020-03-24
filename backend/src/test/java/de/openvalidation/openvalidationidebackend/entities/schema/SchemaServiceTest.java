@@ -1,5 +1,10 @@
 package de.openvalidation.openvalidationidebackend.entities.schema;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import de.openvalidation.openvalidationidebackend.entities.attribute.*;
 import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
@@ -8,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 
 import java.util.*;
 
@@ -173,6 +179,31 @@ public class SchemaServiceTest {
   @Test
   public void whenInvalidAttributeId_onDeleteAttribute_thenNoExceptionShouldBeThrown() {
     assertDoesNotThrow(() -> schemaService.deleteAttributeFromSchema(validSchemaId, UUID.randomUUID()));
+  }
+
+  @Test
+  public void whenValidSchemaId_onExportSchemaJson_thenJsonShouldBeReturned() throws JsonProcessingException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String exported = schemaService.exportSchema(validSchemaId, MediaType.APPLICATION_JSON_VALUE);
+    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {});
+    for (AttributeDto attributeDto : schemaService.getSchema(validSchemaId).getAttributes()) {
+      assertThat(map.get(attributeDto.getName()).toString().equals(attributeDto.getValue()));
+    }
+  }
+
+  @Test
+  public void whenValidSchemaId_onExportSchemaYaml_thenYamlShouldBeReturned() throws JsonProcessingException {
+    ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+    String exported = schemaService.exportSchema(validSchemaId, "application/x-yaml");
+    Map<String, Object> map = objectMapper.readValue(exported, new TypeReference<Map<String, Object>>() {});
+    for (AttributeDto attributeDto : schemaService.getSchema(validSchemaId).getAttributes()) {
+      assertThat(map.get(attributeDto.getName()).toString().equals(attributeDto.getValue()));
+    }
+  }
+
+  @Test
+  public void whenInvalidSchemaId_onExportSchema_thenExceptionShouldBeThrown() {
+    assertThrows(SchemaNotFoundException.class, () -> schemaService.exportSchema(invalidSchemaId, MediaType.APPLICATION_JSON_VALUE));
   }
 
   private SchemaUpdateDto createSchemaUpdateDtoFromSchemaEntity(Schema schema) {
