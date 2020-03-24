@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, take } from 'rxjs/operators';
-import { RulesetsService, RulesetDto, SchemaService } from '@ovide/backend';
+import { map, switchMap } from 'rxjs/operators';
+import { RulesetDto, RulesetsService } from '@ovide/backend';
 import { Observable } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
-  MonacoLanguageClient,
   CloseAction,
-  ErrorAction,
-  MonacoServices,
   createConnection,
-  IConnection
+  ErrorAction,
+  IConnection,
+  MonacoLanguageClient,
+  MonacoServices,
+  Range
 } from 'monaco-languageclient';
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
-import { Range } from 'monaco-languageclient';
 import { environment } from 'environments/environment';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
@@ -27,6 +27,7 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
 })
 export class RulesetEditorComponent implements OnInit {
   private languageId = 'ov';
+  variables: Array<string>;
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -68,6 +69,8 @@ export class RulesetEditorComponent implements OnInit {
         this.editorOptions.theme = nextTheme;
       }
     });
+
+    this.updateVariables();
   }
 
   monacoInit(editor) {
@@ -211,5 +214,17 @@ export class RulesetEditorComponent implements OnInit {
       language: LanguageEnum.JavaScript,
       uri: textdocumentUri
     });
+  }
+
+  updateVariables() {
+    // find matches
+    const globalRegex = /[ \n]AS .*/gi;
+    // find variable names
+    const localRegex = /[ \n]AS (.*)/i;
+    const results = this.code.match(globalRegex);
+    this.variables = [];
+    for (const result of results) {
+      this.variables.push(result.match(localRegex)[1]);
+    }
   }
 }
