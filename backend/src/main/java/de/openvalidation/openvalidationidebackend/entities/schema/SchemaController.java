@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -109,8 +108,8 @@ public class SchemaController {
 
   @Tag(name = "schema")
   @GetMapping(value = "/schemas/{schemaId}/export")
-  public String exportSchema(@RequestHeader Map<String, String> headers, @PathVariable UUID schemaId) throws JsonProcessingException {
+  public String exportSchema(@RequestHeader HttpHeaders headers, @PathVariable UUID schemaId) throws JsonProcessingException {
     return this.schemaService.exportSchema(schemaId,
-        headers.getOrDefault(HttpHeaders.ACCEPT.toLowerCase(), MediaType.APPLICATION_JSON_VALUE));
+        !headers.getAccept().isEmpty() ? headers.getAccept().get(0).toString() : MediaType.APPLICATION_JSON_VALUE);
   }
 }
