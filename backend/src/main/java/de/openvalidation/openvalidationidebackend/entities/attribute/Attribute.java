@@ -35,23 +35,21 @@ public class Attribute {
     }
   }
 
-  public void setValue(String value) throws AttributeValueNotValidException {
-    if (value != null) {
-      try {
-        switch (this.attributeType) {
-          case BOOLEAN:
-            this.value = "" + Boolean.parseBoolean(value);
-            break;
-          case NUMBER:
-            this.value = "" + Double.parseDouble(value);
-            break;
-          case TEXT:
-            this.value = value;
-            break;
-        }
-      } catch (NullPointerException | NumberFormatException e) {
-        throw new AttributeValueNotValidException();
+  public void setValue(String value) {
+    try {
+      switch (this.attributeType) {
+        case BOOLEAN:
+          this.value =  value != null ? "" + Boolean.parseBoolean(value) : "true";
+          break;
+        case NUMBER:
+          this.value = value != null ? "" + Double.parseDouble(value) : "10";
+          break;
+        case TEXT:
+          this.value = value != null ? value : "Text";
+          break;
       }
+    } catch (NullPointerException | NumberFormatException e) {
+      throw new AttributeValueNotValidException();
     }
   }
 
