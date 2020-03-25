@@ -25,3 +25,5 @@ springdoc:
     path: /swagger-ui
     displayRequestDuration: true
     tagsSorter: alpha
+
+cors-headers: ${CORS_HEADERS:#{"null"}}
