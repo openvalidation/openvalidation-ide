@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { RulesetsService, RulesetDto } from '@ovide/backend';
+import { RulesetDto, RulesetsService } from '@ovide/backend';
 import { Observable } from 'rxjs';
 
 @Component({

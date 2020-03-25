@@ -7,12 +7,12 @@ import { MaterialDesignModule } from '@ovide/material-design';
 import { OvideAppComponent } from '@ovide/ovide-app';
 import { OvideRoutingModule } from '@ovide/routing';
 import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
-import { RulesetEditorComponent } from '@ovide/ruleset-editor';
+import { LANGUAGE_SERVER_URL, RulesetEditorComponent } from '@ovide/ruleset-editor';
 import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { SchemaEditorComponent } from '@ovide/schema-editor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { OvideBackendApiModule, BASE_PATH } from '@ovide/backend';
+import { BASE_PATH, OvideBackendApiModule } from '@ovide/backend';
 import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
@@ -42,7 +42,10 @@ import { DesignTestComponent } from './design-test/design-test.component';
     MaterialDesignModule,
     NgxChartsModule
   ],
-  providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH}],
+  providers: [
+    {provide: BASE_PATH, useValue: environment.API_BASE_PATH},
+    {provide: LANGUAGE_SERVER_URL, useValue: environment.LANGUAGE_SERVER_URL}
+  ],
   bootstrap: [OvideAppComponent]
 })
 export class OvideModule { }
