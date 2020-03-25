@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin
 @RestController
 public class RulesetController {
   private RulesetService rulesetService;

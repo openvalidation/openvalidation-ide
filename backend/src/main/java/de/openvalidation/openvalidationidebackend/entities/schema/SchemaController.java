@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin
 public class SchemaController {
   private SchemaService schemaService;
 
