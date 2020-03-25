@@ -3,6 +3,7 @@ package de.openvalidation.openvalidationidebackend.entities.schema;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeType;
 import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetRepository;
 import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
@@ -165,6 +166,18 @@ public class SchemaIntegrationTest {
   }
 
   @Test
+  public void whenInvalidValue_onCreateAttributes_thenStatusClientError() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+    Set<Attribute> createAttributes = new HashSet<>();
+    createAttributes.add(new AttributeBuilder().setAttributeType(AttributeType.NUMBER).setValue("Test_NaN").build());
+
+    mockMvc.perform(post("/schemas/" + schemaId + "/attributes")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(toJson(createAttributes)))
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
   public void whenValidIds_onGetAttribute_thenStatusSuccessful() throws Exception {
     String schemaId = new SchemaBuilder().build().getSchemaId().toString();
     String attributeId = new SchemaBuilder().build().getAttributes().iterator().next().getAttributeId().toString();
@@ -261,6 +274,36 @@ public class SchemaIntegrationTest {
     Set<Attribute> foundAttributes = schemaRepository.findById(new SchemaBuilder().build().getSchemaId())
         .orElseThrow(() -> new Exception("Could not find Schema")).getAttributes();
     assertThat(foundAttributes).hasSameSizeAs(new SchemaBuilder().build().getAttributes());
+  }
+
+  @Test
+  public void whenValidSchemaId_onExportSchemaJson_thenStatusSuccessful() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+
+    mockMvc.perform(get("/schemas/" + schemaId + "/export")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().is2xxSuccessful())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  public void whenValidSchemaId_onExportSchemaYaml_thenStatusSuccessful() throws Exception {
+    String schemaId = new SchemaBuilder().build().getSchemaId().toString();
+
+    mockMvc.perform(get("/schemas/" + schemaId + "/export")
+        .contentType("application/x-yaml")
+        .accept("application/x-yaml"))
+        .andExpect(status().is2xxSuccessful())
+        .andExpect(content().contentTypeCompatibleWith("application/x-yaml"));
+  }
+
+  @Test
+  public void whenInvalidSchemaId_onExportSchema_thenStatusClientError() throws Exception {
+    mockMvc.perform(get("/schemas/" + UUID.randomUUID().toString())
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().is4xxClientError());
   }
 
   private String toJson(Object object) throws IOException {
