@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SchemaAttributeDialogComponent, SchemaAttributeDialogMode } from '@ovide/schema-attribute-dialog';
-import { AttributeCreateDto, AttributeDto, AttributesBackendService, AttributeUpdateDto } from '@ovide/backend';
+import { AttributeCreateDto, AttributeDto, AttributeUpdateDto } from '@ovide/backend';
 import { ThemeService } from '@ovide/services/theme.service';
+import { SchemaService } from '@ovide/services/schema.service';
 
 @Component({
   selector: 'ovide-schema-editor',
@@ -23,14 +24,14 @@ export class SchemaEditorComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private attributeService: AttributesBackendService,
+    private schemaService: SchemaService,
     public themeService: ThemeService
   ) { }
 
   ngOnInit(): void {}
 
   private initialize() {
-    this.attributeService.getAllAttributesFromSchema(this._schemaId)
+    this.schemaService.getAllAttributesFromSchema(this._schemaId)
     .subscribe(
       success => this.attributes = success,
       error => console.error(error)
@@ -48,7 +49,7 @@ export class SchemaEditorComponent implements OnInit {
           attributeType: result.attributeType,
           name: result.name
         };
-        this.attributeService.addAttributesToSchema(this._schemaId, [createDto])
+        this.schemaService.addAttributesToSchema(this._schemaId, [createDto])
         .subscribe(
           success => this.attributes.push(success[0]),
           error => console.error(error)
@@ -60,7 +61,7 @@ export class SchemaEditorComponent implements OnInit {
   remove(attribute: AttributeDto): void {
     const index = this.attributes.indexOf(attribute);
     if (index >= 0) {
-      this.attributeService.deleteAttributeFromSchema(this._schemaId, attribute.attributeId)
+      this.schemaService.deleteAttributeFromSchema(this._schemaId, attribute.attributeId)
       .subscribe(
         success => this.attributes.splice(index, 1),
         error => console.error(error)
@@ -79,7 +80,7 @@ export class SchemaEditorComponent implements OnInit {
           attributeType: result.attributeType,
           name: result.name
         };
-        this.attributeService.updateAttributeFromSchema(this._schemaId, attribute.attributeId, updateDto)
+        this.schemaService.updateAttributeFromSchema(this._schemaId, attribute.attributeId, updateDto)
         .subscribe(
           success => {
             const index = this.attributes.findIndex(element => element.attributeId === attribute.attributeId);

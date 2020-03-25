@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -17,6 +17,7 @@ import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
 import { environment } from 'environments/environment';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
+import { SchemaService } from '@ovide/services/schema.service';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -25,7 +26,7 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
   templateUrl: './ruleset-editor.component.html',
   styleUrls: ['./ruleset-editor.component.scss']
 })
-export class RulesetEditorComponent implements OnInit {
+export class RulesetEditorComponent implements OnInit, OnDestroy {
   private languageId = 'ov';
   variables: Array<string>;
   editorOptions = {
@@ -46,31 +47,55 @@ export class RulesetEditorComponent implements OnInit {
   ruleset$: Observable<RulesetDto>;
   private editor;
   private currentConnection: IConnection;
+  private subscriptions: Subscription;
+  private schemaValue;
 
   constructor(
     private route: ActivatedRoute,
     private rulesetsBackendService: RulesetsBackendService,
+    private schemaService: SchemaService,
     private themeService: ThemeService,
   ) {
   }
 
   ngOnInit(): void {
+    this.subscriptions = new Subscription();
+
     this.ruleset$ = this.route.paramMap
       .pipe(
         map(params => params.get('id')),
         switchMap(id => this.rulesetsBackendService.getRuleset(id)),
+        tap(ruleset => this.schemaService.setSchema(ruleset.schemaId))
       );
 
-    this.themeService.darkThemeActive$.subscribe((isDark) => {
-      const nextTheme = isDark ? 'vs-dark' : 'vs';
-      if (this.editor !== undefined) {
-        monaco.editor.setTheme(nextTheme);
-      } else {
-        this.editorOptions.theme = nextTheme;
-      }
-    });
+    this.subscriptions.add(
+      this.schemaService.schemaId$.pipe(
+        switchMap(schemaId => this.schemaService.exportSchema(schemaId)),
+        tap(schema => {
+          this.schemaValue = schema;
+          if (this.editor !== undefined) {
+            this.sendSchemaChangedNotification();
+          }
+        })
+      ).subscribe()
+    );
+
+    this.subscriptions.add(
+      this.themeService.darkThemeActive$.subscribe((isDark) => {
+        const nextTheme = isDark ? 'vs-dark' : 'vs';
+        if (this.editor !== undefined) {
+          monaco.editor.setTheme(nextTheme);
+        } else {
+          this.editorOptions.theme = nextTheme;
+        }
+      })
+    );
 
     this.updateVariables();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   monacoInit(editor) {
@@ -143,15 +168,10 @@ export class RulesetEditorComponent implements OnInit {
   }
 
   private sendSchemaChangedNotification() {
-    // Get current schema as yml or json
-    const schemaValue = {
-      Text: 'text',
-      location: 'Humbug',
-      age: 25,
-    };
+
     const textdocumentUri = this.editor.getModel().uri.toString();
     this.currentConnection.sendNotification(NotificationEnum.SchemaChanged, {
-      schema: JSON.stringify(schemaValue),
+      schema: JSON.stringify(this.schemaValue),
       uri: textdocumentUri,
     });
   }

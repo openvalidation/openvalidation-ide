@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RulesetDto, RulesetsService } from '@ovide/backend';
+import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 
 @Component({
   selector: 'ovide-rulesets-overview',
@@ -11,7 +11,7 @@ export class RulesetsOverviewComponent implements OnInit {
   rulesets: RulesetDto[];
 
   constructor(
-    private rulesetService: RulesetsService
+    private rulesetService: RulesetsBackendService
   ) { }
 
   ngOnInit(): void {
