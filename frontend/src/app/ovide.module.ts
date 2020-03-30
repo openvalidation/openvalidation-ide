@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialDesignModule } from '@ovide/material-design';
@@ -17,6 +17,9 @@ import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
 import { SchemaAttributeDialogComponent } from '@ovide/schema-attribute-dialog';
 import { environment } from 'environments/environment';
 import { EllipsisDirective } from './directives/ellipsis.directive';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+
+import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
 
 import { DesignTestComponent } from './design-test/design-test.component';
 
@@ -40,7 +43,9 @@ import { DesignTestComponent } from './design-test/design-test.component';
     OvideRoutingModule,
     OvideBackendApiModule,
     MaterialDesignModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MonacoEditorModule.forRoot(MonacoConfig),
+    FormsModule
   ],
   providers: [
     {provide: BASE_PATH, useValue: environment.API_BASE_PATH},

@@ -1,14 +1,15 @@
 
 <div class="ruleset-editor">
-    <div class="editor mat-elevation-z8"><textarea></textarea></div>
-    <ovide-schema-editor [schemaId]="(ruleset$ | async)?.schemaId" class="schema"></ovide-schema-editor>
+    <div class="editor mat-elevation-z8">
+        <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+    </div>
+    <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
-        <mat-chip-list>
-            <mat-chip>underaged</mat-chip>
+        <mat-chip-list *ngFor="let variable of variables">
+            <mat-chip>{{variable}}</mat-chip>
         </mat-chip-list>
     </div>
     <div class="actions">
-        <button mat-flat-button color="primary">Save</button>
         <button mat-flat-button color="primary" [routerLink]="['../test']" >Test</button>
     </div>
 </div>

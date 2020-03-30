@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AttributeDto } from './attributeDto';
+import { AttributeDto } from './attribute-dto';
 
 
 export interface SchemaDto { 

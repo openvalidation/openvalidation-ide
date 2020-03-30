@@ -14,18 +14,59 @@ $attribute-types: (
 
 @mixin attribute-type-chips {
     .attribute-type {
+        box-sizing: border-box;
+        padding: 7px 12px !important;
         @each $name, $color in $attribute-types {
             &.#{$name} {
+                letter-spacing: 0.15em;
                 background-color: $color;
+                font-weight: bold;
+                border: 1px solid $color;
                 &.outline {
-                    border: 1px solid $color;
                     background-color: transparent;
                     color: $color;
-                    font-weight: bold;
                 }
             }
+        }
+        mat-icon {
+            visibility: hidden;
+            opacity: 0;
+            width: 0;
+            margin-left: 0;
+            transition: opacity 0.3s, width 0.5s;
+        }
+    }
+
+    .attribute-type:hover {
+        mat-icon {
+            visibility: visible;
+            opacity: 1;
+            width: 18px;
+            margin-left: 8px;
+            transition: width 0.5s, opacity 0.3s ease 0.2s;
         }
     }
 }
 
 @include attribute-type-chips();
+
+.attribute-button {
+    box-sizing: border-box;
+    margin: 4px;
+    padding: 7px;
+    background-color: transparent;
+    color: theme-var($--attribute-button);
+    border: 1px solid theme-var($--attribute-button);
+    border-radius: 16px;
+    height: 32px;
+    width: 32px;
+    box-shadow: none;
+    outline: none;
+
+    mat-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 14px;
+        line-height: 14px;
+    }
+}

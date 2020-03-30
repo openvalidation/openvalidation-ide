@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RulesetsService, RulesetCreateDto } from '@ovide/backend';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RulesetCreateDto, RulesetsBackendService } from '@ovide/backend';
 
 import * as faker from 'faker';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ export class RulesetCreatorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private rulesetsService: RulesetsService,
+    private rulesetsBackendService: RulesetsBackendService,
     private router: Router
   ) { }
 
@@ -38,8 +38,8 @@ export class RulesetCreatorComponent implements OnInit {
       createdBy: this.form.value.creator
     }
 
-    this.rulesetsService.createRuleset(newRuleset).subscribe(
-      success => { 
+    this.rulesetsBackendService.createRuleset(newRuleset).subscribe(
+      success => {
         this.router.navigate(['/rulesets' ,success.rulesetId, 'edit']);
       },
       error => {
@@ -49,7 +49,7 @@ export class RulesetCreatorComponent implements OnInit {
   }
 
   createRandom() {
-    this.rulesetsService.createRuleset({
+    this.rulesetsBackendService.createRuleset({
       name: faker.company.catchPhrase(),
       createdBy: faker.name.findName(),
       description: faker.lorem.paragraph()

@@ -1,5 +1,8 @@
 {
     "ngVersion": "9.0.0",
     "providedInRoot": true,
-    "apiModulePrefix": "OvideBackend"
+    "apiModulePrefix": "OvideBackend",
+    "serviceFileSuffix": "-backend.service",
+    "serviceSuffix": "BackendService",
+    "fileNaming": "kebab-case"
 }

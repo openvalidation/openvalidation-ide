@@ -17,17 +17,18 @@
     grid-area: editor;
     width: 100%;
     height: 100%;
-    > textarea {
-        box-sizing: border-box;
-        width: inherit;
-        height: inherit;
-        resize: none;
+
+    ngx-monaco-editor {
+        height: 100%;
         font-family: 'Source Code Pro', sans-serif;
     }
 }
 
 .schema {
     grid-area: schema;
+    padding: 0 50px;
+    justify-self: start;
+    align-self: start;
 }
 
 .variables {
