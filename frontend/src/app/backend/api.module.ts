@@ -1,11 +1,6 @@
-import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
-
-
-import { AttributesService } from './api/attributes.service';
-import { RulesetsService } from './api/rulesets.service';
-import { SchemaService } from './api/schema.service';
 
 @NgModule({
   imports:      [],
