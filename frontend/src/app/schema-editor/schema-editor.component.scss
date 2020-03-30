@@ -49,3 +49,24 @@ $attribute-types: (
 }
 
 @include attribute-type-chips();
+
+.attribute-button {
+    box-sizing: border-box;
+    margin: 4px;
+    padding: 7px;
+    background-color: transparent;
+    color: theme-var($--attribute-button);
+    border: 1px solid theme-var($--attribute-button);
+    border-radius: 16px;
+    height: 32px;
+    width: 32px;
+    box-shadow: none;
+    outline: none;
+
+    mat-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 14px;
+        line-height: 14px;
+    }
+}
