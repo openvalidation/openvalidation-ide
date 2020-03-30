@@ -80,25 +80,33 @@ export class SchemaBackendService {
     }
 
     /**
+     * @param accept
      * @param schemaId
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public exportSchema(schemaId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<string>;
-    public exportSchema(schemaId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpResponse<string>>;
-    public exportSchema(schemaId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*'}): Observable<HttpEvent<string>>;
-    public exportSchema(schemaId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*'}): Observable<any> {
+    public exportSchema(accept: string, schemaId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-yaml'}): Observable<string>;
+    public exportSchema(accept: string, schemaId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-yaml'}): Observable<HttpResponse<string>>;
+    public exportSchema(accept: string, schemaId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-yaml'}): Observable<HttpEvent<string>>;
+    public exportSchema(accept: string, schemaId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/x-yaml'}): Observable<any> {
+        if (accept === null || accept === undefined) {
+            throw new Error('Required parameter accept was null or undefined when calling exportSchema.');
+        }
         if (schemaId === null || schemaId === undefined) {
             throw new Error('Required parameter schemaId was null or undefined when calling exportSchema.');
         }
 
         let headers = this.defaultHeaders;
+        if (accept !== undefined && accept !== null) {
+            headers = headers.set('Accept', String(accept));
+        }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                '*/*'
+                'application/json',
+                'application/x-yaml'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
