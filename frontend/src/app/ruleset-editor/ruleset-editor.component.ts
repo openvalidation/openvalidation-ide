@@ -115,6 +115,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
         this.ruleset = ruleset;
         this.lastSavedRules = ruleset.rules;
         this.editorText.setValue(ruleset.rules);
+        this.schemaService.setSchema(ruleset.schemaId);
       }
     );
   }
