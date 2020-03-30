@@ -50,6 +50,6 @@ export class SchemaService {
   }
 
   exportSchema(schemaId) {
-    return this.schemaBackendService.exportSchema(schemaId);
+    return this.schemaBackendService.exportSchema('application/json', schemaId);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap, distinctUntilChanged, debounceTime, retry, filter, take } from 'rxjs/operators';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -84,7 +84,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
         switchMap(schemaId => this.schemaService.exportSchema(schemaId)),
         tap(schema => {
           this.schemaValue = schema;
-          if (this.editor !== undefined) {
+          if (this.editor !== undefined && this.currentConnection !== undefined) {
             this.sendSchemaChangedNotification();
           }
         })
