@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -33,7 +33,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
   private languageId = 'ov';
-  variables: Array<string>;
+  variables$ = new BehaviorSubject<Array<string>>([]);
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -58,7 +58,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private rulesetsBackendService: RulesetsBackendService,
     private schemaService: SchemaService,
     private themeService: ThemeService,
-    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
+    @Inject('LANGUAGE_SERVER_URL') languageServerUrl,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.languageServerUrl = languageServerUrl;
   }
@@ -74,7 +75,6 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     ));
 
     this.subscriptions.add(this.editorText.valueChanges.pipe(
-      tap(rules => this.updateVariables(rules)),
       debounceTime(500),
       distinctUntilChanged(),
       filter(rules => rules !== this.lastSavedRules)
@@ -215,6 +215,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           this.sendCultureConfiguration();
           this.sendLanguageConfiguration();
 
+          this.addParsingResultNotificationListener();
           this.addSemanticHighlightingNotificationListener();
           this.addAliasesChangesListener();
           return Promise.resolve(this.currentConnection);
@@ -294,6 +295,20 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Adds listener to the notification ``openVALIDATION/parsingResult`` to set a few
+   * language-configurations for the ov-language
+   */
+  private addParsingResultNotificationListener() {
+    this.currentConnection.onNotification(
+      NotificationEnum.ParsingResult,
+      (params: any) => {
+        this.variables$.next(params.variables);
+        this.changeDetectorRef.detectChanges();
+      }
+    );
+  }
+
   private sendLanguageConfiguration() {
     const textdocumentUri = this.editor.getModel().uri.toString();
 
@@ -301,19 +316,5 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       language: LanguageEnum.JavaScript,
       uri: textdocumentUri
     });
-  }
-
-  updateVariables(code: string) {
-    // find matches
-    const globalRegex = /[ \n]AS .*/gi;
-    // find variable names
-    const localRegex = /[ \n]AS (.*)/i;
-    const results = code.match(globalRegex);
-    this.variables = [];
-    if (Array.isArray(results)) {
-      for (const result of results) {
-        this.variables.push(result.match(localRegex)[1]);
-      }
-    }
   }
 }

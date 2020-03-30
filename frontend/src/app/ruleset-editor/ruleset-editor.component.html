@@ -5,8 +5,8 @@
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
-        <mat-chip-list *ngFor="let variable of variables">
-            <mat-chip>{{variable}}</mat-chip>
+        <mat-chip-list *ngFor="let variable of (variables$ | async)">
+            <mat-chip>{{variable.name}}</mat-chip>
         </mat-chip-list>
     </div>
     <div class="actions">
