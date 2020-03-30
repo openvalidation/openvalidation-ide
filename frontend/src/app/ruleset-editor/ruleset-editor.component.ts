@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -15,7 +15,6 @@ import {
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
-import { environment } from 'environments/environment';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { FormControl } from '@angular/forms';
@@ -51,13 +50,16 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private currentConnection: IConnection;
   private subscriptions = new Subscription();
   private schemaValue;
+  private languageServerUrl: string;
 
   constructor(
     private route: ActivatedRoute,
     private rulesetsBackendService: RulesetsBackendService,
     private schemaService: SchemaService,
     private themeService: ThemeService,
+    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
   ) {
+    this.languageServerUrl = languageServerUrl;
   }
 
   ngOnInit(): void {
@@ -185,7 +187,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   }
 
   public createUrl(): string {
-    return `${environment.LANGUAGE_SERVER_URL}/ovLanguage`;
+    return `${this.languageServerUrl}/ovLanguage`;
   }
 
   public createLanguageClient(connection: MessageConnection): MonacoLanguageClient {
