@@ -51,6 +51,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private schemaValue;
   private languageServerUrl: string;
+  private webSocket;
 
   constructor(
     private route: ActivatedRoute,
@@ -109,6 +110,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.closeRuleset().subscribe();
+    this.webSocket.close();
   }
 
   private openRuleset(ruleset: RulesetDto) {
@@ -174,6 +176,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     // create the web socket
     const url = this.createUrl();
     const webSocket = this.createWebSocket(url);
+    this.webSocket = webSocket;
     // listen when the web socket is opened
     listen({
       webSocket,
@@ -220,7 +223,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  public createWebSocket(socketUrl: string): WebSocket {
+  public createWebSocket(socketUrl: string): any {
     const socketOptions = {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,
@@ -233,7 +236,6 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   }
 
   private sendSchemaChangedNotification() {
-
     const textdocumentUri = this.editor.getModel().uri.toString();
     this.currentConnection.sendNotification(NotificationEnum.SchemaChanged, {
       schema: JSON.stringify(this.schemaValue),
