@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { map, switchMap, tap, distinctUntilChanged, debounceTime, retry, filter, take } from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -18,6 +18,7 @@ import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highli
 import { environment } from 'environments/environment';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
+import { FormControl } from '@angular/forms';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -27,6 +28,11 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
   styleUrls: ['./ruleset-editor.component.scss']
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
+
+
+  private lastSavedRules: string;
+  private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
+
   private languageId = 'ov';
   variables: Array<string>;
   editorOptions = {
@@ -37,17 +43,13 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     },
     lineNumbers: false
   };
-  code = 'IF text IS NOT humbug\n' +
-    'THEN Das ist kein humbug\n' +
-    '\n' +
-    'age LOWER THAN 18 as underage\n' +
-    '\n' +
-    'IF underage\n' +
-    'THEN too young';
-  ruleset$: Observable<RulesetDto>;
+
+  ruleset: RulesetDto;
+  editorText: FormControl;
+
   private editor;
   private currentConnection: IConnection;
-  private subscriptions: Subscription;
+  private subscriptions = new Subscription();
   private schemaValue;
 
   constructor(
@@ -59,14 +61,23 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions = new Subscription();
+    this.editorText = new FormControl();
 
-    this.ruleset$ = this.route.paramMap
-      .pipe(
-        map(params => params.get('id')),
-        switchMap(id => this.rulesetsBackendService.getRuleset(id)),
-        tap(ruleset => this.schemaService.setSchema(ruleset.schemaId))
-      );
+    this.subscriptions.add(this.route.paramMap.pipe(
+      map(params => params.get('id')),
+      switchMap(id => this.rulesetsBackendService.getRuleset(id))
+    ).subscribe(
+      ruleset => this.openRuleset(ruleset)
+    ));
+
+    this.subscriptions.add(this.editorText.valueChanges.pipe(
+      tap(rules => this.updateVariables(rules)),
+      debounceTime(500),
+      distinctUntilChanged(),
+      filter(rules => rules !== this.lastSavedRules)
+    ).subscribe(
+      rules => this.saveRules(this.ruleset.rulesetId, rules)
+    ));
 
     this.subscriptions.add(
       this.schemaService.schemaId$.pipe(
@@ -91,11 +102,62 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.updateVariables();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.closeRuleset().subscribe();
+  }
+
+  private openRuleset(ruleset: RulesetDto) {
+    this.closeRuleset().subscribe(
+      () => {
+        this.ruleset = ruleset;
+        this.lastSavedRules = ruleset.rules;
+        this.editorText.setValue(ruleset.rules);
+      }
+    );
+  }
+
+  private closeRuleset(): Observable<any> {
+    return new Observable(
+      observer => {
+        const complete = () => {
+          observer.next();
+          observer.complete();
+        };
+        if (this.lastSavedRules === undefined) {
+          complete();
+          return;
+        }
+        const savingDone = this.savingRulesInProgress$.pipe(filter(x => x === false), take(1));
+        savingDone.subscribe(
+          () => {
+            if (this.lastSavedRules !== this.editorText.value) {
+              this.saveRules(this.ruleset.rulesetId, this.editorText.value);
+              savingDone.subscribe(() => complete());
+            } else {
+              complete();
+            }
+          }
+        );
+      }
+    );
+  }
+
+  private saveRules(rulesetId: string, rules: string) {
+    this.savingRulesInProgress$.next(true);
+    this.rulesetsBackendService.updateRuleset(rulesetId, {rules}).pipe(retry(5))
+    .subscribe(
+      success => {
+        this.lastSavedRules = rules;
+        this.savingRulesInProgress$.next(false);
+      },
+      error => {
+        // TODO show error
+        this.savingRulesInProgress$.next(false);
+      }
+    );
   }
 
   monacoInit(editor) {
@@ -236,15 +298,17 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateVariables() {
+  updateVariables(code: string) {
     // find matches
     const globalRegex = /[ \n]AS .*/gi;
     // find variable names
     const localRegex = /[ \n]AS (.*)/i;
-    const results = this.code.match(globalRegex);
+    const results = code.match(globalRegex);
     this.variables = [];
-    for (const result of results) {
-      this.variables.push(result.match(localRegex)[1]);
+    if (Array.isArray(results)) {
+      for (const result of results) {
+        this.variables.push(result.match(localRegex)[1]);
+      }
     }
   }
 }

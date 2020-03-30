@@ -11,12 +11,12 @@ export class RulesetsOverviewComponent implements OnInit {
   rulesets: RulesetDto[];
 
   constructor(
-    private rulesetService: RulesetsBackendService
+    private rulesetBackendService: RulesetsBackendService
   ) { }
 
   ngOnInit(): void {
 
-    this.rulesetService.getAllRulesets().subscribe(
+    this.rulesetBackendService.getAllRulesets().subscribe(
       rulesets => this.rulesets = rulesets
     );
   }
