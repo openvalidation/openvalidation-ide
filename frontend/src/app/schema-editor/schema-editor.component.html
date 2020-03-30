@@ -1,6 +1,6 @@
 <mat-chip-list class="attribute-chiplist">
     <mat-chip
-        *ngFor="let attribute of attributes" 
+        *ngFor="let attribute of attributes"
         class="attribute-type"
         [class.outline]="themeService.darkThemeActive$ | async"
         [ngClass]="attribute.attributeType"
@@ -11,7 +11,7 @@
         {{attribute.name}}
         <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <button mat-mini-fab aria-label="Add attribute" (click)="add()">
+    <button matRipple class="attribute-button" aria-label="Add attribute" (click)="add()">
         <mat-icon>add</mat-icon>
-    </button>        
+    </button>
 </mat-chip-list>

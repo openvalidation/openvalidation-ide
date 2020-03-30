@@ -2,11 +2,12 @@
 @import 'mixins';
 
 $light-theme: (
-    $--attribute-type-string: lightskyblue,
-    $--attribute-type-number: yellowgreen,
-    $--attribute-type-boolean: lightcoral,
-    $--attribute-type-collection:gold,
-    $--attribute-type-object:    tomato,
+    $--attribute-type-string:       lightskyblue,
+    $--attribute-type-number:       yellowgreen,
+    $--attribute-type-boolean:      lightcoral,
+    $--attribute-type-collection:   gold,
+    $--attribute-type-object:       tomato,
+    $--attribute-button:            darkgray,
     $--navbar-background: #BFBFBF,
     $--navbar-foreground: #7A7A7A,
     $--navbar-active:     #56DEFC,
@@ -107,11 +108,12 @@ $light-theme: (
 );
 
 $dark-theme: (
-    $--attribute-type-string: lightskyblue,
-    $--attribute-type-number: yellowgreen,
-    $--attribute-type-boolean: lightcoral,
-    $--attribute-type-collection:gold,
-    $--attribute-type-object:    tomato,
+    $--attribute-type-string:       lightskyblue,
+    $--attribute-type-number:       yellowgreen,
+    $--attribute-type-boolean:      lightcoral,
+    $--attribute-type-collection:   gold,
+    $--attribute-type-object:       tomato,
+    $--attribute-button:            gray,
     $--navbar-background: hsl(0, 0%, 15%),
     $--navbar-foreground: hsl(0, 0%, 35%),
     $--navbar-active:     #86D5F2,
