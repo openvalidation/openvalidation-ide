@@ -66,140 +66,26 @@ INSERT INTO ruleset (ruleset_Id, created_at, created_by, description, name, rule
 VALUES ('5f19d628-2e90-4830-85ea-07cf29d3ebc5', now(), 'OpenVALIDATION-IDE Team',
         'Examples for basic rules',
         'Basic ruleset',
-        'IF the age of the applicant is LESS than 18\n' ||
-        'THEN you must be at least 18 years old\n\n' ||
-        'the contract MUST be signed\n\n' ||
-        'IF  the age of the applicant is GREATER 18\n' ||
-        '  AND  the name of the applicant IS Mycroft Holmes.\n' ||
-        '  OR his name IS Sherlock Holmes.\n' ||
-        'THEN  the applicant is a genius\n\n\n' ||
-        '  the age of the applicant is LESS than 18 years old\n' ||
-        'AS underage\n\n' ||
-        '  Age - 18\n' ||
-        'AS professional experience\n\n' ||
-        'IF the applicant is underage\n' ||
-        '  AND his residence IS NOT Baker Street 221b\n' ||
-        'THEN You must be at least 18 years old and come from Baker Street 221b.\n' ||
-        'IF the applicant is underage\n' ||
-        '  OR his professional experience is LESS than 5 years\n' ||
-        'THEN You must be at least 18 years old and have work experience\n' ||
-        '  of at least 5 years\n',
+'IF the age of the applicant is LESS than 18
+THEN you must be at least 18 years old
+
+the contract MUST be signed
+
+IF  the age of the applicant is GREATER 18
+  AND  the name of the applicant IS Mycroft Holmes
+  OR his name IS Sherlock Holmes
+THEN  the applicant is a genius
+
+the age of the applicant is LESS than 18 years old AS underage
+
+IF the applicant is underage
+  AND his residence IS NOT Baker Street 221b
+THEN You must be at least 18 years old and come from Baker Street 221b.
+
+Age -18 AS professional experience
+
+IF the applicant is underage
+  OR his professional experience is LESS than 5 years
+THEN You must be at least 18 years old and have work experience of at least 5 years',
         'c4dc0011-f794-4265-8bd5-1e0de59ae19c')
-ON CONFLICT (ruleset_Id) DO NOTHING;
-
-
-INSERT INTO schema (schema_id)
-VALUES ('1863f048-6843-4d04-a56c-64a6c8925972')
-ON CONFLICT (schema_id) DO NOTHING;
-
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('005fb4eb-cbae-421d-a59c-7700d57955d2', 4, 'delivery_address')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('6883ffa9-d572-4d5a-95e7-67995bee95c0', 4, 'billing_address')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('bcc7cdd2-dcd8-42da-89e4-2ea3e95617b3', 2, 'location', 'Dortmund')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('3d16535a-cf17-4695-beba-4e7f4d424fa7', 2, 'location', 'Cologne')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('49e14afb-de0b-4234-a983-2984043d2367', 3, 'applicants')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('932e0e70-79a1-4701-bb68-231f6c5f0ef8', 4, '0')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('ca2cd126-7982-4233-b4f8-04865d010b68', 4, '1')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name)
-VALUES ('e6bea99b-6da4-4b56-8108-59e3cacd2ef9', 4, '2')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('1812378e-1fde-46c3-8d26-0decc519de35', 2, 'name', 'Peter')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('94be056d-83b7-4454-9fa9-9597608c58d0', 1, 'age', '17')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('ba5c832b-e891-40c6-a1f1-75e6b4d67a9d', 2, 'name', 'Klaus')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('43bc5e8a-8513-4ffa-8a9a-68a0dabdcab6', 1, 'age', '19')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('4377298e-4d80-49b0-b7c1-44f4a863a2ad', 2, 'name', 'Frieda')
-ON CONFLICT (attribute_id) DO NOTHING;
-INSERT INTO attribute (attribute_id, attribute_type, name, value)
-VALUES ('74acf6d8-8c69-4c79-ac56-6c2bac6e6e7b', 1, 'age', '38')
-ON CONFLICT (attribute_id) DO NOTHING;
-
-INSERT INTO schema_attributes (schema_schema_id, attributes_attribute_id)
-VALUES ('1863f048-6843-4d04-a56c-64a6c8925972',
-        '005fb4eb-cbae-421d-a59c-7700d57955d2')
-ON CONFLICT (schema_schema_id, attributes_attribute_id) DO NOTHING;
-INSERT INTO schema_attributes (schema_schema_id, attributes_attribute_id)
-VALUES ('1863f048-6843-4d04-a56c-64a6c8925972',
-        '6883ffa9-d572-4d5a-95e7-67995bee95c0')
-ON CONFLICT (schema_schema_id, attributes_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('005fb4eb-cbae-421d-a59c-7700d57955d2',
-        'bcc7cdd2-dcd8-42da-89e4-2ea3e95617b3')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('6883ffa9-d572-4d5a-95e7-67995bee95c0',
-        '3d16535a-cf17-4695-beba-4e7f4d424fa7')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO schema_attributes (schema_schema_id, attributes_attribute_id)
-VALUES ('1863f048-6843-4d04-a56c-64a6c8925972',
-        '49e14afb-de0b-4234-a983-2984043d2367')
-ON CONFLICT (schema_schema_id, attributes_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('49e14afb-de0b-4234-a983-2984043d2367',
-        '932e0e70-79a1-4701-bb68-231f6c5f0ef8')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('49e14afb-de0b-4234-a983-2984043d2367',
-        'ca2cd126-7982-4233-b4f8-04865d010b68')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('49e14afb-de0b-4234-a983-2984043d2367',
-        'e6bea99b-6da4-4b56-8108-59e3cacd2ef9')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('932e0e70-79a1-4701-bb68-231f6c5f0ef8',
-        '1812378e-1fde-46c3-8d26-0decc519de35')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('932e0e70-79a1-4701-bb68-231f6c5f0ef8',
-        '94be056d-83b7-4454-9fa9-9597608c58d0')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('ca2cd126-7982-4233-b4f8-04865d010b68',
-        'ba5c832b-e891-40c6-a1f1-75e6b4d67a9d')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('ca2cd126-7982-4233-b4f8-04865d010b68',
-        '43bc5e8a-8513-4ffa-8a9a-68a0dabdcab6')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('e6bea99b-6da4-4b56-8108-59e3cacd2ef9',
-        '4377298e-4d80-49b0-b7c1-44f4a863a2ad')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-INSERT INTO attribute_children (attribute_attribute_id, children_attribute_id)
-VALUES ('e6bea99b-6da4-4b56-8108-59e3cacd2ef9',
-        '74acf6d8-8c69-4c79-ac56-6c2bac6e6e7b')
-ON CONFLICT (attribute_attribute_id, children_attribute_id) DO NOTHING;
-
-INSERT INTO ruleset (ruleset_Id, created_at, created_by, description, name, rules, schema_schema_id)
-VALUES ('28f4e790-2647-4bdf-94b5-f24aa80587b2', now(), 'OpenVALIDATION-IDE Team',
-        'Examples for more advanced rules',
-        'Advanced ruleset',
-        'the delivery_address.location of the customer MUST be Dortmund\n\n' ||
-        'COMMENT This is a comment\n\n' ||
-        'ALL persons FROM the applicants WITH an age LESS THAN 20 AS juniors\n' ||
-        'juniors.age AS age list\n\n' ||
-        'SUM OF age list MUST NOT EXCEED the total age of 50\n',
-        '1863f048-6843-4d04-a56c-64a6c8925972')
 ON CONFLICT (ruleset_Id) DO NOTHING;
