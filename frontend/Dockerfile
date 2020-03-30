@@ -16,4 +16,4 @@ FROM nginx:1.17.8-alpine as runtime
 LABEL description="openvalidation-ide-frontend"
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /build/dist/openvalidation-ide-frontend /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/config/env.template.js > /usr/share/nginx/html/config/env.js && exec nginx -g 'daemon off;'"]

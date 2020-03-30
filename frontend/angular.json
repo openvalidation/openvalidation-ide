@@ -31,6 +31,7 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
+              "src/config",
               "src/assets",
               {
                 "glob": "**/*",
@@ -106,6 +107,7 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
+              "src/config",
               "src/assets",
               { "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
             ],

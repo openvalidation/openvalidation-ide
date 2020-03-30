@@ -9,6 +9,7 @@ services:
             - OPENVALIDATION_IDE_DB_NAME=openvalidation_ide
             - OPENVALIDATION_IDE_DB_USER=openvalidation_ide
             - OPENVALIDATION_IDE_DB_PW=_OPeN_VALiDAtION_IdE
+            # - CORS_HEADERS=https://sample-1.com,https://sample-2.com
         build:
             context: .
         depends_on:
