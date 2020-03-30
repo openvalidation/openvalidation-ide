@@ -7,7 +7,7 @@ import { MaterialDesignModule } from '@ovide/material-design';
 import { OvideAppComponent } from '@ovide/ovide-app';
 import { OvideRoutingModule } from '@ovide/routing';
 import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
-import { LANGUAGE_SERVER_URL, RulesetEditorComponent } from '@ovide/ruleset-editor';
+import { RulesetEditorComponent } from '@ovide/ruleset-editor';
 import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { SchemaEditorComponent } from '@ovide/schema-editor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -49,7 +49,7 @@ import { DesignTestComponent } from './design-test/design-test.component';
   ],
   providers: [
     {provide: BASE_PATH, useValue: environment.API_BASE_PATH},
-    {provide: LANGUAGE_SERVER_URL, useValue: environment.LANGUAGE_SERVER_URL}
+    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL}
   ],
   bootstrap: [OvideAppComponent]
 })
