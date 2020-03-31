@@ -256,9 +256,28 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           range: Range;
           pattern: string;
         }[];
-        monaco.languages.setTokensProvider(
-          'ov',
-          createTokenizationSupport(jsonParameter)
+        this.schemaService.getAllAttributesFromSchema(this.ruleset.schemaId).subscribe(
+          attributes => {
+            jsonParameter.forEach(value => {
+              if (value.pattern === 'variable.parameter.ov') {
+                const foundAttribute = attributes.find(attribute => {
+                  return attribute.name === this.editor.getModel().getValueInRange({
+                    startLineNumber: value.range.start.line + 1,
+                    startColumn: value.range.start.character + 1,
+                    endLineNumber: value.range.end.line + 1,
+                    endColumn: value.range.end.character + 1
+                  });
+                });
+                if (foundAttribute !== undefined) {
+                  value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
+                }
+              }
+            });
+            monaco.languages.setTokensProvider(
+              'ov',
+              createTokenizationSupport(jsonParameter)
+            );
+          }
         );
       }
     );
