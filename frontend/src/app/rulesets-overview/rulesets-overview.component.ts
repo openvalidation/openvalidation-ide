@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { Observable } from 'rxjs';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'ovide-rulesets-overview',
@@ -10,8 +10,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('cardInAnimation', [
       transition(':enter', [
-        style({ transform: 'scale(0.5)' }),
-        animate('.4s ease-out', style({}))
+        query('.ruleset-card', [
+          style({ transform: 'scale(0.5)', opacity: 0 }),
+          stagger(15, [
+            animate('.4s ease-out')
+          ]),
+        ])
       ])
     ])
   ]
