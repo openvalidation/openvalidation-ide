@@ -303,6 +303,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     this.currentConnection.onNotification(
       NotificationEnum.ParsingResult,
       (params: any) => {
+        console.log(params);
         this.variables$.next(params.variables);
         this.changeDetectorRef.detectChanges();
       }
