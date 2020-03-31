@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RulesetCreateDto, RulesetsBackendService } from '@ovide/backend';
 
@@ -21,9 +21,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ]
 })
 export class RulesetCreatorComponent implements OnInit {
-
-
-  @HostBinding('[@slideInOut]')
 
   form: FormGroup;
 
