@@ -33,7 +33,9 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
   private languageId = 'ov';
-  variables$ = new BehaviorSubject<Array<string>>([]);
+  public variables$ = new BehaviorSubject<Array<IVariable>>([]);
+  public editorErrors$ = new BehaviorSubject<Array<IError>>([]);
+
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -57,7 +59,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private rulesetsBackendService: RulesetsBackendService,
     private schemaService: SchemaService,
-    private themeService: ThemeService,
+    public themeService: ThemeService,
     @Inject('LANGUAGE_SERVER_URL') languageServerUrl,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -303,8 +305,10 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     this.currentConnection.onNotification(
       NotificationEnum.ParsingResult,
       (params: any) => {
-        console.log(params);
-        this.variables$.next(params.variables);
+        const variables: Array<IVariable> = params.variables;
+        const errors: Array<IError> = params.diagnostics;
+        this.variables$.next(variables);
+        this.editorErrors$.next(errors);
         this.changeDetectorRef.detectChanges();
       }
     );
@@ -318,4 +322,15 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       uri: textdocumentUri
     });
   }
+}
+
+export interface IVariable {
+  readonly name: string;
+  readonly dataType: string;
+}
+
+export interface IError {
+  readonly range: any;
+  readonly message: string;
+  readonly severity: number;
 }
