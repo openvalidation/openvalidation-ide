@@ -24,6 +24,10 @@
     }
 }
 
+.editor-loading {
+    grid-area: editor;
+}
+
 .schema {
     grid-area: schema;
     padding: 0 50px;
