@@ -1,14 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
+import { Observable } from 'rxjs';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'ovide-rulesets-overview',
   templateUrl: './rulesets-overview.component.html',
-  styleUrls: ['./rulesets-overview.component.scss']
+  styleUrls: ['./rulesets-overview.component.scss'],
+  animations: [
+    trigger('cardInAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.5)' }),
+        animate('.4s ease-out', style({}))
+      ])
+    ])
+  ]
 })
 export class RulesetsOverviewComponent implements OnInit {
 
-  rulesets: RulesetDto[];
+  rulesets$: Observable<RulesetDto[]>;
 
   constructor(
     private rulesetBackendService: RulesetsBackendService
@@ -16,9 +26,8 @@ export class RulesetsOverviewComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.rulesetBackendService.getAllRulesets().subscribe(
-      rulesets => this.rulesets = rulesets
-    );
+    this.rulesets$ = this.rulesetBackendService.getAllRulesets();
+
   }
 
 }
