@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Getter
@@ -14,9 +15,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class RulesetCreateDto {
   @NotNull
+  @Size(max = 255)
   private String name;
+  @Size(max = 255)
   private String description;
   @NotNull
+  @Size(max = 255)
   private String createdBy;
   private UUID schemaId;
 }
