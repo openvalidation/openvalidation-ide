@@ -52,7 +52,9 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
   private languageId = 'ov';
-  variables$ = new Subject<Array<string>>();
+  public variables$ = new Subject<Array<IVariable>>();
+  public editorErrors$ = new Subject<Array<IError>>();
+
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -325,7 +327,10 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     this.currentConnection.onNotification(
       NotificationEnum.ParsingResult,
       (params: any) => {
-        this.variables$.next(params.variables);
+        const variables: Array<IVariable> = params.variables;
+        const errors: Array<IError> = params.diagnostics;
+        this.variables$.next(variables);
+        this.editorErrors$.next(errors);
         this.changeDetectorRef.detectChanges();
       }
     );
@@ -339,4 +344,15 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       uri: textdocumentUri
     });
   }
+}
+
+export interface IVariable {
+  readonly name: string;
+  readonly dataType: string;
+}
+
+export interface IError {
+  readonly range: any;
+  readonly message: string;
+  readonly severity: number;
 }

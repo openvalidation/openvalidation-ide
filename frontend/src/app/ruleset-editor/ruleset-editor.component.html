@@ -14,12 +14,14 @@
                 {{variable.name}}
             </mat-chip>
         </mat-chip-list>
-
         <ng-template #loading>
             <div style="width: 300px;">
                 <mat-progress-bar mode="indeterminate" class="loader"></mat-progress-bar>
             </div>
         </ng-template>
+    </div>
+    <div class="errors" *ngIf="(editorErrors$ | async) as editorErrors;" [@variableAnimation]>
+        <div *ngFor="let error of editorErrors" class="error-message">{{error.message}}</div>
     </div>
     <div class="actions">
         <button mat-flat-button color="primary" [routerLink]="['../test']" >Test</button>
