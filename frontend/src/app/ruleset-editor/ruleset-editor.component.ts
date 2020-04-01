@@ -1,7 +1,17 @@
 import { Component, Inject, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  retry,
+  switchMap,
+  take,
+  tap,
+  catchError
+} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, Subject, of } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -19,6 +29,7 @@ import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { FormControl } from '@angular/forms';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -40,7 +51,7 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
           stagger(30, [
             animate('.2s ease-out')
           ]),
-        ])
+        ], { optional: true })
       ])
     ])
   ]
@@ -81,7 +92,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private schemaService: SchemaService,
     public themeService: ThemeService,
     @Inject('LANGUAGE_SERVER_URL') languageServerUrl,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private errorHandlerService: ErrorHandlerService
   ) {
     this.languageServerUrl = languageServerUrl;
   }
@@ -93,7 +105,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       map(params => params.get('id')),
       switchMap(id => this.rulesetsBackendService.getRuleset(id))
     ).subscribe(
-      ruleset => this.openRuleset(ruleset)
+      ruleset => this.openRuleset(ruleset),
+      () => this.errorHandlerService.createError('Error fetching ruleset.')
     ));
 
     this.subscriptions.add(this.editorText.valueChanges.pipe(
@@ -101,7 +114,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       filter(rules => rules !== this.lastSavedRules)
     ).subscribe(
-      rules => this.saveRules(this.ruleset.rulesetId, rules)
+      rules => this.saveRules(this.ruleset.rulesetId, rules),
+      () => this.errorHandlerService.createError('Error saving ruleset.')
     ));
 
     this.subscriptions.add(
@@ -112,6 +126,10 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           if (this.editor !== undefined && this.currentConnection !== undefined) {
             this.sendSchemaChangedNotification();
           }
+        }),
+        catchError(() => {
+          this.errorHandlerService.createError('Error fetching schema.');
+          return of();
         })
       ).subscribe()
     );
@@ -174,17 +192,12 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   private saveRules(rulesetId: string, rules: string) {
     this.savingRulesInProgress$.next(true);
-    this.rulesetsBackendService.updateRuleset(rulesetId, {rules}).pipe(retry(5))
-    .subscribe(
-      success => {
-        this.lastSavedRules = rules;
-        this.savingRulesInProgress$.next(false);
-      },
-      error => {
-        // TODO show error
-        this.savingRulesInProgress$.next(false);
-      }
-    );
+    this.rulesetsBackendService.updateRuleset(rulesetId, { rules }).pipe(retry(5))
+      .subscribe(
+        success => this.lastSavedRules = rules,
+        () => this.errorHandlerService.createError('Error saving ruleset.'),
+        () => this.savingRulesInProgress$.next(false)
+      );
   }
 
   monacoInit(editor) {
@@ -225,7 +238,10 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
         documentSelector: [this.languageId],
         // disable the default error handler
         errorHandler: {
-          error: () => ErrorAction.Continue,
+          error: () => {
+            // this.errorHandlerService.createError('Error connecting to required service.');
+            return ErrorAction.Continue;
+          },
           closed: () => CloseAction.DoNotRestart
         }
       },
