@@ -206,9 +206,12 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   monacoInit(editor) {
     this.editor = editor;
 
-    this.updateTheme(true);
-    monaco.editor.setTheme('ovide-theme');
+    this.themeService.darkThemeActive$.pipe(take(1)).subscribe((isDark) => {
+        this.updateTheme(isDark);
+      }
+    );
 
+    monaco.editor.setTheme('ovide-theme');
 
     // install Monaco language client services
     try {
