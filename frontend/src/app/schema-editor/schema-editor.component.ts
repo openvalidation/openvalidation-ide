@@ -4,11 +4,24 @@ import { SchemaAttributeDialogComponent, SchemaAttributeDialogMode } from '@ovid
 import { AttributeCreateDto, AttributeDto, AttributeUpdateDto } from '@ovide/backend';
 import { ThemeService } from '@ovide/services/theme.service';
 import { SchemaService } from '@ovide/services/schema.service';
+import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
 
 @Component({
   selector: 'ovide-schema-editor',
   templateUrl: './schema-editor.component.html',
-  styleUrls: ['./schema-editor.component.scss']
+  styleUrls: ['./schema-editor.component.scss'],
+  animations: [
+    trigger('attributeAnimation', [
+      transition(':enter', [
+        query('*', [
+          style({ transform: 'scale(0.5)', opacity: 0 }),
+          stagger(30, [
+            animate('.2s ease-out')
+          ]),
+        ])
+      ])
+    ])
+  ]
 })
 export class SchemaEditorComponent implements OnInit {
 
@@ -31,6 +44,7 @@ export class SchemaEditorComponent implements OnInit {
   ngOnInit(): void {}
 
   private initialize() {
+    this.attributes = undefined;
     this.schemaService.getAllAttributesFromSchema(this._schemaId)
     .subscribe(
       success => this.attributes = success,
