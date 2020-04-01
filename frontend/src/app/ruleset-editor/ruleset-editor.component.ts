@@ -28,6 +28,16 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
 
+  constructor(
+    private route: ActivatedRoute,
+    private rulesetsBackendService: RulesetsBackendService,
+    private schemaService: SchemaService,
+    private themeService: ThemeService,
+    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
+  ) {
+    this.languageServerUrl = languageServerUrl;
+  }
+
 
   private lastSavedRules: string;
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
@@ -55,14 +65,9 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private webSocket;
   private attributes;
 
-  constructor(
-    private route: ActivatedRoute,
-    private rulesetsBackendService: RulesetsBackendService,
-    private schemaService: SchemaService,
-    private themeService: ThemeService,
-    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
-  ) {
-    this.languageServerUrl = languageServerUrl;
+  private static readStyleProperty(name: string): string {
+    const bodyStyles = window.getComputedStyle(document.documentElement);
+    return bodyStyles.getPropertyValue('--' + name).trim();
   }
 
   ngOnInit(): void {
@@ -174,24 +179,24 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private updateTheme(isDark: boolean) {
     if (this.editor !== undefined) {
       monaco.editor.defineTheme('ovide-theme', {
-        base: isDark ? 'vs-dark' : "vs",
+        base: isDark ? 'vs-dark' : 'vs',
         inherit: true,
         rules: [
-          { token: 'keyword.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-keyword').trim() },
-          { token: 'string.unquoted.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-string').trim() },
-          { token: 'string.error.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-error').trim() },
-          { token: 'variable.parameter.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-variable').trim() },
-          { token: 'variable.number.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-number').trim() },
-          { token: 'variable.text.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-string').trim() },
-          { token: 'variable.boolean.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-boolean').trim() },
-          { token: 'constant.numeric.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-number').trim() },
-          { token: 'constant.boolean.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-boolean').trim() },
-          { token: 'comment.block.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-comment').trim() }
+          {token: 'keyword.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-keyword')},
+          {token: 'string.unquoted.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
+          {token: 'string.error.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-error')},
+          {token: 'variable.parameter.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-variable')},
+          {token: 'variable.number.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
+          {token: 'variable.text.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
+          {token: 'variable.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
+          {token: 'constant.numeric.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
+          {token: 'constant.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
+          {token: 'comment.block.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-comment')}
         ],
         colors: {
-          'editor.background': getComputedStyle(document.documentElement).getPropertyValue('--editor-background').trim(),
-          'editor.lineHighlightBorder': getComputedStyle(document.documentElement).getPropertyValue('--editor-lineHighlightBorder').trim(),
-          'editor.selectionBackground': getComputedStyle(document.documentElement).getPropertyValue('--editor-selectionBackground').trim(),
+          'editor.background': RulesetEditorComponent.readStyleProperty('editor-background'),
+          'editor.lineHighlightBorder': RulesetEditorComponent.readStyleProperty('editor-lineHighlightBorder'),
+          'editor.selectionBackground': RulesetEditorComponent.readStyleProperty('editor-selectionBackground'),
         }
       });
       monaco.editor.setTheme('ovide-theme');
@@ -296,16 +301,16 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
         }[];
 
         // Inject token values for syntax highlighting
-        if(this.attributes !== undefined) {
+        if (this.attributes !== undefined) {
           jsonParameter.forEach(value => {
             if (value.pattern === 'variable.parameter.ov') {
               const foundAttribute = this.attributes.find(attribute => {
-                return attribute.name === this.editor.getModel().getValueInRange({
+                return attribute.name.toLowerCase() === this.editor.getModel().getValueInRange({
                   startLineNumber: value.range.start.line + 1,
                   endLineNumber: value.range.end.line + 1,
                   startColumn: value.range.start.character + 1,
                   endColumn: value.range.end.character + 1
-                });
+                }).toLowerCase();
               });
               if (foundAttribute !== undefined) {
                 value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
@@ -319,7 +324,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
                 endColumn: value.range.start.character
               });
 
-              if (thenInRange.toLowerCase() === 'then') {
+              if (thenInRange.trim().toLowerCase() === 'then') {
                 value.pattern = 'string.error.ov';
               }
 
@@ -330,7 +335,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
                 endColumn: value.range.end.character + 1
               });
 
-              if(trueOrFalseInRange.toLowerCase() === 'true'
+              if (trueOrFalseInRange.toLowerCase() === 'true'
                 || trueOrFalseInRange.toLowerCase() === 'false'
                 || trueOrFalseInRange.toLowerCase() === 'yes'
                 || trueOrFalseInRange.toLowerCase() === 'no') {

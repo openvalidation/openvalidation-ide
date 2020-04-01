@@ -71,18 +71,18 @@ THEN you must be at least 18 years old
 
 the contract MUST be signed
 
-IF  the age of the applicant is GREATER 18
-  AND  the name of the applicant IS Mycroft Holmes
+IF the age of the applicant is GREATER 18
+  AND the name of the applicant IS Mycroft Holmes
   OR his name IS Sherlock Holmes
-THEN  the applicant is a genius
+THEN the applicant is a genius
 
 the age of the applicant is LESS than 18 years old AS underage
 
 IF the applicant is underage
   AND his residence IS NOT Baker Street 221b
-THEN You must be at least 18 years old and come from Baker Street 221b.
+THEN You must be at least 18 years old and come from Baker Street 221b
 
-Age -18 AS professional experience
+Age - 18 AS professional experience
 
 IF the applicant is underage
   OR his professional experience is LESS than 5 years
