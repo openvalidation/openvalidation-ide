@@ -37,6 +37,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
+    fontFamily: 'Source Code Pro',
     minimap: {
       enabled: false
     },
@@ -52,6 +53,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private schemaValue;
   private languageServerUrl: string;
   private webSocket;
+  private attributes;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,13 +97,17 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
+      this.schemaService.schemaId$.pipe(
+        switchMap(schemaId => this.schemaService.getAllAttributesFromSchema(schemaId)),
+        tap(attributes => {
+          this.attributes = attributes;
+        })
+      ).subscribe()
+    );
+
+    this.subscriptions.add(
       this.themeService.darkThemeActive$.subscribe((isDark) => {
-        const nextTheme = isDark ? 'vs-dark' : 'vs';
-        if (this.editor !== undefined) {
-          monaco.editor.setTheme(nextTheme);
-        } else {
-          this.editorOptions.theme = nextTheme;
-        }
+        this.updateTheme(isDark);
       })
     );
 
@@ -165,8 +171,40 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  private updateTheme(isDark: boolean) {
+    if (this.editor !== undefined) {
+      monaco.editor.defineTheme('ovide-theme', {
+        base: isDark ? 'vs-dark' : "vs",
+        inherit: true,
+        rules: [
+          { token: 'keyword.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-keyword').trim() },
+          { token: 'string.unquoted.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-string').trim() },
+          { token: 'string.error.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-error').trim() },
+          { token: 'variable.parameter.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-variable').trim() },
+          { token: 'variable.number.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-number').trim() },
+          { token: 'variable.text.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-string').trim() },
+          { token: 'variable.boolean.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-boolean').trim() },
+          { token: 'constant.numeric.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-number').trim() },
+          { token: 'constant.boolean.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-type-boolean').trim() },
+          { token: 'comment.block.ov', foreground: getComputedStyle(document.documentElement).getPropertyValue('--editor-comment').trim() }
+        ],
+        colors: {
+          'editor.background': getComputedStyle(document.documentElement).getPropertyValue('--editor-background').trim(),
+          'editor.lineHighlightBorder': getComputedStyle(document.documentElement).getPropertyValue('--editor-lineHighlightBorder').trim(),
+          'editor.selectionBackground': getComputedStyle(document.documentElement).getPropertyValue('--editor-selectionBackground').trim(),
+        }
+      });
+      monaco.editor.setTheme('ovide-theme');
+    }
+  }
+
   monacoInit(editor) {
     this.editor = editor;
+
+    this.updateTheme(true);
+    monaco.editor.setTheme('ovide-theme');
+
+
     // install Monaco language client services
     try {
       MonacoServices.get();
@@ -256,28 +294,55 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           range: Range;
           pattern: string;
         }[];
-        this.schemaService.getAllAttributesFromSchema(this.ruleset.schemaId).subscribe(
-          attributes => {
-            jsonParameter.forEach(value => {
-              if (value.pattern === 'variable.parameter.ov') {
-                const foundAttribute = attributes.find(attribute => {
-                  return attribute.name === this.editor.getModel().getValueInRange({
-                    startLineNumber: value.range.start.line + 1,
-                    startColumn: value.range.start.character + 1,
-                    endLineNumber: value.range.end.line + 1,
-                    endColumn: value.range.end.character + 1
-                  });
+
+        // Inject token values for syntax highlighting
+        if(this.attributes !== undefined) {
+          jsonParameter.forEach(value => {
+            if (value.pattern === 'variable.parameter.ov') {
+              const foundAttribute = this.attributes.find(attribute => {
+                return attribute.name === this.editor.getModel().getValueInRange({
+                  startLineNumber: value.range.start.line + 1,
+                  endLineNumber: value.range.end.line + 1,
+                  startColumn: value.range.start.character + 1,
+                  endColumn: value.range.end.character + 1
                 });
-                if (foundAttribute !== undefined) {
-                  value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
-                }
+              });
+              if (foundAttribute !== undefined) {
+                value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
               }
-            });
-            monaco.languages.setTokensProvider(
-              'ov',
-              createTokenizationSupport(jsonParameter)
-            );
-          }
+            }
+            if (value.pattern === 'string.unquoted.ov') {
+              const thenInRange = this.editor.getModel().getValueInRange({
+                startLineNumber: value.range.start.line + 1,
+                endLineNumber: value.range.end.line + 1,
+                startColumn: 1,
+                endColumn: value.range.start.character
+              });
+
+              if (thenInRange.toLowerCase() === 'then') {
+                value.pattern = 'string.error.ov';
+              }
+
+              const trueOrFalseInRange = this.editor.getModel().getValueInRange({
+                startLineNumber: value.range.start.line + 1,
+                endLineNumber: value.range.end.line + 1,
+                startColumn: value.range.start.character + 1,
+                endColumn: value.range.end.character + 1
+              });
+
+              if(trueOrFalseInRange.toLowerCase() === 'true'
+                || trueOrFalseInRange.toLowerCase() === 'false'
+                || trueOrFalseInRange.toLowerCase() === 'yes'
+                || trueOrFalseInRange.toLowerCase() === 'no') {
+                value.pattern = 'constant.boolean.ov';
+              }
+
+            }
+          });
+        }
+        monaco.languages.setTokensProvider(
+          'ov',
+          createTokenizationSupport(jsonParameter)
         );
       }
     );
