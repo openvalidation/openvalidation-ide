@@ -86,7 +86,11 @@
     }
 }
 
-.loader {
-    margin-top: 15px;
+.loader-wrapper {
     width: 300px;
+
+    .loader {
+        margin-top: 15px;
+        width: 300px;
+    }
 }

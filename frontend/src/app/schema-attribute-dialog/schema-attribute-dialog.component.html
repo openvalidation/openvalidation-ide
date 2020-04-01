@@ -1,23 +1,24 @@
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-<h1 mat-dialog-title>{{ title }}</h1>
-<div mat-dialog-content class="attribute-form">
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" cdkFocusInitial>
-    <mat-error *ngIf="form.controls.name.hasError('required')">
-      Name is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <div>
-    <mat-button-toggle-group formControlName="attributeType" name="attributeType" aria-label="attribute type">
-      <mat-button-toggle value="TEXT">Text</mat-button-toggle>
-      <mat-button-toggle value="NUMBER">Number</mat-button-toggle>
-      <mat-button-toggle value="BOOLEAN">Yes/No</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-button type="button"[mat-dialog-close]>Cancel</button>
-  <button mat-button type="submit" [disabled]="form.invalid">Save</button>
-</div>
+    <h1 mat-dialog-title>{{ title }}</h1>
+    <div mat-dialog-content class="attribute-form">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" cdkFocusInitial maxlength="255">
+            <mat-hint align="end">{{ form.value.name.length }} / 255</mat-hint>
+            <mat-error *ngIf="form.controls.name.hasError('required')">
+                Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <div>
+            <mat-button-toggle-group formControlName="attributeType" name="attributeType" aria-label="attribute type">
+                <mat-button-toggle value="TEXT">Text</mat-button-toggle>
+                <mat-button-toggle value="NUMBER">Number</mat-button-toggle>
+                <mat-button-toggle value="BOOLEAN">Yes/No</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button type="button" [mat-dialog-close]>Cancel</button>
+        <button mat-button type="submit" [disabled]="form.invalid">Save</button>
+    </div>
 </form>

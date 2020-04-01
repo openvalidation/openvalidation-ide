@@ -24,6 +24,8 @@ import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
 import { DesignTestComponent } from './design-test/design-test.component';
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 
+// import { ErrorHandlerService } from '@ovide/services/error-handler.service';
+
 @NgModule({
   declarations: [
     OvideAppComponent,
@@ -51,7 +53,8 @@ import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
   ],
   providers: [
     {provide: BASE_PATH, useValue: environment.API_BASE_PATH},
-    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL}
+    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL},
+    // {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerService, multi: true},
   ],
   bootstrap: [OvideAppComponent]
 })

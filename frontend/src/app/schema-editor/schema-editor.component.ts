@@ -5,6 +5,7 @@ import { AttributeCreateDto, AttributeDto, AttributeUpdateDto } from '@ovide/bac
 import { ThemeService } from '@ovide/services/theme.service';
 import { SchemaService } from '@ovide/services/schema.service';
 import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
+import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
 @Component({
   selector: 'ovide-schema-editor',
@@ -38,18 +39,21 @@ export class SchemaEditorComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private schemaService: SchemaService,
-    public themeService: ThemeService
-  ) { }
+    public themeService: ThemeService,
+    private errorHandlerService: ErrorHandlerService
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   private initialize() {
     this.attributes = undefined;
     this.schemaService.getAllAttributesFromSchema(this._schemaId)
-    .subscribe(
-      success => this.attributes = success,
-      error => console.error(error)
-    );
+      .subscribe(
+        success => this.attributes = success,
+        () => this.errorHandlerService.createError('Error fetching attributes.')
+      );
   }
 
   add(): void {
@@ -64,10 +68,10 @@ export class SchemaEditorComponent implements OnInit {
           name: result.name
         };
         this.schemaService.addAttributesToSchema(this._schemaId, [createDto])
-        .subscribe(
-          success => this.attributes.push(success[0]),
-          error => console.error(error)
-        );
+          .subscribe(
+            success => this.attributes.push(success[0]),
+            () => this.errorHandlerService.createError('Error adding attribute to schema.')
+          );
       }
     });
   }
@@ -76,10 +80,10 @@ export class SchemaEditorComponent implements OnInit {
     const index = this.attributes.indexOf(attribute);
     if (index >= 0) {
       this.schemaService.deleteAttributeFromSchema(this._schemaId, attribute.attributeId)
-      .subscribe(
-        success => this.attributes.splice(index, 1),
-        error => console.error(error)
-      );
+        .subscribe(
+          () => this.attributes.splice(index, 1),
+          error => console.error(error)
+        );
     }
   }
 
@@ -95,15 +99,15 @@ export class SchemaEditorComponent implements OnInit {
           name: result.name
         };
         this.schemaService.updateAttributeFromSchema(this._schemaId, attribute.attributeId, updateDto)
-        .subscribe(
-          success => {
-            const index = this.attributes.findIndex(element => element.attributeId === attribute.attributeId);
-            if (index >= 0) {
-              this.attributes[index] = success;
-            }
-          },
-          error => console.error(error)
-        );
+          .subscribe(
+            success => {
+              const index = this.attributes.findIndex(element => element.attributeId === attribute.attributeId);
+              if (index >= 0) {
+                this.attributes[index] = success;
+              }
+            },
+            () => this.errorHandlerService.createError('Error updating attribute.')
+          );
       }
     });
   }

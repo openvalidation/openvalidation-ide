@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { catchError } from 'rxjs/operators';
+import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
 @Component({
   selector: 'ovide-rulesets-overview',
@@ -25,12 +27,18 @@ export class RulesetsOverviewComponent implements OnInit {
   rulesets$: Observable<RulesetDto[]>;
 
   constructor(
-    private rulesetBackendService: RulesetsBackendService
+    private rulesetBackendService: RulesetsBackendService,
+    private errorHandlerService: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
 
-    this.rulesets$ = this.rulesetBackendService.getAllRulesets();
+    this.rulesets$ = this.rulesetBackendService.getAllRulesets().pipe(
+      catchError(err => {
+        this.errorHandlerService.createError('Error fetching rulesets.');
+        return of([]);
+      })
+    );
 
   }
 
