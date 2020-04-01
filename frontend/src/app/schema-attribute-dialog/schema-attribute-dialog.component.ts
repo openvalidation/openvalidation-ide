@@ -21,12 +21,12 @@ export class SchemaAttributeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: SchemaAttributeDialogData
   ) {
     if (data.mode === SchemaAttributeDialogMode.edit && (this.data.attribute === null || this.data.attribute === undefined)) {
-      throw TypeError("When SchemaAttributeDialogMode is === edit, SchemaAttributeDialogData.attribut cannot be undefined or null");
+      throw TypeError('When SchemaAttributeDialogMode is === edit, SchemaAttributeDialogData.attribut cannot be undefined or null');
     }
   }
 
   ngOnInit(): void {
-    switch(this.data.mode) {
+    switch (this.data.mode) {
       case SchemaAttributeDialogMode.create:
         this.title = 'Add new attribute';
         this.attribute = { name: '', attributeType: 'TEXT' };
@@ -50,8 +50,8 @@ export class SchemaAttributeDialogComponent implements OnInit {
 }
 
 export interface SchemaAttributeDialogData {
-  mode: SchemaAttributeDialogMode,
-  attribute?: AttributeDto
+  mode: SchemaAttributeDialogMode;
+  attribute?: AttributeDto;
 }
 
 export enum SchemaAttributeDialogMode {

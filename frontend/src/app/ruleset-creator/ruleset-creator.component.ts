@@ -5,6 +5,9 @@ import { RulesetCreateDto, RulesetsBackendService } from '@ovide/backend';
 import * as faker from 'faker';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { ErrorHandlerService } from '@ovide/services/error-handler.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -27,7 +30,8 @@ export class RulesetCreatorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private rulesetsBackendService: RulesetsBackendService,
-    private router: Router
+    private router: Router,
+    private errorHandlerService: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -45,15 +49,13 @@ export class RulesetCreatorComponent implements OnInit {
       name: this.form.value.name,
       description: this.form.value.description,
       createdBy: this.form.value.creator
-    }
+    };
 
     this.rulesetsBackendService.createRuleset(newRuleset).subscribe(
       success => {
-        this.router.navigate(['/rulesets' ,success.rulesetId, 'edit']);
+        this.router.navigate(['/rulesets' , success.rulesetId, 'edit']);
       },
-      error => {
-        console.error(error);
-      }
+      () => this.errorHandlerService.createError('Error creating ruleset.')
     );
   }
 
@@ -61,8 +63,13 @@ export class RulesetCreatorComponent implements OnInit {
     this.rulesetsBackendService.createRuleset({
       name: faker.company.catchPhrase(),
       createdBy: faker.name.findName(),
-      description: faker.lorem.paragraph()
-    }).subscribe();
+      description: faker.lorem.paragraph(1)
+    }).pipe(
+      catchError(error => {
+        this.errorHandlerService.createError('Error creating random ruleset.');
+        return of();
+      })
+    ).subscribe();
   }
 
 }
