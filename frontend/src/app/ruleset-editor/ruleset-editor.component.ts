@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -18,13 +18,22 @@ import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highli
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { FormControl } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
 @Component({
   selector: 'ovide-ruleset-editor',
   templateUrl: './ruleset-editor.component.html',
-  styleUrls: ['./ruleset-editor.component.scss']
+  styleUrls: ['./ruleset-editor.component.scss'],
+  animations: [
+    trigger('editorAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.9)', opacity: 0.2 }),
+        animate('.4s ease-in-out')
+      ])
+    ])
+  ]
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
 
@@ -46,6 +55,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   ruleset: RulesetDto;
   editorText: FormControl;
 
+  editorInitDone = false;
   private editor;
   private currentConnection: IConnection;
   private subscriptions = new Subscription();
@@ -167,6 +177,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   monacoInit(editor) {
     this.editor = editor;
+    this.editorInitDone = true;
+    this.changeDetectorRef.detectChanges();
     // install Monaco language client services
     try {
       MonacoServices.get();

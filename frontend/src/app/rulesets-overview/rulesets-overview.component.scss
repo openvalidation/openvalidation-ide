@@ -1,6 +1,14 @@
 @import 'themes';
 
-:host {
+.spinner-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.rulesets-container {
     box-sizing: border-box;
     margin: 50px;
     width: calc(100% - 100px);

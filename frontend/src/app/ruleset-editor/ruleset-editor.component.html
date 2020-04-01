@@ -1,6 +1,7 @@
 
 <div class="ruleset-editor">
-    <div class="editor mat-elevation-z8">
+    <mat-spinner *ngIf="!editorInitDone" class="editor-loading"></mat-spinner>
+    <div class="editor mat-elevation-z8" [@editorAnimation]>
         <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>

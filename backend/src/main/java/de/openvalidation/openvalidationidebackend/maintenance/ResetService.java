@@ -33,12 +33,9 @@ public class ResetService {
     ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
 
     try (Connection connection = dataSource.getConnection()) {
-      if (connection.getMetaData().getDatabaseProductName().equalsIgnoreCase("h2")) {
-        resourceDatabasePopulator.addScript(new ClassPathResource("data-h2.sql"));
-      } else {
+      if (connection.getMetaData().getDatabaseProductName().equalsIgnoreCase("postgresql")) {
         resourceDatabasePopulator.addScript(new ClassPathResource("data-postgresql.sql"));
       }
-
       DatabasePopulatorUtils.execute(resourceDatabasePopulator, dataSource);
     }
   }
