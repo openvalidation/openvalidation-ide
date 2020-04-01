@@ -1,7 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -18,20 +18,41 @@ import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highli
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { FormControl } from '@angular/forms';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
 @Component({
   selector: 'ovide-ruleset-editor',
   templateUrl: './ruleset-editor.component.html',
-  styleUrls: ['./ruleset-editor.component.scss']
+  styleUrls: ['./ruleset-editor.component.scss'],
+  animations: [
+    trigger('editorAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.9)', opacity: 0.2 }),
+        animate('.4s ease-in-out')
+      ])
+    ]),
+    trigger('variableAnimation', [
+      transition(':enter', [
+        query('*', [
+          style({ transform: 'scale(0.5)', opacity: 0 }),
+          stagger(30, [
+            animate('.2s ease-out')
+          ]),
+        ])
+      ])
+    ])
+  ]
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
   private lastSavedRules: string;
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
   private languageId = 'ov';
-  variables: Array<string>;
+  public variables$ = new Subject<Array<IVariable>>();
+  public editorErrors$ = new Subject<Array<IError>>();
+
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -45,6 +66,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   ruleset: RulesetDto;
   editorText: FormControl;
 
+  editorInitDone = false;
   private editor;
   private currentConnection: IConnection;
   private subscriptions = new Subscription();
@@ -57,8 +79,9 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private rulesetsBackendService: RulesetsBackendService,
     private schemaService: SchemaService,
-    private themeService: ThemeService,
-    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
+    public themeService: ThemeService,
+    @Inject('LANGUAGE_SERVER_URL') languageServerUrl,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.languageServerUrl = languageServerUrl;
   }
@@ -79,7 +102,6 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     ));
 
     this.subscriptions.add(this.editorText.valueChanges.pipe(
-      tap(rules => this.updateVariables(rules)),
       debounceTime(500),
       distinctUntilChanged(),
       filter(rules => rules !== this.lastSavedRules)
@@ -203,12 +225,13 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   monacoInit(editor) {
     this.editor = editor;
+    this.editorInitDone = true;
+    this.changeDetectorRef.detectChanges();
 
     this.themeService.darkThemeActive$.pipe(take(1)).subscribe((isDark) => {
         this.updateTheme(isDark);
       }
     );
-
     monaco.editor.setTheme('ovide-theme');
 
     // install Monaco language client services
@@ -259,6 +282,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           this.sendCultureConfiguration();
           this.sendLanguageConfiguration();
 
+          this.addParsingResultNotificationListener();
           this.addSemanticHighlightingNotificationListener();
           this.addAliasesChangesListener();
           return Promise.resolve(this.currentConnection);
@@ -384,6 +408,23 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Adds listener to the notification ``openVALIDATION/parsingResult`` to set a few
+   * language-configurations for the ov-language
+   */
+  private addParsingResultNotificationListener() {
+    this.currentConnection.onNotification(
+      NotificationEnum.ParsingResult,
+      (params: any) => {
+        const variables: Array<IVariable> = params.variables;
+        const errors: Array<IError> = params.diagnostics;
+        this.variables$.next(variables);
+        this.editorErrors$.next(errors);
+        this.changeDetectorRef.detectChanges();
+      }
+    );
+  }
+
   private sendLanguageConfiguration() {
     const textdocumentUri = this.editor.getModel().uri.toString();
 
@@ -392,18 +433,15 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       uri: textdocumentUri
     });
   }
+}
 
-  updateVariables(code: string) {
-    // find matches
-    const globalRegex = /[ \n]AS .*/gi;
-    // find variable names
-    const localRegex = /[ \n]AS (.*)/i;
-    const results = code.match(globalRegex);
-    this.variables = [];
-    if (Array.isArray(results)) {
-      for (const result of results) {
-        this.variables.push(result.match(localRegex)[1]);
-      }
-    }
-  }
+export interface IVariable {
+  readonly name: string;
+  readonly dataType: string;
+}
+
+export interface IError {
+  readonly range: any;
+  readonly message: string;
+  readonly severity: number;
 }
