@@ -53,7 +53,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   private languageId = 'ov';
   public variables$ = new Subject<Array<IVariable>>();
-  public editorErrors$ = new BehaviorSubject<Array<IError>>([]);
+  public editorErrors$ = new Subject<Array<IError>>();
 
   editorOptions = {
     theme: 'vs-dark',

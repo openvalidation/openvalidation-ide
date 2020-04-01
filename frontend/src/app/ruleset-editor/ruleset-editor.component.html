@@ -20,8 +20,8 @@
             </div>
         </ng-template>
     </div>
-    <div class="errors">
-        <div *ngFor="let error of (editorErrors$ | async)" class="error-message">{{error.message}}</div>
+    <div class="errors" *ngIf="(editorErrors$ | async) as editorErrors;" [@variableAnimation]>
+        <div *ngFor="let error of editorErrors" class="error-message">{{error.message}}</div>
     </div>
     <div class="actions">
         <button mat-flat-button color="primary" [routerLink]="['../test']" >Test</button>
