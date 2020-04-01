@@ -1,4 +1,6 @@
-<mat-chip-list class="attribute-chiplist">
+
+<mat-progress-bar mode="indeterminate" class="loader" *ngIf="!attributes"></mat-progress-bar>
+<mat-chip-list class="attribute-chiplist" *ngIf="attributes" [@attributeAnimation]>
     <mat-chip
         *ngFor="let attribute of attributes"
         class="attribute-type"

@@ -26,6 +26,10 @@
     }
 }
 
+.editor-loading {
+    grid-area: editor;
+}
+
 .errors {
     grid-area: errors;
     justify-self: start;
@@ -80,4 +84,9 @@
     > button + button {
         margin-left: 20px;
     }
+}
+
+.loader {
+    margin-top: 15px;
+    width: 300px;
 }

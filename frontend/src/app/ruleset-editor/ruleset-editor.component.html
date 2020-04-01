@@ -1,18 +1,24 @@
 
 <div class="ruleset-editor">
-    <div class="editor mat-elevation-z8">
+    <mat-spinner *ngIf="!editorInitDone" class="editor-loading"></mat-spinner>
+    <div class="editor mat-elevation-z8" [@editorAnimation]>
         <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
-        <mat-chip-list>
+        <mat-chip-list *ngIf="(variables$ | async) as variables; else loading" [@variableAnimation]>
             <mat-chip
-                *ngFor="let variable of (variables$ | async)"
+                *ngFor="let variable of variables"
                 [class.outline]="themeService.darkThemeActive$ | async"
                 class="variable">
                 {{variable.name}}
             </mat-chip>
         </mat-chip-list>
+        <ng-template #loading>
+            <div style="width: 300px;">
+                <mat-progress-bar mode="indeterminate" class="loader"></mat-progress-bar>
+            </div>
+        </ng-template>
     </div>
     <div class="errors">
         <div *ngFor="let error of (editorErrors$ | async)" class="error-message">{{error.message}}</div>

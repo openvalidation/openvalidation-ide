@@ -123,11 +123,37 @@ public class SchemaService {
           map.put(attribute.getName(), Boolean.parseBoolean(attribute.getValue()));
           break;
         case LIST:
+          map.put(attribute.getName(), convertAttributesToList(attribute.getChildren()));
+          break;
         case OBJECT:
           map.put(attribute.getName(), convertAttributesToMap(attribute.getChildren()));
           break;
       }
     });
     return map;
+  }
+
+  private List<Object> convertAttributesToList(Set<Attribute> attributes) {
+    List<Object> list = new ArrayList<>();
+    attributes.forEach(attribute -> {
+      switch (attribute.getAttributeType()) {
+        case TEXT:
+          list.add(attribute.getValue());
+          break;
+        case NUMBER:
+          list.add(Double.parseDouble(attribute.getValue()));
+          break;
+        case BOOLEAN:
+          list.add(Boolean.parseBoolean(attribute.getValue()));
+          break;
+        case LIST:
+          list.add(convertAttributesToList(attribute.getChildren()));
+          break;
+        case OBJECT:
+          list.add(convertAttributesToMap(attribute.getChildren()));
+          break;
+      }
+    });
+    return list;
   }
 }

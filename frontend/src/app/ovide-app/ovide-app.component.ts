@@ -2,11 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AvailableThemes, ThemeService } from '@ovide/services/theme.service';
 import { take } from 'rxjs/operators';
+import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 
 @Component({
   selector: 'ovide-app',
   templateUrl: './ovide-app.component.html',
-  styleUrls: ['./ovide-app.component.scss']
+  styleUrls: ['./ovide-app.component.scss'],
+  animations: [
+    trigger('navigationIconAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.5)', opacity: 0 }),
+        animate('.3s ease-out')
+      ]),
+      transition(':leave', [
+        animate('.3s ease-in', style({ transform: 'scale(0.5)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class OvideAppComponent implements OnInit {
   isEditing: boolean;
