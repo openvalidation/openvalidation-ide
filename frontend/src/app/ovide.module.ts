@@ -22,6 +22,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
 
 import { DesignTestComponent } from './design-test/design-test.component';
+import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DesignTestComponent } from './design-test/design-test.component';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
-    DesignTestComponent
+    DesignTestComponent,
+    OvideLogoComponent
   ],
   imports: [
     BrowserModule,
