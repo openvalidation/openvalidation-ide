@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs';
 import { ThemeService } from '@ovide/services/theme.service';
 import {
   CloseAction,
@@ -18,7 +18,7 @@ import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highli
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { FormControl } from '@angular/forms';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 const ReconnectingWebSocket = require('reconnecting-websocket');
 
@@ -32,6 +32,16 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
         style({ transform: 'scale(0.9)', opacity: 0.2 }),
         animate('.4s ease-in-out')
       ])
+    ]),
+    trigger('variableAnimation', [
+      transition(':enter', [
+        query('*', [
+          style({ transform: 'scale(0.5)', opacity: 0 }),
+          stagger(30, [
+            animate('.2s ease-out')
+          ]),
+        ])
+      ])
     ])
   ]
 })
@@ -42,7 +52,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
   private languageId = 'ov';
-  variables$ = new BehaviorSubject<Array<string>>([]);
+  variables$ = new Subject<Array<string>>();
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
@@ -315,7 +325,6 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     this.currentConnection.onNotification(
       NotificationEnum.ParsingResult,
       (params: any) => {
-        console.log(params);
         this.variables$.next(params.variables);
         this.changeDetectorRef.detectChanges();
       }
