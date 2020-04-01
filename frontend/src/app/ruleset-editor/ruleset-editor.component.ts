@@ -67,7 +67,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private rulesetsBackendService: RulesetsBackendService,
     private schemaService: SchemaService,
-    private themeService: ThemeService,
+    public themeService: ThemeService,
     @Inject('LANGUAGE_SERVER_URL') languageServerUrl,
     private changeDetectorRef: ChangeDetectorRef
   ) {
