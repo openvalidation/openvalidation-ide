@@ -46,8 +46,6 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
   ]
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
-
-
   private lastSavedRules: string;
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
@@ -58,6 +56,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   editorOptions = {
     theme: 'vs-dark',
     language: this.languageId,
+    fontFamily: 'Source Code Pro',
     minimap: {
       enabled: false
     },
@@ -74,6 +73,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private schemaValue;
   private languageServerUrl: string;
   private webSocket;
+  private attributes;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,6 +84,11 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef
   ) {
     this.languageServerUrl = languageServerUrl;
+  }
+
+  private static readStyleProperty(name: string): string {
+    const bodyStyles = window.getComputedStyle(document.documentElement);
+    return bodyStyles.getPropertyValue('--' + name).trim();
   }
 
   ngOnInit(): void {
@@ -117,13 +122,17 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
+      this.schemaService.schemaId$.pipe(
+        switchMap(schemaId => this.schemaService.getAllAttributesFromSchema(schemaId)),
+        tap(attributes => {
+          this.attributes = attributes;
+        })
+      ).subscribe()
+    );
+
+    this.subscriptions.add(
       this.themeService.darkThemeActive$.subscribe((isDark) => {
-        const nextTheme = isDark ? 'vs-dark' : 'vs';
-        if (this.editor !== undefined) {
-          monaco.editor.setTheme(nextTheme);
-        } else {
-          this.editorOptions.theme = nextTheme;
-        }
+        this.updateTheme(isDark);
       })
     );
 
@@ -187,10 +196,44 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  private updateTheme(isDark: boolean) {
+    if (this.editor !== undefined) {
+      monaco.editor.defineTheme('ovide-theme', {
+        base: isDark ? 'vs-dark' : 'vs',
+        inherit: true,
+        rules: [
+          {token: 'keyword.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-keyword')},
+          {token: 'string.unquoted.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
+          {token: 'string.error.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-error')},
+          {token: 'variable.parameter.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-variable')},
+          {token: 'variable.number.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
+          {token: 'variable.text.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
+          {token: 'variable.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
+          {token: 'constant.numeric.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
+          {token: 'constant.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
+          {token: 'comment.block.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-comment')}
+        ],
+        colors: {
+          'editor.background': RulesetEditorComponent.readStyleProperty('editor-background'),
+          'editor.lineHighlightBorder': RulesetEditorComponent.readStyleProperty('editor-lineHighlightBorder'),
+          'editor.selectionBackground': RulesetEditorComponent.readStyleProperty('editor-selectionBackground'),
+        }
+      });
+      monaco.editor.setTheme('ovide-theme');
+    }
+  }
+
   monacoInit(editor) {
     this.editor = editor;
     this.editorInitDone = true;
     this.changeDetectorRef.detectChanges();
+
+    this.themeService.darkThemeActive$.pipe(take(1)).subscribe((isDark) => {
+        this.updateTheme(isDark);
+      }
+    );
+    monaco.editor.setTheme('ovide-theme');
+
     // install Monaco language client services
     try {
       MonacoServices.get();
@@ -281,6 +324,52 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
           range: Range;
           pattern: string;
         }[];
+
+        // Inject token values for syntax highlighting
+        if (this.attributes !== undefined) {
+          jsonParameter.forEach(value => {
+            if (value.pattern === 'variable.parameter.ov') {
+              const foundAttribute = this.attributes.find(attribute => {
+                return attribute.name.toLowerCase() === this.editor.getModel().getValueInRange({
+                  startLineNumber: value.range.start.line + 1,
+                  endLineNumber: value.range.end.line + 1,
+                  startColumn: value.range.start.character + 1,
+                  endColumn: value.range.end.character + 1
+                }).toLowerCase();
+              });
+              if (foundAttribute !== undefined) {
+                value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
+              }
+            }
+            if (value.pattern === 'string.unquoted.ov') {
+              const thenInRange = this.editor.getModel().getValueInRange({
+                startLineNumber: value.range.start.line + 1,
+                endLineNumber: value.range.end.line + 1,
+                startColumn: 1,
+                endColumn: value.range.start.character
+              });
+
+              if (thenInRange.trim().toLowerCase() === 'then') {
+                value.pattern = 'string.error.ov';
+              }
+
+              const trueOrFalseInRange = this.editor.getModel().getValueInRange({
+                startLineNumber: value.range.start.line + 1,
+                endLineNumber: value.range.end.line + 1,
+                startColumn: value.range.start.character + 1,
+                endColumn: value.range.end.character + 1
+              });
+
+              if (trueOrFalseInRange.toLowerCase() === 'true'
+                || trueOrFalseInRange.toLowerCase() === 'false'
+                || trueOrFalseInRange.toLowerCase() === 'yes'
+                || trueOrFalseInRange.toLowerCase() === 'no') {
+                value.pattern = 'constant.boolean.ov';
+              }
+
+            }
+          });
+        }
         monaco.languages.setTokensProvider(
           'ov',
           createTokenizationSupport(jsonParameter)
