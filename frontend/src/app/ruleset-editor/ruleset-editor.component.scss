@@ -1,14 +1,12 @@
+@import 'themes';
+
 .ruleset-editor {
     display: grid;
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 0.5fr;
-    grid-template-areas:
-        "editor schema"
-        "editor variables"
-        "actions actions"
-    ;
+    grid-template-areas: "editor schema" "editor variables" "actions actions";
     justify-items: center;
     align-items: center;
 }
@@ -30,20 +28,44 @@
 
 .schema {
     grid-area: schema;
-    padding: 0 50px;
+    padding: 0 50px 50px 50px;
     justify-self: start;
     align-self: start;
 }
 
 .variables {
+    box-sizing: border-box;
+    margin: 0 50px 50px;
+    padding-top: 50px;
+    border-top: 1px dashed theme-var($--variable-separator);
     grid-area: variables;
+    justify-self: start;
+    align-self: start;
+
+    .variable {
+        background-color: theme-var($--variable-color);
+        border: 1px solid theme-var($--variable-color);
+        font-weight: bold;
+        letter-spacing: 0.15em;
+
+        &.outline {
+            background-color: transparent;
+            color: theme-var($--variable-color);
+        }
+    }
 }
 
 .actions {
     grid-area: actions;
     display: flex;
     justify-self: start;
+
     > button + button {
         margin-left: 20px;
     }
+}
+
+.loader {
+    margin-top: 15px;
+    width: 300px;
 }
