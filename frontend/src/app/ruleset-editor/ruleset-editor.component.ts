@@ -27,18 +27,6 @@ const ReconnectingWebSocket = require('reconnecting-websocket');
   styleUrls: ['./ruleset-editor.component.scss']
 })
 export class RulesetEditorComponent implements OnInit, OnDestroy {
-
-  constructor(
-    private route: ActivatedRoute,
-    private rulesetsBackendService: RulesetsBackendService,
-    private schemaService: SchemaService,
-    private themeService: ThemeService,
-    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
-  ) {
-    this.languageServerUrl = languageServerUrl;
-  }
-
-
   private lastSavedRules: string;
   private savingRulesInProgress$ = new BehaviorSubject<boolean>(false);
 
@@ -64,6 +52,16 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
   private languageServerUrl: string;
   private webSocket;
   private attributes;
+
+  constructor(
+    private route: ActivatedRoute,
+    private rulesetsBackendService: RulesetsBackendService,
+    private schemaService: SchemaService,
+    private themeService: ThemeService,
+    @Inject('LANGUAGE_SERVER_URL') languageServerUrl
+  ) {
+    this.languageServerUrl = languageServerUrl;
+  }
 
   private static readStyleProperty(name: string): string {
     const bodyStyles = window.getComputedStyle(document.documentElement);
