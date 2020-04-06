@@ -1,6 +1,8 @@
 package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
 import de.openvalidation.openvalidationidebackend.core.DtoMapper;
+import de.openvalidation.openvalidationidebackend.entities.attribute.Attribute;
+import de.openvalidation.openvalidationidebackend.entities.attribute.AttributeType;
 import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaNotFoundException;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaRepository;
@@ -8,7 +10,9 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -29,10 +33,21 @@ public class RulesetService {
   }
 
   public RulesetDto createRuleset(RulesetCreateDto rulesetCreateDto) {
-    Schema schema = rulesetCreateDto.getSchemaId() != null
-        ? this.schemaRepository.findById(rulesetCreateDto.getSchemaId()).orElseThrow(SchemaNotFoundException::new)
-        : new Schema();
+    Schema schema;
+    if (rulesetCreateDto.getSchemaId() != null) {
+      schema = this.schemaRepository.findById(rulesetCreateDto.getSchemaId()).orElseThrow(SchemaNotFoundException::new);
+    } else {
+      schema = new Schema();
+      Set<Attribute> attributes = new HashSet<>();
+      attributes.add(new Attribute(UUID.randomUUID(), "name", AttributeType.TEXT, "Satoshi", null));
+      attributes.add(new Attribute(UUID.randomUUID(), "age", AttributeType.NUMBER, "25", null));
+      attributes.add(new Attribute(UUID.randomUUID(), "location", AttributeType.TEXT, "Dortmund", null));
+      schema.setAttributes(attributes);
+    }
     Ruleset ruleset = dtoMapper.toRulesetEntity(rulesetCreateDto);
+    ruleset.setDescription(ruleset.getDescription() != null && ruleset.getDescription().length() > 0
+        ? ruleset.getDescription() : ruleset.getName());
+    ruleset.setRules("your name HAS to be Validaria");
     ruleset.setSchema(this.schemaRepository.save(schema));
     return dtoMapper.toRulesetDto(rulesetRepository.save(ruleset));
   }
