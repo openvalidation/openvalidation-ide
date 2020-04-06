@@ -60,16 +60,6 @@ public class MaintenanceService {
           "THEN the Name should be Validaria", schema);
       rulesetRepository.save(ruleset);
 
-/*      attributes = new HashSet<>();
-      attributes.add(new Attribute(UUID.randomUUID(), "name", AttributeType.TEXT, "Satoshi", null));
-      attributes.add(new Attribute(UUID.randomUUID(), "age", AttributeType.NUMBER, "25", null));
-      attributes.add(new Attribute(UUID.randomUUID(), "location", AttributeType.TEXT, "Dortmund", null));
-      schema = new Schema(UUID.randomUUID(), attributes);
-      schemaRepository.save(schema);
-      ruleset = new Ruleset(UUID.randomUUID(), "lists", "Check if list contains attribute value", new Date(),
-          "openVALIDATION IDE Team", "a location MUST be London, Berlin or Paris", schema);
-      rulesetRepository.save(ruleset);*/
-
       attributes = new HashSet<>();
       attributes.add(new Attribute(UUID.randomUUID(), "name", AttributeType.TEXT, "Satoshi", null));
       attributes.add(new Attribute(UUID.randomUUID(), "age", AttributeType.NUMBER, "25", null));
@@ -128,6 +118,16 @@ public class MaintenanceService {
       rulesetRepository.save(ruleset);
 
 /*      attributes = new HashSet<>();
+      attributes.add(new Attribute(UUID.randomUUID(), "name", AttributeType.TEXT, "Satoshi", null));
+      attributes.add(new Attribute(UUID.randomUUID(), "age", AttributeType.NUMBER, "25", null));
+      attributes.add(new Attribute(UUID.randomUUID(), "location", AttributeType.TEXT, "Dortmund", null));
+      schema = new Schema(UUID.randomUUID(), attributes);
+      schemaRepository.save(schema);
+      ruleset = new Ruleset(UUID.randomUUID(), "lists", "Check if list contains attribute value", new Date(),
+          "openVALIDATION IDE Team", "a location MUST be London, Berlin or Paris", schema);
+      rulesetRepository.save(ruleset); */
+
+/*      attributes = new HashSet<>();
       attributeChildren = new HashSet<>();
       attributeChildren.add(new Attribute(UUID.randomUUID(), "z_bfm32", AttributeType.TEXT, "MPA123", null));
       attributes.add(new Attribute(UUID.randomUUID(), "MFG", AttributeType.OBJECT, null, attributeChildren));
@@ -143,7 +143,7 @@ public class MaintenanceService {
           "\n" +
           "     user SHOULD be a Student\n" +
           " AND his residence SHOULD be Dortmund", schema);
-      rulesetRepository.save(ruleset);*/
+      rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
       attributeChildren = new HashSet<>();
@@ -158,7 +158,7 @@ public class MaintenanceService {
           "openVALIDATION IDE Team", "first item from names as Boss\n" +
           "\n" +
           "I have to be the Boss", schema);
-      rulesetRepository.save(ruleset);*/
+      rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
       attributeChildren = new HashSet<>();
@@ -175,7 +175,7 @@ public class MaintenanceService {
           "openVALIDATION IDE Team", "first number from numbers with a value bigger than 3 as magic number\n" +
           "\n" +
           "magic number has to be 4", schema);
-      rulesetRepository.save(ruleset);*/
+      rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
       attributes.add(new Attribute(UUID.randomUUID(), "age", AttributeType.NUMBER, "17", null));
@@ -186,7 +186,7 @@ public class MaintenanceService {
           "as operator younger\n" +
           "\n" +
           "user must not be younger than 18 years", schema);
-      rulesetRepository.save(ruleset);*/
+      rulesetRepository.save(ruleset); */
     }
   }
 }
