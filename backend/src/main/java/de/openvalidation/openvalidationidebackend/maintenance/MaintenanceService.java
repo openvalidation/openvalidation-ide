@@ -33,7 +33,7 @@ public class MaintenanceService {
   }
 
   public void createInitialData() {
-    if (rulesetRepository.count() == 0 || schemaRepository.count() == 0) {
+    if (rulesetRepository.count() == 0 && schemaRepository.count() == 0) {
       Set<Attribute> attributes;
       Set<Attribute> attributeChildren;
       Schema schema;
