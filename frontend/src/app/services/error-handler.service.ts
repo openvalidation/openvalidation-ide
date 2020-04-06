@@ -16,7 +16,8 @@ export class ErrorHandlerService /*implements HttpInterceptor*/ {
   public createError(message: string) {
     this.snackBarOpen = true;
     const currentSnackbar = this.snackBar.open(message, '', {
-      duration: 3000
+      duration: 3000,
+      panelClass: 'snackbar-error'
     });
     currentSnackbar.afterDismissed().subscribe(() => {
       if (this.errorQueue.length > 0) {

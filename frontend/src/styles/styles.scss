@@ -1,12 +1,17 @@
 @import 'themes';
 
-html, body { 
-    height: 100%; 
+html, body {
+    height: 100%;
 }
 
-body { 
+body {
     margin: 0;
     font-family: 'Source Sans Pro', monospace;
+}
+
+.snackbar-error {
+    background: theme-var($--snackbar-error-background);
+    color: theme-var($--ovide-mat-foreground-text);
 }
 
 .startup-loader-animation {
