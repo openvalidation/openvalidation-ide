@@ -1,48 +1,51 @@
+<h1>test suite</h1>
 <div class="ruleset-testsuite">
     <div class="editor mat-elevation-z8"><textarea></textarea></div>
 
     <div class="graphs">
-        <ngx-charts-pie-grid
-        [scheme]="graphColorScheme"
-        [results]="graphData"
-    ></ngx-charts-pie-grid>
+        <ovide-gauge-chart [value]="60"></ovide-gauge-chart>
+        <ovide-gauge-chart [value]="40"></ovide-gauge-chart>
     </div>
 
-    <div class="data mat-elevation-z8">
-        <table mat-table [dataSource]="tableDataSource">
+    <div class="data">
+        <table class="ovide-table" mat-table [dataSource]="tableDataSource">
 
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-      
-          <ng-container matColumnDef="age">
-            <th mat-header-cell *matHeaderCellDef> Age </th>
-            <td mat-cell *matCellDef="let element"> {{element.age}} </td>
-          </ng-container>
-      
-          <ng-container matColumnDef="street">
-            <th mat-header-cell *matHeaderCellDef> Street </th>
-            <td mat-cell *matCellDef="let element"> {{element.street}} </td>
-          </ng-container>
-      
-          <ng-container matColumnDef="city">
-            <th mat-header-cell *matHeaderCellDef> City </th>
-            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-          </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> name</th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="expected">
-            <th mat-header-cell *matHeaderCellDef> Message expected? </th>
-            <td mat-cell *matCellDef="let element"> <mat-slide-toggle [color]="'primary'" [checked]="element.expected"></mat-slide-toggle></td>
-          </ng-container>
+            <ng-container matColumnDef="age">
+                <th mat-header-cell class="text-right" *matHeaderCellDef> age</th>
+                <td mat-cell class="text-right" *matCellDef="let element"> {{element.age}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="passed">
-            <th mat-header-cell *matHeaderCellDef> Passed </th>
-            <td mat-cell *matCellDef="let element"><mat-icon>{{element.passed ? 'check_circle_outline': 'error_outline' }}</mat-icon></td>
-          </ng-container>
-      
-          <tr mat-header-row *matHeaderRowDef="tableDisplayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: tableDisplayedColumns;"></tr>
+            <ng-container matColumnDef="street">
+                <th mat-header-cell *matHeaderCellDef> street</th>
+                <td mat-cell *matCellDef="let element"> {{element.street}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef> city</th>
+                <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expected">
+                <th mat-header-cell *matHeaderCellDef> Message expected?</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-slide-toggle [color]="'primary'" [checked]="element.expected"></mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="passed">
+                <th mat-header-cell *matHeaderCellDef> Passed</th>
+                <td mat-cell [class.failed]="!element.passed" [class.passed]="element.passed" *matCellDef="let element">
+                    <mat-icon>{{element.passed ? 'check' : 'close' }}</mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="tableDisplayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: tableDisplayedColumns;"></tr>
         </table>
     </div>
 </div>

@@ -1,7 +1,9 @@
+@import "themes";
+
 .ruleset-testsuite {
     display: grid;
     width: 100%;
-    height: 100%;
+    height: 90%;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
@@ -15,6 +17,7 @@
     grid-area: editor;
     width: 100%;
     height: 100%;
+
     > textarea {
         box-sizing: border-box;
         width: inherit;
@@ -24,9 +27,19 @@
 }
 
 .graphs {
+    box-sizing: border-box;
     grid-area: graphs;
     width: 100%;
     height: 100%;
+    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+body > ovide-app > mat-sidenav-container > mat-sidenav-content > div > ovide-ruleset-testsuite > div > div.graphs > ngx-charts-pie-grid > ngx-charts-chart > div > svg > g > g:nth-child(1) > text.label.percent-label.ng-star-inserted {
+    stroke: white !important;
 }
 
 .data {
@@ -34,7 +47,53 @@
     overflow: auto;
     width: 100%;
     height: 100%;
-    table {
+
+    table.ovide-table {
+        background: transparent;
         width: 100%;
+        font-family: 'Source Sans Pro', monospace;
+
+        .mat-header-cell {
+            color: theme-var($--ovide-mat-primary-900);
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-bottom: transparent;
+        }
+
+        .mat-row:nth-child(even) {
+            background-color: transparent;
+        }
+
+        .mat-row:nth-child(odd) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mat-cell {
+            color: theme-var($--ovide-mat-foreground-text);
+            border-bottom: transparent;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            &.passed {
+                color: theme-var($--check-passed);
+            }
+
+            &.failed {
+                color: theme-var($--check-failed);
+            }
+
+            &.passed mat-icon, &.failed mat-icon {
+                font-weight: bold !important;
+            }
+
+        }
+
+        .text-right {
+            text-align: end;
+        }
     }
 }
+
