@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaRepository;
 import de.openvalidation.openvalidationidebackend.util.RulesetBuilder;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,7 @@ public class RulesetIntegrationTest {
   }
 
   @Test
-  public void whenValidResponseBody_onCreateRuleset_thenStatusSuccessful() throws Exception {
+  public void whenValidRequestBody_onCreateRuleset_thenStatusSuccessful() throws Exception {
     RulesetCreateDto rulesetCreateDto = new RulesetBuilder().buildCreateDto();
 
     mockMvc.perform(post("/rulesets")
@@ -72,8 +73,17 @@ public class RulesetIntegrationTest {
   }
 
   @Test
-  public void whenInvalidResponseBody_onCreateRuleset_thenStatusClientError() throws Exception {
-    RulesetCreateDto rulesetCreateDto = new RulesetBuilder().setName(null).setCreatedBy(null).buildCreateDto();
+  public void whenEmptyRequestBody_onCreateRuleset_thenStatusSuccessful() throws Exception {
+    mockMvc.perform(post("/rulesets")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is2xxSuccessful())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.name", is("Unnamed ruleset")));
+  }
+
+  @Test
+  public void whenInvalidRequestBody_onCreateRuleset_thenStatusClientError() throws Exception {
+    RulesetCreateDto rulesetCreateDto = new RulesetBuilder().setName(RandomStringUtils.randomAlphabetic(300)).buildCreateDto();
 
     mockMvc.perform(post("/rulesets")
         .contentType(MediaType.APPLICATION_JSON)

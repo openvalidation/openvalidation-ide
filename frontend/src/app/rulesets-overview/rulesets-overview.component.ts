@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { ErrorHandlerService } from '@ovide/services/error-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ovide-rulesets-overview',
@@ -27,19 +28,29 @@ export class RulesetsOverviewComponent implements OnInit {
   rulesets$: Observable<RulesetDto[]>;
 
   constructor(
-    private rulesetBackendService: RulesetsBackendService,
+    private rulesetsBackendService: RulesetsBackendService,
+    private router: Router,
     private errorHandlerService: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
 
-    this.rulesets$ = this.rulesetBackendService.getAllRulesets().pipe(
+    this.rulesets$ = this.rulesetsBackendService.getAllRulesets().pipe(
       catchError(err => {
         this.errorHandlerService.createError('Error fetching rulesets.');
         return of([]);
       })
     );
 
+  }
+
+  add() {
+    this.rulesetsBackendService.createRuleset().subscribe(
+      success => {
+        this.router.navigate(['/rulesets' , success.rulesetId, 'edit']);
+      },
+      () => this.errorHandlerService.createError('Error creating ruleset.')
+    );
   }
 
 }
