@@ -10,10 +10,12 @@ import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
@@ -23,19 +25,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {SchemaDtoMapperImpl.class, AttributeDtoMapperImpl.class})
 public class SchemaServiceTest {
-  @Mock
+  @MockBean
   private SchemaRepository schemaRepository;
+  @Autowired
+  private SchemaDtoMapper schemaDtoMapper;
+  @Autowired
+  private AttributeDtoMapper attributeDtoMapper;
 
-  @InjectMocks
   private SchemaService schemaService;
-
   private UUID validSchemaId = UUID.randomUUID();
   private UUID invalidSchemaId = UUID.randomUUID();
 
   @BeforeEach
   public void setUp() {
+    schemaService = new SchemaService(schemaRepository, schemaDtoMapper, attributeDtoMapper);
+
     List<Schema> schemas = new ArrayList<>();
     schemas.add(new SchemaBuilder().build());
     schemas.add(new SchemaBuilder().build());
