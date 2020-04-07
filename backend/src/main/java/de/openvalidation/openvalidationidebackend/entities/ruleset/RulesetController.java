@@ -31,8 +31,8 @@ public class RulesetController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public RulesetDto createRuleset(@Valid @RequestBody RulesetCreateDto rulesetCreateDto) {
-    return rulesetService.createRuleset(rulesetCreateDto);
+  public RulesetDto createRuleset(@Valid @RequestBody(required = false) RulesetCreateDto rulesetCreateDto) {
+    return rulesetService.createRuleset(rulesetCreateDto == null ? new RulesetCreateDto() : rulesetCreateDto);
   }
 
   @Tag(name = "rulesets")

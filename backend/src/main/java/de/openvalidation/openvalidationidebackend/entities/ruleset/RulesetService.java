@@ -45,8 +45,6 @@ public class RulesetService {
       schema.setAttributes(attributes);
     }
     Ruleset ruleset = dtoMapper.toRulesetEntity(rulesetCreateDto);
-    ruleset.setDescription(ruleset.getDescription() != null && ruleset.getDescription().length() > 0
-        ? ruleset.getDescription() : ruleset.getName());
     ruleset.setRules("your name HAS to be Validaria");
     ruleset.setSchema(this.schemaRepository.save(schema));
     return dtoMapper.toRulesetDto(rulesetRepository.save(ruleset));
