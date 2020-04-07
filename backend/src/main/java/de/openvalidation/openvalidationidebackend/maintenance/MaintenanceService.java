@@ -46,7 +46,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "hello openValidation", "Basic example", new Date(),
-          "openVALIDATION IDE Team", "your name HAS to be Validaria", schema);
+          "openVALIDATION IDE Team", new Date(), "your name HAS to be Validaria", schema);
       rulesetRepository.save(ruleset);
 
       attributes = new HashSet<>();
@@ -56,7 +56,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "if/then rule", "Simple condition example", new Date(),
-          "openVALIDATION IDE Team", "  IF the name IS NOT Validaria\n" +
+          "openVALIDATION IDE Team", new Date(), "  IF the name IS NOT Validaria\n" +
           "THEN the Name should be Validaria", schema);
       rulesetRepository.save(ruleset);
 
@@ -67,7 +67,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "variables", "Introduction of variables", new Date(),
-          "openVALIDATION IDE Team", "Berlin AS capital city\n" +
+          "openVALIDATION IDE Team", new Date(), "Berlin AS capital city\n" +
           "\n" +
           "the location HAS to be capital city", schema);
       rulesetRepository.save(ruleset);
@@ -79,7 +79,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "precondition", "Advanced example including variables and conditions", new Date(),
-          "openVALIDATION IDE Team", "     the age is SMALLER than 18 \n" +
+          "openVALIDATION IDE Team", new Date(), "     the age is SMALLER than 18 \n" +
           "  AS underage\n" +
           "\n" +
           "     the user MUST NOT be underage\n" +
@@ -97,7 +97,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "arithmetic", "Usage of arithmetic operands", new Date(),
-          "openVALIDATION IDE Team", "   user's age - 18 years\n" +
+          "openVALIDATION IDE Team", new Date(), "   user's age - 18 years\n" +
           "AS actual work experience\n" +
           "\n" +
           "the indicated professional experience MUST NOT be LARGER \n" +
@@ -110,7 +110,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "nested conditions", "A condition in a condition", new Date(),
-          "openVALIDATION IDE Team", "  IF user's name IS Validaria\n" +
+          "openVALIDATION IDE Team", new Date(), "  IF user's name IS Validaria\n" +
           " AND his location IS Dortmund\n" +
           "     OR his location IS Berlin\n" +
           "THEN if the user is named Validaria, \n" +
@@ -124,7 +124,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "lists", "Check if list contains attribute value", new Date(),
-          "openVALIDATION IDE Team", "a location MUST be London, Berlin or Paris", schema);
+          "openVALIDATION IDE Team", new Date(), "a location MUST be London, Berlin or Paris", schema);
       rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
@@ -135,7 +135,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "legacy schema", "Build more advanced rules with objects", new Date(),
-          "openVALIDATION IDE Team", "     MFG.z_bfm32 IS MPA \n" +
+          "openVALIDATION IDE Team", new Date(), "     MFG.z_bfm32 IS MPA \n" +
           "  AS Student\n" +
           "\n" +
           "     oZ2\n" +
@@ -155,7 +155,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "first from list", "Reading from lists", new Date(),
-          "openVALIDATION IDE Team", "first item from names as Boss\n" +
+          "openVALIDATION IDE Team", new Date(), "first item from names as Boss\n" +
           "\n" +
           "I have to be the Boss", schema);
       rulesetRepository.save(ruleset); */
@@ -172,7 +172,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "first from list with condition", "Advanced reading from lists", new Date(),
-          "openVALIDATION IDE Team", "first number from numbers with a value bigger than 3 as magic number\n" +
+          "openVALIDATION IDE Team", new Date(), "first number from numbers with a value bigger than 3 as magic number\n" +
           "\n" +
           "magic number has to be 4", schema);
       rulesetRepository.save(ruleset); */
@@ -182,7 +182,7 @@ public class MaintenanceService {
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "semantic operators", "Usage of semantic operators", new Date(),
-          "openVALIDATION IDE Team", "age and smaller\n" +
+          "openVALIDATION IDE Team", new Date(), "age and smaller\n" +
           "as operator younger\n" +
           "\n" +
           "user must not be younger than 18 years", schema);

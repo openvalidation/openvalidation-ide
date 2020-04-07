@@ -15,6 +15,7 @@ public class RulesetBuilder {
   private String description = "Validating the name";
   private Date createdAt = Calendar.getInstance().getTime();
   private String createdBy = "Validaria";
+  private Date lastEdit = Calendar.getInstance().getTime();
   private String rules = "your name HAS to be Validaria";
   private Schema schema = new SchemaBuilder().build();
 
@@ -43,6 +44,10 @@ public class RulesetBuilder {
     return this;
   }
 
+  public void setLastEdit(Date lastEdit) {
+    this.lastEdit = lastEdit;
+  }
+
   public RulesetBuilder setRules(String rules) {
     this.rules = rules;
     return this;
@@ -54,7 +59,7 @@ public class RulesetBuilder {
   }
 
   public Ruleset build() {
-    return new Ruleset(rulesetId, name, description, createdAt, createdBy, rules, schema);
+    return new Ruleset(rulesetId, name, description, createdAt, createdBy, lastEdit, rules, schema);
   }
 
   public RulesetCreateDto buildCreateDto() {
