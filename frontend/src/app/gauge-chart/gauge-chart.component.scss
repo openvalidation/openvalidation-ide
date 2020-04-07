@@ -1,5 +1,5 @@
 :host {
-    margin: 60px;
+    margin: 20px 60px;
 }
 
 .background-circle {
@@ -16,10 +16,17 @@
 .percentage {
     font-size: 0.5em;
     text-anchor: middle;
-    letter-spacing: 1px;
+    letter-spacing: 0.75px;
 
     .percentage-append {
         fill: #9e9e9e; // TODO Theme var
         font-size: 0.7em;
+        text-anchor: start;
     }
+}
+
+.chart-title {
+    text-align: center;
+    letter-spacing: 1px;
+    color: #9e9e9e; // TODO Theme var
 }

@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class GaugeChartComponent {
 
   @Input() chartTitle: string;
+  @Input() strict = false;
 
   private _value: number;
 
