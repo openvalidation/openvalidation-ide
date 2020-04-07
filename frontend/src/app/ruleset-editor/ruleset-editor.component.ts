@@ -132,8 +132,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       filter(name => this.rulesetName.valid && this.ruleset.name !== name)
     ).subscribe(
-      name => this.saveName(this.ruleset.rulesetId, name),
-      () => this.errorHandlerService.createError('Error saving ruleset name.')
+      name => this.saveName(this.ruleset.rulesetId, name)
     ));
 
     this.subscriptions.add(this.rulesetDescription.valueChanges.pipe(
@@ -141,8 +140,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       filter(description => this.ruleset.name !== description)
     ).subscribe(
-      description => this.saveDescription(this.ruleset.rulesetId, description),
-      () => this.errorHandlerService.createError('Error saving ruleset description.')
+      description => this.saveDescription(this.ruleset.rulesetId, description)
     ));
 
     this.subscriptions.add(

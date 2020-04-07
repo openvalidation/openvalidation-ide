@@ -6,7 +6,12 @@
     height: 100%;
     grid-template-columns: 1fr 0.3fr 1fr;
     grid-template-rows: 0.5fr 1fr 1fr 0.5fr;
-    grid-template-areas: "name name name" "editor errors schema" "editor errors variables" "actions actions actions";
+    grid-template-areas:
+        "name name name"
+        "editor errors schema"
+        "editor errors variables"
+        "actions actions actions"
+    ;
     justify-items: center;
     align-items: center;
 }
