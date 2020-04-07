@@ -7,13 +7,13 @@ import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,13 +22,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = RulesetDtoMapperImpl.class)
 public class RulesetServiceTest {
-
   @MockBean
   private RulesetRepository rulesetRepository;
-
   @MockBean
   private SchemaRepository schemaRepository;
+  @Autowired
+  private RulesetDtoMapper rulesetDtoMapper;
 
   private RulesetService rulesetService;
   private Ruleset ruleset;
@@ -37,7 +38,7 @@ public class RulesetServiceTest {
 
   @BeforeEach
   public void setUp() {
-    rulesetService = new RulesetService(rulesetRepository, schemaRepository);
+    rulesetService = new RulesetService(rulesetRepository, schemaRepository, rulesetDtoMapper);
     ruleset = new RulesetBuilder().setRulesetId(validRulesetId).build();
 
     List<Ruleset> rulesets = new ArrayList<>();
@@ -46,6 +47,7 @@ public class RulesetServiceTest {
     rulesets.add(ruleset);
 
     when(rulesetRepository.findAll()).thenReturn(rulesets);
+    when(rulesetRepository.findAll(any(Sort.class))).thenReturn(this.getRulesetSortedByLastEdit(rulesets));
     when(rulesetRepository.findById(validRulesetId)).thenReturn(Optional.of(ruleset));
     when(rulesetRepository.save(any(Ruleset.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -108,5 +110,10 @@ public class RulesetServiceTest {
   @Test
   public void whenInvalidRulesetId_onDeleteRuleset_thenExceptionShouldBeThrown() {
     assertThrows(RulesetNotFoundException.class, () -> rulesetService.deleteRuleset(UUID.randomUUID()));
+  }
+
+  private List<Ruleset> getRulesetSortedByLastEdit(List<Ruleset> rulesets) {
+    rulesets.sort(Comparator.comparing(Ruleset::getLastEdit));
+    return rulesets;
   }
 }

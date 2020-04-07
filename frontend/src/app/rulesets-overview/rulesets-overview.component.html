@@ -1,6 +1,6 @@
 
 <div *ngIf="(rulesets$ | async) as rulesets; else loading" class="rulesets-container" [@cardInAnimation]>
-    <div class="ruleset-card new" [routerLink]="['new']">
+    <div class="ruleset-card new" (click)="add()">
         <mat-icon>add</mat-icon>
     </div>
     <div *ngFor="let ruleset of rulesets" class="ruleset-card" [routerLink]="[ruleset.rulesetId, 'edit']">

@@ -1,11 +1,12 @@
 package de.openvalidation.openvalidationidebackend.entities.ruleset;
 
+import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
@@ -14,13 +15,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RulesetCreateDto {
-  @NotNull
+  @NotBlank
   @Size(max = 255)
-  private String name;
+  private String name = "Unnamed ruleset";
   @Size(max = 255)
   private String description;
-  @NotNull
+  @NotBlank
   @Size(max = 255)
-  private String createdBy;
+  private String createdBy = (new Faker()).funnyName().name();
   private UUID schemaId;
 }

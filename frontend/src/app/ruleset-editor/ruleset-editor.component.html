@@ -12,7 +12,7 @@
         </mat-form-field>
     </div>
     <div class="editor mat-elevation-z8" [@editorAnimation]>
-        <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+        <ngx-monaco-editor class="ovide-editor" [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
