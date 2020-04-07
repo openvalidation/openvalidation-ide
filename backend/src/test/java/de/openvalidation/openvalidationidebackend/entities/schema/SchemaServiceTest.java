@@ -5,17 +5,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import de.openvalidation.openvalidationidebackend.core.DtoMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.*;
 import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
-import org.mockito.Spy;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
@@ -25,12 +25,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {SchemaDtoMapperImpl.class, AttributeDtoMapperImpl.class})
 public class SchemaServiceTest {
   @MockBean
   private SchemaRepository schemaRepository;
-  @Spy
-  private DtoMapper dtoMapper = Mappers.getMapper(DtoMapper.class);
+  @Autowired
+  private SchemaDtoMapper schemaDtoMapper;
+  @Autowired
+  private AttributeDtoMapper attributeDtoMapper;
 
   private SchemaService schemaService;
   private UUID validSchemaId = UUID.randomUUID();
@@ -38,7 +41,7 @@ public class SchemaServiceTest {
 
   @BeforeEach
   public void setUp() {
-    schemaService = new SchemaService(schemaRepository, dtoMapper);
+    schemaService = new SchemaService(schemaRepository, schemaDtoMapper, attributeDtoMapper);
 
     List<Schema> schemas = new ArrayList<>();
     schemas.add(new SchemaBuilder().build());
