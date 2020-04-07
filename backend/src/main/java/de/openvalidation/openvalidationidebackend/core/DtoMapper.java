@@ -11,12 +11,13 @@ import de.openvalidation.openvalidationidebackend.entities.ruleset.RulesetUpdate
 import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaDto;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaUpdateDto;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 import java.util.Set;
 
-@Mapper
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DtoMapper {
   Ruleset toRulesetEntity(RulesetCreateDto rulesetCreateDto);
   Ruleset toRulesetEntity(RulesetUpdateDto rulesetUpdateDto);

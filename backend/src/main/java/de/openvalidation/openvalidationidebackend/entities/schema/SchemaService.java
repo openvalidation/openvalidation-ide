@@ -6,7 +6,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import de.openvalidation.openvalidationidebackend.core.DtoMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.*;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class SchemaService {
-  private final DtoMapper dtoMapper = Mappers.getMapper(DtoMapper.class);
+  private DtoMapper dtoMapper;
   private SchemaRepository schemaRepository;
 
   @Autowired
-  public SchemaService(SchemaRepository schemaRepository) {
+  public SchemaService(SchemaRepository schemaRepository, DtoMapper dtoMapper) {
     this.schemaRepository = schemaRepository;
+    this.dtoMapper = dtoMapper;
   }
 
   public List<SchemaDto> getAllSchemas() {

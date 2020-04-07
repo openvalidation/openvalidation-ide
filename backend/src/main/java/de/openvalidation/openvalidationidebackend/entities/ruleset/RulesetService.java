@@ -4,7 +4,6 @@ import de.openvalidation.openvalidationidebackend.core.DtoMapper;
 import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaNotFoundException;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaRepository;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +12,17 @@ import java.util.UUID;
 
 @Service
 public class RulesetService {
-  private final DtoMapper dtoMapper = Mappers.getMapper(DtoMapper.class);
+  private DtoMapper dtoMapper;
   private RulesetRepository rulesetRepository;
   private SchemaRepository schemaRepository;
 
   @Autowired
   public RulesetService(RulesetRepository rulesetRepository,
-                        SchemaRepository schemaRepository) {
+                        SchemaRepository schemaRepository,
+                        DtoMapper dtoMapper) {
     this.rulesetRepository = rulesetRepository;
     this.schemaRepository = schemaRepository;
+    this.dtoMapper = dtoMapper;
   }
 
   public List<RulesetDto> getAllRulesets() {

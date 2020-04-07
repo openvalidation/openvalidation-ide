@@ -5,14 +5,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import de.openvalidation.openvalidationidebackend.core.DtoMapper;
 import de.openvalidation.openvalidationidebackend.entities.attribute.*;
 import de.openvalidation.openvalidationidebackend.util.AttributeBuilder;
 import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mapstruct.factory.Mappers;
+import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import java.util.*;
@@ -25,17 +27,19 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class SchemaServiceTest {
-  @Mock
+  @MockBean
   private SchemaRepository schemaRepository;
+  @Spy
+  private DtoMapper dtoMapper = Mappers.getMapper(DtoMapper.class);
 
-  @InjectMocks
   private SchemaService schemaService;
-
   private UUID validSchemaId = UUID.randomUUID();
   private UUID invalidSchemaId = UUID.randomUUID();
 
   @BeforeEach
   public void setUp() {
+    schemaService = new SchemaService(schemaRepository, dtoMapper);
+
     List<Schema> schemas = new ArrayList<>();
     schemas.add(new SchemaBuilder().build());
     schemas.add(new SchemaBuilder().build());
