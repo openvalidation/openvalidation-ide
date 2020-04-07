@@ -6,7 +6,7 @@
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
-        <mat-chip-list *ngIf="(variables$ | async) as variables; else loading" [@variableAnimation]>
+        <mat-chip-list *ngIf="variables; else loading" [@variableAnimation]>
             <mat-chip
                 *ngFor="let variable of variables"
                 [class.outline]="themeService.darkThemeActive$ | async"
@@ -20,7 +20,7 @@
             </div>
         </ng-template>
     </div>
-    <div class="errors" *ngIf="(editorErrors$ | async) as editorErrors;" [@variableAnimation]>
+    <div class="errors" *ngIf="editorErrors" [@variableAnimation]>
         <div *ngFor="let error of editorErrors" class="error-message">{{error.message}}</div>
     </div>
     <div class="actions">
