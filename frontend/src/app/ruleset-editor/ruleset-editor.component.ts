@@ -433,7 +433,6 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
               if (keyword.charAt(0) !== ' ' && value.range.start.character > 0
                 || keyword.charAt(keyword.length - 1) !== ' ') {
                 jsonParameter.splice(index, 1);
-                console.log(keyword.split(''));
               }
             }
           });
