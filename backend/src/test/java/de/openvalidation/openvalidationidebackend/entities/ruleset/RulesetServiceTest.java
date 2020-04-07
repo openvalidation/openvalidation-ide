@@ -7,7 +7,9 @@ import de.openvalidation.openvalidationidebackend.util.SchemaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -22,13 +24,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = RulesetDtoMapperImpl.class)
 public class RulesetServiceTest {
-
   @MockBean
   private RulesetRepository rulesetRepository;
-
   @MockBean
   private SchemaRepository schemaRepository;
+  @Autowired
+  private RulesetDtoMapper rulesetDtoMapper;
 
   private RulesetService rulesetService;
   private Ruleset ruleset;
@@ -37,7 +40,7 @@ public class RulesetServiceTest {
 
   @BeforeEach
   public void setUp() {
-    rulesetService = new RulesetService(rulesetRepository, schemaRepository);
+    rulesetService = new RulesetService(rulesetRepository, schemaRepository, rulesetDtoMapper);
     ruleset = new RulesetBuilder().setRulesetId(validRulesetId).build();
 
     List<Ruleset> rulesets = new ArrayList<>();
