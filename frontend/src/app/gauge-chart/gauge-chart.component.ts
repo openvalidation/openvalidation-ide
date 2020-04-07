@@ -14,8 +14,6 @@ export class GaugeChartComponent {
 
   @Input() set value(value: number) {
     this._value = value;
-    console.log(value);
-    // TODO change visualization
   }
 
   constructor() { }
@@ -29,7 +27,15 @@ export class GaugeChartComponent {
     return `${this.getValue()}, 100`;
   }
 
-  getColor() {
-    return 'rgb(255,159,0,0.5)'; // TODO Change based on value
+  getColorClass() {
+      if ((this.strict && this.getValue() >= 100)
+        || (!this.strict && this.getValue() >= 60)) {
+        return 'success';
+      } else if ((this.strict && this.getValue() >= 60)
+        || (!this.strict && this.getValue() >= 30)) {
+        return 'mediocre';
+      } else {
+        return 'fail';
+      }
   }
 }

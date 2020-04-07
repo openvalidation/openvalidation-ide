@@ -5,14 +5,13 @@
             a 16.9155 16.9155 0 0 1 0 33.831
             a 16.9155 16.9155 0 0 1 0 -33.831"
     />
-    <path class="percentage-circle"
+    <path [ngClass]="['percentage-circle', getColorClass()]"
           d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"
-          [attr.stroke]="getColor()"
           [attr.stroke-dasharray]="getStrokeDash()"
     />
-    <text x="18" y="20.35" [attr.fill]="getColor()" class="percentage">
+    <text x="18" y="20.35" [ngClass]="['percentage', getColorClass()]">
         {{ getValue() }}<tspan class="percentage-append">%</tspan>
     </text>
 </svg>
