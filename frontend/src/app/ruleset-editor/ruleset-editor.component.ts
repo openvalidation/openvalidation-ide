@@ -27,7 +27,7 @@ import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import { createTokenizationSupport } from '@ovide/monaco-additions/syntax-highlighting/TokensProvider';
 import { RulesetDto, RulesetsBackendService } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
@@ -76,6 +76,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   ruleset: RulesetDto;
   editorText: FormControl;
+  rulesetName: FormControl;
+  rulesetDescription: FormControl;
 
   editorInitDone = false;
   private editor;
@@ -105,6 +107,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editorText = new FormControl();
+    this.rulesetName = new FormControl('', [Validators.required]);
+    this.rulesetDescription = new FormControl();
 
     this.subscriptions.add(this.route.paramMap.pipe(
       map(params => params.get('id')),
@@ -121,6 +125,22 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     ).subscribe(
       rules => this.saveRules(this.ruleset.rulesetId, rules),
       () => this.errorHandlerService.createError('Error saving ruleset.')
+    ));
+
+    this.subscriptions.add(this.rulesetName.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      filter(name => this.rulesetName.valid && this.ruleset.name !== name)
+    ).subscribe(
+      name => this.saveName(this.ruleset.rulesetId, name)
+    ));
+
+    this.subscriptions.add(this.rulesetDescription.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      filter(description => this.ruleset.name !== description)
+    ).subscribe(
+      description => this.saveDescription(this.ruleset.rulesetId, description)
     ));
 
     this.subscriptions.add(
@@ -168,6 +188,8 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
         this.ruleset = ruleset;
         this.lastSavedRules = ruleset.rules;
         this.editorText.setValue(ruleset.rules);
+        this.rulesetName.setValue(ruleset.name);
+        this.rulesetDescription.setValue(ruleset.description);
         this.schemaService.setSchema(ruleset.schemaId);
       }
     );
@@ -209,22 +231,38 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
       );
   }
 
+  private saveName(rulesetId: string, name: string) {
+    this.rulesetsBackendService.updateRuleset(rulesetId, { name }).pipe(retry(5))
+      .subscribe(
+        success => this.ruleset.name = name,
+        () => this.errorHandlerService.createError('Error saving ruleset name.')
+      );
+  }
+
+  private saveDescription(rulesetId: string, description: string) {
+    this.rulesetsBackendService.updateRuleset(rulesetId, { description }).pipe(retry(5))
+      .subscribe(
+        success => this.ruleset.description = description,
+        () => this.errorHandlerService.createError('Error saving ruleset description.')
+      );
+  }
+
   private updateTheme(isDark: boolean) {
     if (this.editor !== undefined) {
       monaco.editor.defineTheme('ovide-theme', {
         base: isDark ? 'vs-dark' : 'vs',
         inherit: true,
         rules: [
-          {token: 'keyword.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-keyword')},
-          {token: 'string.unquoted.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
-          {token: 'string.error.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-error')},
-          {token: 'variable.parameter.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-variable')},
-          {token: 'variable.number.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
-          {token: 'variable.text.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string')},
-          {token: 'variable.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
-          {token: 'constant.numeric.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number')},
-          {token: 'constant.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean')},
-          {token: 'comment.block.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-comment')}
+          { token: 'keyword.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-keyword') },
+          { token: 'string.unquoted.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string') },
+          { token: 'string.error.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-error') },
+          { token: 'variable.parameter.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-variable') },
+          { token: 'variable.number.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number') },
+          { token: 'variable.text.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-string') },
+          { token: 'variable.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean') },
+          { token: 'constant.numeric.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-number') },
+          { token: 'constant.boolean.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-type-boolean') },
+          { token: 'comment.block.ov', foreground: RulesetEditorComponent.readStyleProperty('editor-comment') }
         ],
         colors: {
           'editor.background': RulesetEditorComponent.readStyleProperty('editor-background'),
