@@ -121,7 +121,7 @@ export class OVLanguageServerService implements OnDestroy {
 
         // Inject token values for syntax highlighting
         if (this.schemaAttributes !== undefined) {
-          jsonParameter.forEach(value => {
+          jsonParameter.forEach((value, index) => {
             if (value.pattern === 'variable.parameter.ov') {
               const foundAttribute = this.schemaAttributes.find(attribute => {
                 return attribute.name.toLowerCase() === this.editor.getModel().getValueInRange({
@@ -138,7 +138,7 @@ export class OVLanguageServerService implements OnDestroy {
             if (value.pattern === 'string.unquoted.ov') {
               const thenInRange = this.editor.getModel().getValueInRange({
                 startLineNumber: value.range.start.line + 1,
-                endLineNumber: value.range.end.line + 1,
+                endLineNumber: value.range.start.line + 1,
                 startColumn: 1,
                 endColumn: value.range.start.character
               });
@@ -160,7 +160,20 @@ export class OVLanguageServerService implements OnDestroy {
                 || trueOrFalseInRange.toLowerCase() === 'no') {
                 value.pattern = 'constant.boolean.ov';
               }
+            }
+            if (value.pattern === 'keyword.ov') {
+              const keyword: string = this.editor.getModel().getValueInRange({
+                startLineNumber: value.range.start.line + 1,
+                endLineNumber: value.range.end.line + 1,
+                startColumn: value.range.start.character,
+                endColumn: value.range.end.character + 2
+              });
 
+              if (keyword.charAt(0) !== ' ' && value.range.start.character > 0
+                || keyword.charAt(keyword.length - 1) !== ' ') {
+                jsonParameter.splice(index, 1);
+                console.log(keyword.split(''));
+              }
             }
           });
         }

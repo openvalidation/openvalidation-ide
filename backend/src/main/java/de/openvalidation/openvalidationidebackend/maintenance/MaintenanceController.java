@@ -11,17 +11,17 @@ import java.sql.SQLException;
 
 @RestController
 @Hidden
-public class ResetController {
-  private ResetService resetService;
+public class MaintenanceController {
+  private MaintenanceService maintenanceService;
 
   @Autowired
-  public ResetController(ResetService resetService) {
-    this.resetService = resetService;
+  public MaintenanceController(MaintenanceService maintenanceService) {
+    this.maintenanceService = maintenanceService;
   }
 
   @DeleteMapping(value = "/reset")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void resetDatabaseToInitialState() throws SQLException {
-    resetService.resetDatabaseToInitialState();
+    maintenanceService.resetDatabaseToInitialState();
   }
 }

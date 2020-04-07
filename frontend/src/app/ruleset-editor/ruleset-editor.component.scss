@@ -5,8 +5,9 @@
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 0.3fr 1fr;
-    grid-template-rows: 1fr 1fr 0.5fr;
+    grid-template-rows: 0.5fr 1fr 1fr 0.5fr;
     grid-template-areas:
+        "name name name"
         "editor errors schema"
         "editor errors variables"
         "actions actions actions"
@@ -92,5 +93,78 @@
     .loader {
         margin-top: 15px;
         width: 300px;
+    }
+}
+
+.name {
+    grid-area: name;
+    display: flex;
+    flex-direction: column;
+    justify-self: start;
+    align-self: start;
+    width: 100%;
+
+    .inline-input {
+        width: 100%;
+        margin-bottom: -1.3em;
+
+        &.large {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: -.75em;
+        }
+
+        .inline-label, .mat-placeholder-required {
+            opacity: 0;
+            transition: opacity 0.1s;
+        }
+
+        &.mat-focused .inline-label {
+            opacity: 1;
+        }
+
+        &::before {
+            opacity: 0;
+            content: 'edit';
+            position: absolute;
+            left: -24px;
+            top: 21.5px;
+            font-family: 'Material Icons', serif;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 16px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            transition: opacity 0.2s;
+        }
+
+        &.ng-invalid::before {
+            color: theme-var($--ovide-editor-error);
+            opacity: 1;
+        }
+        &.ng-invalid::after {
+            content: 'Name is required';
+            position: absolute;
+            bottom: 20px;
+            font-size: 12px;
+            font-weight: normal;
+            color: theme-var($--ovide-editor-error);
+            opacity: 1;
+        }
+
+        &.large::before {
+            font-size: 20px;
+            top: 26.875px;
+        }
+
+        &:hover::before, &.mat-focused::before {
+            opacity: 0.5;
+        }
     }
 }

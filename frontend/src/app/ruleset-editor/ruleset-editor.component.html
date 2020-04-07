@@ -1,6 +1,16 @@
 
 <div class="ruleset-editor">
     <mat-spinner *ngIf="!editorInitDone" class="editor-loading"></mat-spinner>
+    <div class="name">
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input large">
+            <mat-label class="inline-label">Name</mat-label>
+            <input matInput placeholder="Ruleset Name" [formControl]="rulesetName" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input">
+            <mat-label class="inline-label">Description</mat-label>
+            <input matInput placeholder="Ruleset Description" [formControl]="rulesetDescription" maxlength="255" autocomplete="off">
+        </mat-form-field>
+    </div>
     <div class="editor mat-elevation-z8" [@editorAnimation]>
         <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
