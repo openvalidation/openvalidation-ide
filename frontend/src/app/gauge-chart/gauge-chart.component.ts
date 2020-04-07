@@ -7,6 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class GaugeChartComponent {
 
+  @Input() chartTitle: string;
+
   private _value: number;
 
   @Input() set value(value: number) {
@@ -17,4 +19,16 @@ export class GaugeChartComponent {
 
   constructor() { }
 
+  public getValue() {
+    return this._value;
+  }
+
+
+  getStrokeDash() {
+    return `${this.getValue()}, 100`;
+  }
+
+  getColor() {
+    return 'rgb(255,159,0,0.5)'; // TODO Change based on value
+  }
 }

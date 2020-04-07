@@ -1,3 +1,25 @@
 :host {
     margin: 60px;
 }
+
+.background-circle {
+    fill: none;
+    stroke: #444; // TODO Theme var
+    stroke-width: 2;
+}
+
+.percentage-circle {
+    fill: none;
+    stroke-width: 4;
+}
+
+.percentage {
+    font-size: 0.5em;
+    text-anchor: middle;
+    letter-spacing: 1px;
+
+    .percentage-append {
+        fill: #9e9e9e; // TODO Theme var
+        font-size: 0.7em;
+    }
+}
