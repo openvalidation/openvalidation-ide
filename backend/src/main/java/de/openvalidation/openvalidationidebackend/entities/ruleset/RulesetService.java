@@ -6,6 +6,7 @@ import de.openvalidation.openvalidationidebackend.entities.schema.Schema;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaNotFoundException;
 import de.openvalidation.openvalidationidebackend.entities.schema.SchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -29,7 +30,7 @@ public class RulesetService {
   }
 
   public List<RulesetDto> getAllRulesets() {
-    return rulesetDtoMapper.toRulesetDtoList(rulesetRepository.findAll());
+    return rulesetDtoMapper.toRulesetDtoList(rulesetRepository.findAll(Sort.by(Sort.Direction.DESC, "lastEdit")));
   }
 
   public RulesetDto createRuleset(RulesetCreateDto rulesetCreateDto) {
