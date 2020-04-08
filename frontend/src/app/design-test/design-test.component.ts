@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import * as faker from 'faker';
-import { TableDataRow } from '@ovide/ruleset-testsuite';
 
 @Component({
   selector: 'ovide-design-test',
@@ -12,12 +11,12 @@ export class DesignTestComponent implements OnInit {
   constructor() { }
 
   tableDisplayedColumns: string [];
-  tableDataSource: TableDataRow [];
+  tableDataSource: object[];
 
   ngOnInit(): void {
     this.tableDisplayedColumns = ['name', 'age', 'street', 'city', 'expected', 'passed'];
 
-    const fakeData = (): TableDataRow => {
+    const fakeData = () => {
       return {
         name: faker.name.findName(),
         age: faker.random.number({min: 10, max: 80}),
