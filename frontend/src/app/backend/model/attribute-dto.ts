@@ -16,6 +16,7 @@ export interface AttributeDto {
     name?: string;
     attributeType?: AttributeDto.AttributeTypeEnum;
     value?: string;
+    children?: Array<AttributeDto>;
 }
 export namespace AttributeDto {
     export type AttributeTypeEnum = 'BOOLEAN' | 'NUMBER' | 'TEXT' | 'LIST' | 'OBJECT';
