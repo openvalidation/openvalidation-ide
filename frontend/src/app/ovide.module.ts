@@ -22,6 +22,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { monacoEditorConfig } from '@ovide/ruleset-editor/monaco-editor-config';
 
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
+import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
 
 // import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
@@ -35,7 +36,8 @@ import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
-    OvideLogoComponent
+    OvideLogoComponent,
+    GaugeChartComponent
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,15 @@ $--variable-color: --variable-color;
 $--variable-separator: --variable-separator;
 $--variable-color: --variable-color;
 
+$--check-failed: --check-failed;
+$--check-passed: --check-passed;
+
+$--gauge-chart-background: --gauge-chart-background;
+$--gauge-chart-foreground: --gauge-chart-foreground;
+$--gauge-chart-success: --gauge-chart-success;
+$--gauge-chart-mediocre: --gauge-chart-mediocre;
+$--gauge-chart-fail: --gauge-chart-fail;
+
 $--editor-type-string: --editor-type-string;
 $--editor-type-number: --editor-type-number;
 $--editor-type-boolean: --editor-type-boolean;

@@ -2,6 +2,11 @@
 @import 'mixins';
 
 $light-theme: (
+    $--gauge-chart-background:      #c3c3c3,
+    $--gauge-chart-foreground:      #444,
+    $--gauge-chart-success:         rgba(93, 183, 74),
+    $--gauge-chart-mediocre:        rgb(255, 159, 0),
+    $--gauge-chart-fail:            rgb(200, 70, 70),
     $--attribute-type-string:       #87CEFA,
     $--attribute-type-number:       #9ACD32,
     $--attribute-type-boolean:      #F08080,
@@ -20,6 +25,8 @@ $light-theme: (
     $--editor-selectionBackground:  #ADD6FF,
     $--variable-separator:          #FFFFFF,
     $--variable-color:              #FFF599,
+    $--check-failed:                #E59D9F,
+    $--check-passed:                #A2D172,
     $--ovide-editor-error:          #FF6464,
     $--snackbar-error-background:   #EC8B8B,
     $--navbar-background: #BFBFBF,
@@ -122,6 +129,11 @@ $light-theme: (
 );
 
 $dark-theme: (
+    $--gauge-chart-background:      #444,
+    $--gauge-chart-foreground:      #9e9e9e,
+    $--gauge-chart-success:         rgba(93, 183, 74),
+    $--gauge-chart-mediocre:        rgb(255, 159, 0),
+    $--gauge-chart-fail:            rgb(200, 70, 70),
     $--attribute-type-string:       #87CEFA,
     $--attribute-type-number:       #9ACD32,
     $--attribute-type-boolean:      #F08080,
@@ -140,6 +152,8 @@ $dark-theme: (
     $--editor-selectionBackground:  #264F78,
     $--variable-separator:          silver,
     $--variable-color:              gold,
+    $--check-failed:                #8A5A5C,
+    $--check-passed:                #5C793D,
     $--snackbar-error-background:   #C44349,
     $--ovide-editor-error:          #C44349,
     $--navbar-background: hsl(0, 0%, 15%),

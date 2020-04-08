@@ -1,0 +1,66 @@
+@import 'themes';
+
+:host {
+    margin: 0 10%;
+}
+
+.background-circle {
+    fill: none;
+    stroke: theme-var($--gauge-chart-background);
+    stroke-width: 2;
+}
+
+.percentage-circle {
+    fill: none;
+    stroke-width: 4;
+
+    &.success{
+        stroke: theme-var($--gauge-chart-success);
+        opacity: 0.5;
+    }
+    &.mediocre{
+        stroke: theme-var($--gauge-chart-mediocre);
+        opacity: 0.5;
+    }
+    &.fail{
+        stroke: theme-var($--gauge-chart-fail);
+        opacity: 0.5;
+    }
+
+    animation: progress 1s ease-out forwards;
+    transition: stroke 0.5s;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0, 100;
+    }
+}
+
+.percentage {
+    font-size: 0.5em;
+    text-anchor: middle;
+    letter-spacing: 0.75px;
+
+    &.success{
+        fill: theme-var($--gauge-chart-success)
+    }
+    &.mediocre{
+        fill: theme-var($--gauge-chart-mediocre)
+    }
+    &.fail{
+        fill: theme-var($--gauge-chart-fail)
+    }
+
+    .percentage-append {
+        fill: theme-var($--gauge-chart-foreground);
+        font-size: 0.7em;
+        text-anchor: start;
+    }
+}
+
+.chart-title {
+    text-align: center;
+    letter-spacing: 1px;
+    color: theme-var($--gauge-chart-foreground);
+}
