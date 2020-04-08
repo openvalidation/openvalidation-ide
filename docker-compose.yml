@@ -7,6 +7,8 @@ services:
             context: ./frontend
         ports:
             - "80:80"
+        depends_on:
+            - openvalidation-languageserver
 
     openvalidation-ide-backend:
         image: openvalidation-ide-backend:latest
