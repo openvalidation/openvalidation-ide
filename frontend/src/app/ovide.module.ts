@@ -21,7 +21,6 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
 
-import { DesignTestComponent } from './design-test/design-test.component';
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 
 // import { ErrorHandlerService } from '@ovide/services/error-handler.service';
@@ -36,7 +35,6 @@ import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
-    DesignTestComponent,
     OvideLogoComponent
   ],
   imports: [

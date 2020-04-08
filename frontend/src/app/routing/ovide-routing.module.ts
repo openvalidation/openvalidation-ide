@@ -4,11 +4,9 @@ import { RulesetsOverviewComponent } from '@ovide/rulesets-overview';
 import { RulesetEditorComponent } from '@ovide/ruleset-editor';
 import { RulesetCreatorComponent } from '@ovide/ruleset-creator';
 import { RulesetTestsuiteComponent } from '@ovide/ruleset-testsuite';
-import { DesignTestComponent } from '@ovide/design-test/design-test.component';
 
 
 const routes: Routes = [
-  { path: 'design-test', component: DesignTestComponent },
   { path: 'rulesets',
     children: [
       { path: '', pathMatch: 'full', component: RulesetsOverviewComponent },
