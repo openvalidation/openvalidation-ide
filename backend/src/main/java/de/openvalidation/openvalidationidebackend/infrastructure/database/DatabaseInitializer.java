@@ -56,8 +56,8 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "if/then rule", "Simple condition example", new Date(),
-          "openVALIDATION IDE Team", new Date(), "  IF the name IS NOT Validaria\n" +
-          "THEN the Name should be Validaria", schema);
+          "openVALIDATION IDE Team", new Date(), "  IF the name IS NOT Validaria\n"
+          + "THEN the Name should be Validaria", schema);
       rulesetRepository.save(ruleset);
 
       attributes = new HashSet<>();
@@ -67,9 +67,10 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "variables", "Introduction of variables", new Date(),
-          "openVALIDATION IDE Team", new Date(), "Berlin AS capital city\n" +
-          "\n" +
-          "the location HAS to be capital city", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "Berlin AS capital city\n"
+              + "\n"
+              + "the location HAS to be capital city", schema);
       rulesetRepository.save(ruleset);
 
       attributes = new HashSet<>();
@@ -79,16 +80,17 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "precondition", "Advanced example including variables and conditions", new Date(),
-          "openVALIDATION IDE Team", new Date(), "     the age is SMALLER than 18 \n" +
-          "  AS underage\n" +
-          "\n" +
-          "     the user MUST NOT be underage\n" +
-          " AND his name SHOULD be Validaria\n" +
-          "\n" +
-          "\n" +
-          "  IF user IS NOT underage\n" +
-          " AND his location IS NOT Dortmund\n" +
-          "THEN sorry, your location should be Dortmund\n", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "     the age is SMALLER than 18 \n"
+              + "  AS underage\n"
+              + "\n"
+              + "     the user MUST NOT be underage\n"
+              + " AND his name SHOULD be Validaria\n"
+              + "\n"
+              + "\n"
+              + "  IF user IS NOT underage\n"
+              + " AND his location IS NOT Dortmund\n"
+              + "THEN sorry, your location should be Dortmund\n", schema);
       rulesetRepository.save(ruleset);
 
       attributes = new HashSet<>();
@@ -97,11 +99,12 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "arithmetic", "Usage of arithmetic operands", new Date(),
-          "openVALIDATION IDE Team", new Date(), "   user's age - 18 years\n" +
-          "AS actual work experience\n" +
-          "\n" +
-          "the indicated professional experience MUST NOT be LARGER \n" +
-          "then the actual work experience", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "   user's age - 18 years\n"
+              + "AS actual work experience\n"
+              + "\n"
+              + "the indicated professional experience MUST NOT be LARGER \n"
+              + "then the actual work experience", schema);
       rulesetRepository.save(ruleset);
 
       attributes = new HashSet<>();
@@ -110,11 +113,12 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "nested conditions", "A condition in a condition", new Date(),
-          "openVALIDATION IDE Team", new Date(), "  IF user's name IS Validaria\n" +
-          " AND his location IS Dortmund\n" +
-          "     OR his location IS Berlin\n" +
-          "THEN if the user is named Validaria, \n" +
-          "     he or she must not be from Dortmund or Berlin", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "  IF user's name IS Validaria\n"
+              + " AND his location IS Dortmund\n"
+              + "     OR his location IS Berlin\n"
+              + "THEN if the user is named Validaria, \n"
+              + "     he or she must not be from Dortmund or Berlin", schema);
       rulesetRepository.save(ruleset);
 
 /*      attributes = new HashSet<>();
@@ -135,14 +139,15 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "legacy schema", "Build more advanced rules with objects", new Date(),
-          "openVALIDATION IDE Team", new Date(), "     MFG.z_bfm32 IS MPA \n" +
-          "  AS Student\n" +
-          "\n" +
-          "     oZ2\n" +
-          "  AS residence\n" +
-          "\n" +
-          "     user SHOULD be a Student\n" +
-          " AND his residence SHOULD be Dortmund", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "     MFG.z_bfm32 IS MPA \n"
+          + "  AS Student\n"
+          + "\n"
+          + "     oZ2\n"
+          + "  AS residence\n"
+          + "\n"
+          + "     user SHOULD be a Student\n"
+          + " AND his residence SHOULD be Dortmund", schema);
       rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
@@ -155,9 +160,10 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "first from list", "Reading from lists", new Date(),
-          "openVALIDATION IDE Team", new Date(), "first item from names as Boss\n" +
-          "\n" +
-          "I have to be the Boss", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "first item from names as Boss\n"
+          + "\n"
+          + "I have to be the Boss", schema);
       rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
@@ -172,9 +178,10 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "first from list with condition", "Advanced reading from lists", new Date(),
-          "openVALIDATION IDE Team", new Date(), "first number from numbers with a value bigger than 3 as magic number\n" +
-          "\n" +
-          "magic number has to be 4", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "first number from numbers with a value bigger than 3 as magic number\n"
+          + "\n"
+          + "magic number has to be 4", schema);
       rulesetRepository.save(ruleset); */
 
 /*      attributes = new HashSet<>();
@@ -182,10 +189,11 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
       schema = new Schema(UUID.randomUUID(), attributes);
       schemaRepository.save(schema);
       ruleset = new Ruleset(UUID.randomUUID(), "semantic operators", "Usage of semantic operators", new Date(),
-          "openVALIDATION IDE Team", new Date(), "age and smaller\n" +
-          "as operator younger\n" +
-          "\n" +
-          "user must not be younger than 18 years", schema);
+          "openVALIDATION IDE Team", new Date(),
+          "age and smaller\n"
+          + "as operator younger\n"
+          + "\n"
+          + "user must not be younger than 18 years", schema);
       rulesetRepository.save(ruleset); */
     }
   }
