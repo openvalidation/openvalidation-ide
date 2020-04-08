@@ -132,6 +132,15 @@
             opacity: 1;
         }
 
+        
+        mat-hint {
+            opacity: 0;
+        }
+
+        &.mat-focused mat-hint {
+            opacity: 1;
+        }
+
         &::before {
             opacity: 0;
             content: 'edit';
