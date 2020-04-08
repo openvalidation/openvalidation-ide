@@ -1,6 +1,8 @@
 <h1>test suite</h1>
 <div class="ruleset-testsuite">
-    <div class="editor mat-elevation-z8"><textarea></textarea></div>
+    <div class="editor mat-elevation-z8" @scaleAnimation>
+        <ngx-monaco-editor class="ovide-editor" [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+    </div>
 
     <div class="graphs" @scaleAnimation>
         <ovide-gauge-chart chartTitle="coverage" [value]="65.5"></ovide-gauge-chart>
@@ -8,14 +10,14 @@
     </div>
 
     <div class="data">
-        <table class="ovide-table" mat-table [dataSource]="tableDataSource" @scaleAnimation>
+        <table mat-table class="ovide-table" [dataSource]="tableDataSource" @scaleAnimation>
 
             <ng-container *ngFor="let attribute of attributes" matColumnDef="{{ attribute.name }}">
                 <th mat-header-cell [class.text-right]="attribute.attributeType === 'NUMBER'" *matHeaderCellDef>
                     {{ attribute.name }}
                 </th>
                 <td mat-cell [class.text-right]="attribute.attributeType === 'NUMBER'" *matCellDef="let element">
-                    {{ element[attribute.name] }}
+                    {{ attribute.attributeType === 'BOOLEAN' ? (element[attribute.name] ? 'yes' : 'no') : element[attribute.name] }}
                 </td>
             </ng-container>
 
@@ -38,3 +40,7 @@
         </table>
     </div>
 </div>
+<mat-card id="wip">
+    <mat-icon>warning</mat-icon>
+    <p>&nbsp;This page is still being worked on and does not provide any actual functionality.</p>
+</mat-card>
