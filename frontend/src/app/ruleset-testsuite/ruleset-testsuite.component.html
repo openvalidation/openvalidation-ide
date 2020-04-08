@@ -1,16 +1,16 @@
 <h1>test suite</h1>
 <div class="ruleset-testsuite">
-    <div class="editor mat-elevation-z8" @scaleAnimation>
+    <div class="editor mat-elevation-z8" [@editorAnimation]>
         <ngx-monaco-editor class="ovide-editor" [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
 
-    <div class="graphs" @scaleAnimation>
+    <div class="graphs" [@scaleAnimation]>
         <ovide-gauge-chart chartTitle="coverage" [value]="65.5"></ovide-gauge-chart>
         <ovide-gauge-chart chartTitle="succeeded" strict="true" [value]="80"></ovide-gauge-chart>
     </div>
 
     <div class="data">
-        <table mat-table class="ovide-table" [dataSource]="tableDataSource" @scaleAnimation>
+        <table mat-table class="ovide-table" [dataSource]="tableDataSource" [@scaleAnimation]>
 
             <ng-container *ngFor="let attribute of attributes" matColumnDef="{{ attribute.name }}">
                 <th mat-header-cell [class.text-right]="attribute.attributeType === 'NUMBER'" *matHeaderCellDef>

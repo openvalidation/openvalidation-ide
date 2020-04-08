@@ -24,8 +24,6 @@ import { monacoEditorConfig } from '@ovide/ruleset-editor/monaco-editor-config';
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
 
-// import { ErrorHandlerService } from '@ovide/services/error-handler.service';
-
 @NgModule({
   declarations: [
     OvideAppComponent,
@@ -53,8 +51,7 @@ import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
   ],
   providers: [
     {provide: BASE_PATH, useValue: environment.API_BASE_PATH},
-    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL},
-    // {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerService, multi: true},
+    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL}
   ],
   bootstrap: [OvideAppComponent]
 })
