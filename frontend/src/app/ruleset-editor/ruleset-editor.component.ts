@@ -112,7 +112,7 @@ export class RulesetEditorComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.rulesetDescription.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      filter(description => this.ruleset.name !== description)
+      filter(description => this.ruleset.description !== description)
     ).subscribe(
       description => this.saveDescription(this.ruleset.rulesetId, description)
     ));
