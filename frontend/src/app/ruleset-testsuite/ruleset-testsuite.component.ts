@@ -6,11 +6,24 @@ import { ActivatedRoute } from '@angular/router';
 import { RulesetsBackendService, RulesetDto } from '@ovide/backend';
 import { SchemaService } from '@ovide/services/schema.service';
 import { ErrorHandlerService } from '@ovide/services/error-handler.service';
+import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 
 @Component({
   selector: 'ovide-ruleset-testsuite',
   templateUrl: './ruleset-testsuite.component.html',
-  styleUrls: ['./ruleset-testsuite.component.scss']
+  styleUrls: ['./ruleset-testsuite.component.scss'],
+  animations: [
+    trigger('scaleAnimation', [
+      transition(':enter', [
+        query('*', [
+          style({ transform: 'scale(0.5)', opacity: 0 }),
+          stagger(30, [
+            animate('.5s ease-out')
+          ]),
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
 export class RulesetTestsuiteComponent implements OnInit {
 

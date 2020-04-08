@@ -10,10 +10,21 @@ export class GaugeChartComponent {
   @Input() chartTitle: string;
   @Input() strict = false;
 
-  private _value: number;
+  private _value = 0;
 
   @Input() set value(value: number) {
-    this._value = value;
+    const toChange = value - this._value;
+    const interval = setInterval(() => {
+      if (toChange > 0) {
+        this._value++;
+      } else {
+        this._value--;
+      }
+      if ((toChange >= 0 && (this._value + 1) >= value) || (toChange < 0 && (this._value - 1) <= value)) {
+        this._value = value;
+        clearInterval(interval);
+      }
+    }, (1000 / Math.abs(toChange)));
   }
 
   constructor() { }

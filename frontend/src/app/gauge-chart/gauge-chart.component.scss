@@ -26,6 +26,15 @@
         stroke: theme-var($--gauge-chart-fail);
         opacity: 0.5;
     }
+
+    animation: progress 1s ease-out forwards;
+    transition: stroke 0.5s;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0, 100;
+    }
 }
 
 .percentage {
