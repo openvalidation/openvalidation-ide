@@ -19,7 +19,7 @@ import { environment } from 'environments/environment';
 import { EllipsisDirective } from './directives/ellipsis.directive';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
+import { monacoEditorConfig } from '@ovide/ruleset-editor/monaco-editor-config';
 
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 
@@ -46,7 +46,7 @@ import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
     OvideBackendApiModule,
     MaterialDesignModule,
     NgxChartsModule,
-    MonacoEditorModule.forRoot(MonacoConfig),
+    MonacoEditorModule.forRoot(monacoEditorConfig),
     FormsModule
   ],
   providers: [
