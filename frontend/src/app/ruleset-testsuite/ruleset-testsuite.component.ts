@@ -37,7 +37,7 @@ export class RulesetTestsuiteComponent implements OnInit {
   private attributeColumns: string[];
   private subscriptions = new Subscription();
   private ruleset: RulesetDto;
-  private attributes;
+  attributes;
 
   private editor;
   editorText: FormControl;
