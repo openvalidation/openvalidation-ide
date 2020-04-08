@@ -21,7 +21,7 @@ export class GaugeChartComponent {
         this._value--;
       }
       if ((toChange >= 0 && (this._value + 1) >= value) || (toChange < 0 && (this._value - 1) <= value)) {
-        this._value = value;
+        this._value = Math.round(value * 10) / 10;
         clearInterval(interval);
       }
     }, (1000 / Math.abs(toChange)));
