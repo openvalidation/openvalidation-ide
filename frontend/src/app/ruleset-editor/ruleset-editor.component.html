@@ -1,12 +1,22 @@
 
 <div class="ruleset-editor">
     <mat-spinner *ngIf="!editorInitDone" class="editor-loading"></mat-spinner>
+    <div class="name">
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input large">
+            <mat-label class="inline-label">Name</mat-label>
+            <input matInput placeholder="Ruleset Name" [formControl]="rulesetName" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input">
+            <mat-label class="inline-label">Description</mat-label>
+            <input matInput placeholder="Ruleset Description" [formControl]="rulesetDescription" maxlength="255" autocomplete="off">
+        </mat-form-field>
+    </div>
     <div class="editor mat-elevation-z8" [@editorAnimation]>
-        <ngx-monaco-editor [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+        <ngx-monaco-editor class="ovide-editor" [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
     </div>
     <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
     <div class="variables">
-        <mat-chip-list *ngIf="(variables$ | async) as variables; else loading" [@variableAnimation]>
+        <mat-chip-list *ngIf="variables; else loading" [@variableAnimation]>
             <mat-chip
                 *ngFor="let variable of variables"
                 [class.outline]="themeService.darkThemeActive$ | async"
@@ -20,7 +30,7 @@
             </div>
         </ng-template>
     </div>
-    <div class="errors" *ngIf="(editorErrors$ | async) as editorErrors;" [@variableAnimation]>
+    <div class="errors" *ngIf="editorErrors" [@variableAnimation]>
         <div *ngFor="let error of editorErrors" class="error-message">{{error.message}}</div>
     </div>
     <div class="actions">

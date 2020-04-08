@@ -23,6 +23,7 @@ public class Ruleset {
   private String description;
   private Date createdAt;
   private String createdBy;
+  private Date lastEdit;
   @Column(columnDefinition = "text")
   private String rules;
   @ManyToOne
@@ -32,6 +33,7 @@ public class Ruleset {
     this.rulesetId = UUID.randomUUID();
     this.createdAt = new Date();
     this.schema = new Schema();
+    this.lastEdit = new Date();
   }
 
   public Ruleset updateByRuleset(Ruleset ruleset) {
@@ -39,6 +41,7 @@ public class Ruleset {
     this.description = ruleset.description != null ? ruleset.description : this.description;
     this.rules = ruleset.rules != null ? ruleset.rules : this.rules;
     this.schema = !ruleset.schema.getAttributes().isEmpty() ? ruleset.schema : this.schema;
+    this.lastEdit = new Date();
     return this;
   }
 }
