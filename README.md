@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://github.com/openvalidation/openvalidation-ide/raw/master/frontend/src/assets/icons/android-chrome-512x512.png" alt="Project logo"></a>
+ <img src="https://github.com/openvalidation/openvalidation-ide/raw/readme/resources/openVALIDATION-IDE.png" alt="Project logo"></a>
 </p>
 
 <p align="center">
