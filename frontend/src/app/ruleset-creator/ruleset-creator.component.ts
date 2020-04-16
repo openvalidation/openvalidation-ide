@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RulesetCreateDto, RulesetsBackendService } from '@ovide/backend';
 
-import * as faker from 'faker';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ErrorHandlerService } from '@ovide/services/error-handler.service';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 
 @Component({
@@ -58,18 +55,4 @@ export class RulesetCreatorComponent implements OnInit {
       () => this.errorHandlerService.createError('Error creating ruleset.')
     );
   }
-
-  createRandom() {
-    this.rulesetsBackendService.createRuleset({
-      name: faker.company.catchPhrase(),
-      createdBy: faker.name.findName(),
-      description: faker.lorem.paragraph(1)
-    }).pipe(
-      catchError(error => {
-        this.errorHandlerService.createError('Error creating random ruleset.');
-        return of();
-      })
-    ).subscribe();
-  }
-
 }

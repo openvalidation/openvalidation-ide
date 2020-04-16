@@ -87,7 +87,7 @@ function generateTokensHashMap(
           scopes: param.pattern
         });
 
-        if (index == param.range.end.line) {
+        if (index === param.range.end.line) {
           tmp.push({
             startIndex: param.range.end.character,
             scopes: 'empty'

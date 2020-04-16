@@ -22,6 +22,5 @@
         </mat-error>
     </mat-form-field>
     <button mat-flat-button type="submit" [disabled]="form.invalid" color="accent">Create</button>
-    <button mat-flat-button type="button">Cancel</button>
-    <button mat-flat-button type="button" (click)="createRandom()" color="warn">Create Random</button>
+    <button mat-flat-button type="button" [routerLink]="['rulesets']">Cancel</button>
 </form>

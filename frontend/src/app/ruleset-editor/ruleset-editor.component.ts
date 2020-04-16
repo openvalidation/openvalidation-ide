@@ -11,8 +11,6 @@ import { LanguageEnum } from 'ov-language-server-types';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, retry, switchMap, take } from 'rxjs/operators';
 
-const ReconnectingWebSocket = require('reconnecting-websocket');
-
 @Component({
   selector: 'ovide-ruleset-editor',
   templateUrl: './ruleset-editor.component.html',

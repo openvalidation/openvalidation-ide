@@ -19,13 +19,10 @@ import { environment } from 'environments/environment';
 import { EllipsisDirective } from './directives/ellipsis.directive';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-import { MonacoConfig } from '@ovide/ruleset-editor/monaco-config';
+import { monacoEditorConfig } from '@ovide/ruleset-editor/monaco-editor-config';
 
-import { DesignTestComponent } from './design-test/design-test.component';
 import { OvideLogoComponent } from './ovide-logo/ovide-logo.component';
 import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
-
-// import { ErrorHandlerService } from '@ovide/services/error-handler.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +34,6 @@ import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
     SchemaAttributeDialogComponent,
     RulesetTestsuiteComponent,
     EllipsisDirective,
-    DesignTestComponent,
     OvideLogoComponent,
     GaugeChartComponent
   ],
@@ -50,13 +46,12 @@ import { GaugeChartComponent } from './gauge-chart/gauge-chart.component';
     OvideBackendApiModule,
     MaterialDesignModule,
     NgxChartsModule,
-    MonacoEditorModule.forRoot(MonacoConfig),
+    MonacoEditorModule.forRoot(monacoEditorConfig),
     FormsModule
   ],
   providers: [
     {provide: BASE_PATH, useValue: environment.API_BASE_PATH},
-    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL},
-    // {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerService, multi: true},
+    {provide: 'LANGUAGE_SERVER_URL', useValue: environment.LANGUAGE_SERVER_URL}
   ],
   bootstrap: [OvideAppComponent]
 })

@@ -17,6 +17,12 @@ import { FormControl } from '@angular/forms';
   templateUrl: './ruleset-testsuite.component.html',
   styleUrls: ['./ruleset-testsuite.component.scss'],
   animations: [
+    trigger('editorAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.9)', opacity: 0.2 }),
+        animate('.4s ease-in-out')
+      ])
+    ]),
     trigger('scaleAnimation', [
       transition(':enter', [
         query('*', [

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorHandlerService /*implements HttpInterceptor*/ {
+export class ErrorHandlerService {
 
   private errorQueue = new Array<string>();
   private snackBarOpen = false;
@@ -27,19 +27,4 @@ export class ErrorHandlerService /*implements HttpInterceptor*/ {
       }
     });
   }
-
-  // intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  //   return next.handle(req).pipe(
-  //     tap(success => {},
-  //         error => {
-  //       if (error instanceof HttpErrorResponse) {
-  //         if (this.snackBarOpen) {
-  //           this.errorQueue.push(error.message);
-  //         } else {
-  //           this.createError(error.message);
-  //         }
-  //       }
-  //     })
-  //   );
-  // }
 }
