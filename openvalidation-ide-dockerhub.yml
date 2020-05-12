@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+    openvalidation-ide-frontend:
+        image: openvalidation/openvalidation-ide-ui:development
+        ports:
+            - "80:80"
+
+    openvalidation-ide-backend:
+        image: openvalidation/openvalidation-ide-backend:development
+        environment:
+            - SPRING_PROFILES_ACTIVE=dev
+            - OPENVALIDATION_IDE_DB=postgres
+            - OPENVALIDATION_IDE_DB_NAME=openvalidation_ide
+            - OPENVALIDATION_IDE_DB_USER=openvalidation_ide
+            - OPENVALIDATION_IDE_DB_PW=_OPeN_VALiDAtION_IdE
+            # - CORS_HEADERS=https://sample-1.com,https://sample-2.com
+        ports:
+            - "8080:8080"
+        depends_on:
+            - postgres
+        networks:
+            - openvalidation_ide_backend
+
+    postgres:
+        image: postgres:10.1
+        volumes:
+            - openvalidation_ide_db:/var/lib/postgresql/data
+        environment:
+            - PGDATA=/var/lib/postgresql/data/pgdata
+            - POSTGRES_DB=openvalidation_ide
+            - POSTGRES_USER=openvalidation_ide
+            - POSTGRES_PASSWORD=_OPeN_VALiDAtION_IdE
+        networks:
+            - openvalidation_ide_backend
+
+    openvalidation-languageserver:
+        image: openvalidation/openvalidation-languageserver:development
+        ports: 
+            - "3010:3010"
+
+volumes:
+    openvalidation_ide_db: {}
+
+networks:
+    openvalidation_ide_backend:

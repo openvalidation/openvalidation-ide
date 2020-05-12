@@ -18,7 +18,7 @@
   * [commands](#commands)
 
 ## introduction
-openVALIDATION-IDE is a web-based development environment for users which aren't familiar with coding. Domain Experts, Business Analysts or Requirement Engineers can write complex validation rules themself using natural language. These validation rules will be translated into code through [openVALIDATION](https://github.com/openvalidation/openvalidation). 
+openVALIDATION-IDE is a web-based development environment for users who aren't familiar with coding. Domain Experts, Business Analysts or Requirement Engineers can write complex validation rules themselves using natural language. These validation rules will be translated into code through [openVALIDATION](https://github.com/openvalidation/openvalidation). 
 
 Usually, an IDE is a very technical tool for coding. The openVALIDATION-IDE is an approach to hide all the technical features of an IDE and gives the user just the necessary tools for writing validation rules. It includes features like syntax highlighting, auto-completion or linting, but makes it look like a simple text-editor.
 
@@ -29,6 +29,12 @@ You can easily run the openVALIDATION-IDE on your local machine with docker, fol
 3. Navigate into the previously cloned repository with `cd openvalidation-ide`
 4. Run `docker-compose up`
 5. Open [localhost](http://localhost/) in your browser
+
+If you don't want to download and compile the sources however, you can also just pull the latest images directly from dockerhub using [this alternative docker-compose file](openvalidation-ide-dockerhub.yml):
+1. [Install docker](https://docs.docker.com/get-docker) if not already installed
+2. Download [openvalidation-ide-dockerhub.yml](openvalidation-ide-dockerhub.yml) to your machine
+3. Run `docker-compose -f openvalidation-ide-dockerhub.yml up`
+4. Open [localhost](http://localhost/) in your browser
 
 ## run local
 ### prerequisites
