@@ -15,7 +15,6 @@ import { MaterialDesignModule } from './material-design.module';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     MaterialDesignModule
   ],
   declarations: [
