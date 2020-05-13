@@ -1,0 +1,37 @@
+<div class="ruleset-ide">
+    <div class="name">
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input large">
+            <mat-label class="inline-label">Name</mat-label>
+            <input matInput placeholder="Ruleset Name" [formControl]="rulesetName" maxlength="255" autocomplete="off">
+            <mat-hint align="end">{{rulesetName.value?.length}} / 255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="none" floatLabel="always" class="inline-input">
+            <mat-label class="inline-label">Description</mat-label>
+            <input matInput placeholder="Ruleset Description" [formControl]="rulesetDescription" maxlength="255" autocomplete="off">
+            <mat-hint align="end">{{rulesetDescription.value?.length}} / 255</mat-hint>
+        </mat-form-field>
+    </div>
+    <ovide-ruleset-editor class="editor mat-elevation-z8" [formControl]="editorText" [@editorAnimation]></ovide-ruleset-editor>
+    <ovide-schema-editor [schemaId]="ruleset?.schemaId" class="schema"></ovide-schema-editor>
+    <div class="variables">
+        <mat-chip-list *ngIf="variables; else loading" [@variableAnimation]>
+            <mat-chip
+                *ngFor="let variable of variables"
+                [class.outline]="themeService.darkThemeActive$ | async"
+                class="variable">
+                {{variable.name}}
+            </mat-chip>
+        </mat-chip-list>
+        <ng-template #loading>
+            <div class="loader-wrapper">
+                <mat-progress-bar mode="indeterminate" class="loader"></mat-progress-bar>
+            </div>
+        </ng-template>
+    </div>
+    <div class="errors" *ngIf="editorErrors" [@variableAnimation]>
+        <div *ngFor="let error of editorErrors" class="error-message">{{error.message}}</div>
+    </div>
+    <div class="actions">
+        <button mat-flat-button color="primary" [routerLink]="['../test']" >Test</button>
+    </div>
+</div>

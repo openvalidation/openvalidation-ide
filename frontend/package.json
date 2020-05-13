@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "generate-api-client": "npx nwget http://localhost:8080/v3/api-docs/ -O openapi.json && openapi-generator generate -i openapi.json -g typescript-angular -o src/app/backend -c openapi-generator-config.json"
+    "generate-api-client": "npx nwget http://localhost:8080/v3/api-docs/ -O openapi.json && openapi-generator generate -i openapi.json -g typescript-angular -o src/app/core/backend -c openapi-generator-config.json"
   },
   "private": true,
   "dependencies": {
