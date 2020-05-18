@@ -32,6 +32,9 @@ openVALIDATION-IDE is a web-based development environment for users who aren't f
 
 Usually, an IDE is a very technical tool for coding. The openVALIDATION-IDE is an approach to hide all the technical features of an IDE and gives the user just the necessary tools for writing validation rules. It includes features like syntax highlighting, auto-completion or linting, but makes it look like a simple text-editor.
 
+The major components of the tech stack for openVALIDATION-IDE comprises the [Angular framework](https://angular.io/) and [Monaco Editor](https://microsoft.github.io/monaco-editor/) for its UI, while backend functionality is powered by [Spring Boot](https://spring.io/projects/spring-boot).
+
+
 ## run with docker
 You can easily run the openVALIDATION-IDE on your local machine with docker, following these steps:
 1. [Install docker](https://docs.docker.com/get-docker) if not already installed
