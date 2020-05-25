@@ -1,0 +1,4 @@
+<ngx-monaco-editor class="ovide-editor" [options]="editorOptions" [formControl]="editorText" (onInit)="monacoInit($event)"></ngx-monaco-editor>
+<div *ngIf="!editorInitDone" class="loader-overlay">
+    <mat-spinner></mat-spinner>
+</div>

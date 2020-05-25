@@ -29,7 +29,10 @@
     "max-classes-per-file": false,
     "max-line-length": [
       true,
-      140
+      {
+        "limit": 140,
+        "ignore-pattern": "^import"
+      }
     ],
     "member-access": false,
     "member-ordering": [
@@ -71,6 +74,9 @@
       true,
       "single"
     ],
+    "variable-name": {
+      "options": "allow-leading-underscore"
+    },
     "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,

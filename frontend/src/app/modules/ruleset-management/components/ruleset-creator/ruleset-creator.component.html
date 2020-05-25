@@ -1,0 +1,26 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="ruleset-creator" [@fadeIn] novalidate>
+    <h1>New Ruleset</h1>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" cdkFocusInitial maxlength="255">
+        <mat-hint align="end">{{ form.value.name.length }} / 255</mat-hint>
+        <mat-error *ngIf="form.controls.name.hasError('required')">
+            Name is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="A brief description ..." maxlength="255"></textarea>
+        <mat-hint align="end">{{ form.value.description.length }} / 255</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Creator</mat-label>
+        <input matInput formControlName="creator" maxlength="255">
+        <mat-hint align="end">{{ form.value.creator.length }} / 255</mat-hint>
+        <mat-error *ngIf="form.controls.creator.hasError('required')">
+            Creator is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <button mat-flat-button type="submit" [disabled]="form.invalid" color="accent">Create</button>
+    <button mat-flat-button type="button" [routerLink]="['rulesets']">Cancel</button>
+</form>
