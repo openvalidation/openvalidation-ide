@@ -31,7 +31,7 @@ public class SchemaController {
 
   // /schema
 
-  @Tag(name = "schema")
+  @Tag(name = "schemas")
   @GetMapping(value = "/schemas")
   public List<SchemaDto> getAllSchemas() {
     return this.schemaService.getAllSchemas();
@@ -39,13 +39,13 @@ public class SchemaController {
 
   // /schema/{schemaId}
 
-  @Tag(name = "schema")
+  @Tag(name = "schemas")
   @GetMapping(value = "/schemas/{schemaId}")
   public SchemaDto getSchema(@PathVariable UUID schemaId) {
     return this.schemaService.getSchema(schemaId);
   }
 
-  @Tag(name = "schema")
+  @Tag(name = "schemas")
   @PutMapping(value = "/schemas/{schemaId}",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -105,7 +105,7 @@ public class SchemaController {
 
   // /schema/{schemaId}/export
 
-  @Tag(name = "schema")
+  @Tag(name = "schemas")
   @GetMapping(value = "/schemas/{schemaId}/export",
       produces = {MediaType.APPLICATION_JSON_VALUE, "application/x-yaml"})
   public String exportSchema(@RequestHeader(HttpHeaders.ACCEPT) String acceptHeader,
