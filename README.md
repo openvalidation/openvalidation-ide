@@ -1,7 +1,7 @@
 # openVALIDATION-IDE
 <p align="center">
   <a href="" rel="noopener">
- <img src="https://github.com/openvalidation/openvalidation-ide/raw/readme/resources/openVALIDATION-IDE.png" alt="Project logo"></a>
+ <img src="resources/openVALIDATION-IDE.png" alt="Project logo"></a>
 </p>
 
 <p align="center">
