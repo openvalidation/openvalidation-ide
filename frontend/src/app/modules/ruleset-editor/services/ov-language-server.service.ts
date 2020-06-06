@@ -1,7 +1,15 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { SchemaService } from '@ovide/core';
 import { AttributeDto } from '@ovide/core/backend';
-import { CloseAction, createConnection, ErrorAction, IConnection, MonacoLanguageClient, MonacoServices, Range } from 'monaco-languageclient';
+import {
+  CloseAction,
+  createConnection,
+  ErrorAction,
+  IConnection,
+  MonacoLanguageClient,
+  MonacoServices,
+  Range
+} from 'monaco-languageclient';
 import { LanguageEnum, NotificationEnum } from 'ov-language-server-types';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Subject } from 'rxjs';
@@ -119,6 +127,7 @@ export class OVLanguageServerService implements OnDestroy {
           pattern: string;
         }[];
 
+        const fixedParameters = [];
         // Inject token values for syntax highlighting
         if (this.schemaAttributes !== undefined) {
           jsonParameter.forEach((value, index) => {
@@ -134,8 +143,8 @@ export class OVLanguageServerService implements OnDestroy {
               if (foundAttribute !== undefined) {
                 value.pattern = 'variable.' + foundAttribute.attributeType.toLowerCase() + '.ov';
               }
-            }
-            if (value.pattern === 'string.unquoted.ov') {
+              fixedParameters.push(value);
+            } else if (value.pattern === 'string.unquoted.ov') {
               const thenInRange = this.editor.getModel().getValueInRange({
                 startLineNumber: value.range.start.line + 1,
                 endLineNumber: value.range.start.line + 1,
@@ -160,8 +169,8 @@ export class OVLanguageServerService implements OnDestroy {
                 || trueOrFalseInRange.toLowerCase() === 'no') {
                 value.pattern = 'constant.boolean.ov';
               }
-            }
-            if (value.pattern === 'keyword.ov') {
+              fixedParameters.push(value);
+            } else if (value.pattern === 'keyword.ov') {
               const keyword: string = this.editor.getModel().getValueInRange({
                 startLineNumber: value.range.start.line + 1,
                 endLineNumber: value.range.end.line + 1,
@@ -169,16 +178,18 @@ export class OVLanguageServerService implements OnDestroy {
                 endColumn: value.range.end.character + 2
               });
 
-              if (keyword.charAt(0) !== ' ' && value.range.start.character > 0
-                || keyword.charAt(keyword.length - 1) !== ' ') {
-                jsonParameter.splice(index, 1);
+              if (!(keyword.charAt(0) !== ' ' && value.range.start.character > 0
+                || keyword.charAt(keyword.length - 1) !== ' ')) {
+                fixedParameters.push(value);
               }
+            } else {
+              fixedParameters.push(value);
             }
           });
         }
         monaco.languages.setTokensProvider(
           'ov',
-          createTokenizationSupport(jsonParameter)
+          createTokenizationSupport(fixedParameters)
         );
       }
     );
