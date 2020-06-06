@@ -52,7 +52,6 @@ export class OvideAppComponent implements OnInit {
 
   public toggleTheme() {
     this.themeService.darkThemeActive$.pipe(take(1)).subscribe(isDark => {
-      console.log(isDark);
       if (isDark) {
         this.themeService.enableTheme(AvailableThemes.light);
       } else {
