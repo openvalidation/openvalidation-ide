@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +26,13 @@ public class DatabaseResetIntegrationTest {
     mockMvc.perform(delete("/reset")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  public void onResetDatabaseToInitialState_whenInvalidSecret_thenStatusClientError() throws Exception {
+    mockMvc.perform(delete("/reset/" + UUID.randomUUID().toString())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is4xxClientError());
   }
 
 }
