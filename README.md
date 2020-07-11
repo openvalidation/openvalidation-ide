@@ -93,7 +93,19 @@ To run the project locally, the following tools must be installed:
 
 ## environmental variables
 These can be set in the docker-compose file or when the container is started.
+### frontend
 | Variable | Default Value | Description |
 | :--- | :--- | :--- |
 | API\_BASE\_PATH | http://127.0.0.1:8080 | URL of the IDE Backend |
 | LANGUAGE\_SERVER\_URL | ws://127.0.0.1:3010 | URL of the language-server |
+
+### backend
+| Variable | Default Value | Description |
+| :--- | :--- | :--- |
+| SPRING\_PROFILES\_ACTIVE | dev | Active Spring Profile |
+| OPENVALIDATION\_IDE\_DB | postgres | Database technology |
+| OPENVALIDATION\_IDE\_DB_NAME | | Database name |
+| OPENVALIDATION\_IDE\_DB\_USER | | Database username |
+| OPENVALIDATION\_IDE\_DB\_PW | | Database password |
+| CORS\_HEADERS | | Allowed CORS Headers |
+| RESET\_SECRET | | Secret for obfuscating /reset |
