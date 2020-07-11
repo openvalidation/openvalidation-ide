@@ -22,18 +22,24 @@
 
 ## contents
 * [introduction](#introduction)
+* [architecture overview](#architecture-overview)
 * [run with docker](#run-with-docker)
 * [run local](#run-local)
   * [prerequisites](#prerequisites)
   * [commands](#commands)
+  * [environmental variables](#environmental-variables)
 
 ## introduction
-openVALIDATION-IDE is a web-based development environment for users who aren't familiar with coding. Domain Experts, Business Analysts or Requirement Engineers can write complex validation rules themselves using natural language. These validation rules will be translated into code through [openVALIDATION](https://github.com/openvalidation/openvalidation). 
+openVALIDATION-IDE is a web-based development environment for users who are not familiar with coding. It enables Domain Experts, Business Analysts or Requirement Engineers to write complex validation rules themselves using natural language. These validation rules will be translated into code using [openVALIDATION](https://github.com/openvalidation/openvalidation).
 
-Usually, an IDE is a very technical tool for coding. The openVALIDATION-IDE is an approach to hide all the technical features of an IDE and gives the user just the necessary tools for writing validation rules. It includes features like syntax highlighting, auto-completion or linting, but makes it look like a simple text-editor.
+Usually, an IDE is a very technical tool for coding. The openVALIDATION-IDE is an approach to hide all the technical features of an IDE and gives the user just the necessary tools for writing validation rules. It includes features like syntax highlighting, auto-completion and linting while making it look like a simple text-editor.
 
-The major components of the tech stack for openVALIDATION-IDE comprises the [Angular framework](https://angular.io/) and [Monaco Editor](https://microsoft.github.io/monaco-editor/) for its UI, while backend functionality is powered by [Spring Boot](https://spring.io/projects/spring-boot).
+The major components of the tech stack for the openVALIDATION-IDE consists of the [Angular framework](https://angular.io/) and the [Monaco Editor](https://microsoft.github.io/monaco-editor/) for its UI, while backend functionality is powered by [Spring Boot](https://spring.io/projects/spring-boot).
 
+## architecture overview
+The following overview describes the technology used as well as the way the components communicate with each other.
+
+![architecture overview](resources/ovide-architecture.png)
 
 ## run with docker
 You can easily run the openVALIDATION-IDE on your local machine with docker, following these steps:
@@ -85,7 +91,7 @@ To run the project locally, the following tools must be installed:
 4. Open [localhost](http://localhost:4200/) with your local angular port (default: 4200) in your browser
 
 
-## Environmental variables
+## environmental variables
 These can be set in the docker-compose file or when the container is started.
 | Variable | Default Value | Description |
 | :--- | :--- | :--- |
