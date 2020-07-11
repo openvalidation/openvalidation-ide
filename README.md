@@ -83,3 +83,11 @@ To run the project locally, the following tools must be installed:
       mvn clean spring-boot:run -Dspring-boot.run.arguments=--cors-headers=http://localhost:4200
       ```
 4. Open [localhost](http://localhost:4200/) with your local angular port (default: 4200) in your browser
+
+
+## Environmental variables
+These can be set in the docker-compose file or when the container is started.
+| Variable | Default Value | Description |
+| :--- | :--- | :--- |
+| API\_BASE\_PATH | http://127.0.0.1:8080 | URL of the IDE Backend |
+| LANGUAGE\_SERVER\_URL | ws://127.0.0.1:3010 | URL of the language-server |
